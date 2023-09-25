@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login"
+    android:background="@drawable/bgauth">
+
+    <LinearLayout
+        android:id="@+id/topLinearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/middleLinearLayout"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backbutton"
+            android:contentDescription="backbutton"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/middleLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/topLinearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottomLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_header"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            />
+        <TextView
+            android:layout_marginHorizontal="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_subheader"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/middleLinearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/txtusername"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="30dp"
+            android:paddingLeft="10dp"
+            android:hint="username"
+            android:background="@drawable/shapebackgroundtextfield"
+            android:textColorHint="@color/abuabu_transparent"
+            />
+
+        <TextView
+            android:layout_marginTop="23dp"
+            android:layout_marginStart="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/txtpassword"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:hint="password"
+            android:background="@drawable/shapebackgroundtextfield"
+            android:textColorHint="@color/abuabu_transparent"
+            android:drawableEnd="@drawable/eyeicon"
+            >
+
+        </EditText>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/txtpassword"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="52dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginHorizontal="30dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:paddingRight="10dp"-->
+<!--            android:hint="password"-->
+<!--            android:background="@drawable/shapebackgroundtextfield"-->
+<!--            android:textColorHint="@color/abuabu_transparent"-->
+<!--            app:passwordToggleEnabled="true"-->
+<!--            >-->
+<!--            -->
+<!--            -->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <TextView
+            android:id="@+id/forgotPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Lupa Password?"
+            android:textColor="@color/white"
+            android:layout_marginHorizontal="30dp"
+            android:textAlignment="textEnd"/>
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="30dp"
+            android:text="Sign In"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:enabled="true"
+            />
+
+        <Button
+            android:id="@+id/loginButtonWithGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_white"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="30dp"
+            android:gravity="center"
+            android:text="Sign In With Google"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/ico_google2"
+            android:paddingHorizontal="50dp"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:enabled="true"
+            />
+
+        <Button
+            android:id="@+id/signupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="30dp"
+            android:text="Sign Up"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:enabled="true"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
