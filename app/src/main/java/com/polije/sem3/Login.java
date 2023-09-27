@@ -15,7 +15,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 public class Login extends AppCompatActivity {
 
     EditText username, password;
-    Button btnLogin;
+    Button btnLogin, btnSignup;
     private AppCompatImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
         username = (EditText) findViewById(R.id.txtusername);
         password = (EditText) findViewById(R.id.txtpassword);
         btnLogin = (Button) findViewById(R.id.loginButton);
+        btnSignup = (Button) findViewById(R.id.signupButton);
         btnBack = findViewById(R.id.backButton);
 
         btnLogin.setOnClickListener(v -> {
@@ -42,6 +43,14 @@ public class Login extends AppCompatActivity {
             }
         }
         );
+
+        btnSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
 
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override

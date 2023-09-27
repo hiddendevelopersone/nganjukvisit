@@ -2,6 +2,8 @@
     <string name="app_name">Nganjuk Visit</string>
     <string name="login_header">Hello Again!</string>
     <string name="login_subheader">Fill your details or continue with social media</string>
+    <string name="forgotpass_subheader">Enter your Email account to reset your password, we will send OTP to your email</string>
+
     <string-array name="countries_array">
         <item>Afghanistan</item>
         <item>Albania</item>
