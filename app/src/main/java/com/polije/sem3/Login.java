@@ -3,6 +3,7 @@ package com.polije.sem3;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatImageButton;
 
@@ -19,8 +21,10 @@ public class Login extends AppCompatActivity {
 
     EditText username, password;
     Button btnLogin, btnSignup;
+    TextView lupaPass;
     boolean passwordVisible;
     private AppCompatImageButton btnBack;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,7 @@ public class Login extends AppCompatActivity {
 
         username = (EditText) findViewById(R.id.txtusername);
         password = (EditText) findViewById(R.id.txtpassword);
+        lupaPass = (TextView) findViewById(R.id.forgotPass);
         btnLogin = (Button) findViewById(R.id.loginButton);
         btnSignup = (Button) findViewById(R.id.signupButton);
         btnBack = findViewById(R.id.backButton);
@@ -47,6 +52,14 @@ public class Login extends AppCompatActivity {
             }
         }
         );
+
+        lupaPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, ForgotPassword.class);
+                startActivity(intent);
+            }
+        });
 
         password.setOnTouchListener(new View.OnTouchListener() {
             @Override
