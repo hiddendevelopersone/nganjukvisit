@@ -110,23 +110,6 @@
 
         </EditText>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/txtpassword"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="52dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginHorizontal="30dp"-->
-<!--            android:paddingLeft="10dp"-->
-<!--            android:paddingRight="10dp"-->
-<!--            android:hint="password"-->
-<!--            android:background="@drawable/shapebackgroundtextfield"-->
-<!--            android:textColorHint="@color/abuabu_transparent"-->
-<!--            app:passwordToggleEnabled="true"-->
-<!--            >-->
-<!--            -->
-<!--            -->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
         <TextView
             android:id="@+id/forgotPass"
             android:layout_width="wrap_content"
