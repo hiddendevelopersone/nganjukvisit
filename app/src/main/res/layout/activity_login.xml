@@ -101,9 +101,11 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:hint="password"
+            android:inputType="textPassword"
+            android:longClickable="false"
             android:background="@drawable/shapebackgroundtextfield"
             android:textColorHint="@color/abuabu_transparent"
-            android:drawableEnd="@drawable/eyeicon"
+            android:drawableRight="@drawable/eyeicon"
             >
 
         </EditText>

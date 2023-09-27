@@ -122,6 +122,8 @@
             android:paddingRight="10dp"
             android:hint="password"
             android:background="@drawable/shapebackgroundtextfield"
+            android:inputType="textPassword"
+            android:longClickable="false"
             android:textColorHint="@color/abuabu_transparent"
             android:drawableEnd="@drawable/eyeicon"
             />
