@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity {
             if (usernameKey.equals("admin") && passwordKey.equals("1234")) {
                 Toast.makeText(getApplicationContext(), "Login Sukses",
                         Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Login.this, WelcomeScreen.class);
+                Intent intent = new Intent(Login.this, Dashboard.class);
                 startActivity(intent);
             }else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);

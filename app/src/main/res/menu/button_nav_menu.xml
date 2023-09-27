@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/miBook"
+        android:title="Book"
+        android:icon="@drawable/ic_shop"/>
+
+    <item android:id="@+id/miFavs"
+        android:title="Favourites"
+        android:icon="@drawable/ic_baseline_favorite_24"/>
+
+    <item android:id="@+id/placeholder"
+        android:title="" />
+
+    <item android:id="@+id/miNotify"
+        android:title="Notification"
+        android:icon="@drawable/ic_baseline_notifications_24"/>
+
+    <item android:id="@+id/miProfiles"
+        android:title="Profiles"
+        android:icon="@drawable/ic_baseline_person_24"/>
+
+</menu>
