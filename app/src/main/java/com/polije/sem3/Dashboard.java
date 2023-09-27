@@ -31,7 +31,7 @@ public class Dashboard extends AppCompatActivity {
         btnView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         btnView.setBackground(null);
 
-        //        disable menuitem
+        // disable menuitem
         MenuItem dashboardMenuItem = btnView.getMenu().findItem(R.id.placeholder);
         btnView.setSelectedItemId(R.id.placeholder);
         dashboardMenuItem.setEnabled(false);
@@ -42,7 +42,6 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 btnView.setSelectedItemId(R.id.placeholder);
-                Toast.makeText(Dashboard.this, "this is home", Toast.LENGTH_SHORT).show();
                 selectedFragment = new Home();
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame, new Home()).commit();
@@ -55,28 +54,30 @@ public class Dashboard extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.miBook:
                     // Handle book item click
-                    Toast.makeText(this, "this is book", Toast.LENGTH_SHORT).show();
                     selectedFragment = new Book();
                     this.getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frame, new Book()).commit();
                     return true;
                 case R.id.miFavs:
                     // Handle favorites item click
-                    Toast.makeText(this, "this is favs", Toast.LENGTH_SHORT).show();
-//                    selectedFragment = new Favs();
+                    selectedFragment = new Favs();
+                    this.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame, new Favs()).commit();
                     return true;
                 case R.id.placeholder:
                     // Handle placeholder item click
                     return true;
                 case R.id.miNotify:
                     // Handle notification item click
-                    Toast.makeText(this, "this is notify", Toast.LENGTH_SHORT).show();
-//                    selectedFragment = new Notify();
+                    selectedFragment = new Notify();
+                    this.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame, selectedFragment).commit();
                     return true;
                 case R.id.miProfiles:
                     // Handle profiles item click
-                    Toast.makeText(this, "profiles", Toast.LENGTH_SHORT).show();
-//                    selectedFragment = new Profiles();
+                    selectedFragment = new Profiles();
+                    this.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frame, selectedFragment).commit();
                     return true;
             }
 

@@ -13,7 +13,6 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/black"
-        android:layout_marginTop="100dp"
         android:textSize="50sp"/>
 
 </FrameLayout>
