@@ -1,11 +1,12 @@
 package com.polije.sem3;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -18,10 +19,23 @@ public class Dashboard extends AppCompatActivity {
     private BottomNavigationView btnView;
     Fragment selectedFragment = null;
 
+    private static final int PERMISSION_REQUEST_STORAGE = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+//        if (
+//                ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED
+//        ) {
+//
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+//                    PERMISSION_REQUEST_STORAGE);
+//            Toast.makeText(this, "permission needed", Toast.LENGTH_SHORT).show();
+//        }
 
         Dashboard.this.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new Home())
@@ -84,5 +98,22 @@ public class Dashboard extends AppCompatActivity {
             return false;
         });
 
+
+
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case PERMISSION_REQUEST_STORAGE: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                }
+//
+//                return;
+//            }
+//        }
+//    }
 }
