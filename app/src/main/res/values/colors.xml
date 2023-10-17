@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="abuabu_transparent">#BA6A6A6A</color>
     <color name="bluebutton">#48B2E7</color>
+    <color name="greystroke">#E2E8F0</color>
+    <color name="greyfill">#F1F5F9</color>
 </resources>
