@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">172.16.108.88</domain>       <!-- Local -->
+        <domain includeSubdomains="true">172.16.100.116</domain>       <!-- Local -->
         <domain includeSubdomains="true">172.16.106.150</domain>         <!-- Lab Mobile -->
         <domain includeSubdomains="true">172.16.106.186</domain>        <!-- Lab KSI -->
         <domain includeSubdomains="true">172.16.103.152</domain>        <!-- Lab MMC -->

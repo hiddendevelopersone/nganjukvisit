@@ -11,4 +11,5 @@
     <color name="bluebutton">#48B2E7</color>
     <color name="greystroke">#E2E8F0</color>
     <color name="greyfill">#F1F5F9</color>
+    <color name="greyfont">#595959</color>
 </resources>

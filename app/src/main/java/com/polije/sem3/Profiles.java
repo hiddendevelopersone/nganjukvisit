@@ -18,7 +18,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.network.BaseResponse;
@@ -106,22 +109,34 @@ public class Profiles extends Fragment {
 
         imgThumb = view.findViewById(R.id.img_thumb);
 
-        Button btnChoose = (Button) view.findViewById(R.id.btn_choose);
-        Button btnUpload1 = (Button) view.findViewById(R.id.btn_upload_1);
+        TextView btnChoose = (TextView) view.findViewById(R.id.choosePictures);
         Button btnUpload2 = (Button) view.findViewById(R.id.btn_upload_2);
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
+        EditText editText = (EditText) view.findViewById(R.id.edt_namalengkap);
+        EditText editText1 = (EditText) view.findViewById(R.id.edt_emailaddr);
+
+        // Scroll up for more visibility edittext
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
+                    scrollView.scrollTo(0, editText.getTop());
+                }
+            }});
+
+        editText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
+                    scrollView.scrollTo(0, editText1.getTop());
+                }
+            }});
 
         btnChoose.setOnClickListener(v -> {
-//            LogApp.info(requireContext(), LogTag.ON_CLICK, "Button Choose Diclik");
-            choosePhoto();
-        });
 
-        btnUpload1.setOnClickListener(v -> {
-            if(uri != null) {
-                File file = FileUtils.getFile(requireActivity(), uri);
-                uploadMultipart(file);
-            }else{
-                Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
-            }
+            choosePhoto();
         });
 
         btnUpload2.setOnClickListener(v -> {
@@ -153,7 +168,6 @@ public class Profiles extends Fragment {
 //            Toast.makeText(requireActivity(), "permission needed", Toast.LENGTH_SHORT).show();
 //        }else{
 //        }
-
         openGallery();
     }
 
@@ -162,31 +176,6 @@ public class Profiles extends Fragment {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE);
-    }
-
-    private void uploadMultipart(File file) {
-        RequestBody photoBody = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part photoPart = MultipartBody.Part.createFormData("photo",
-                file.getName(), photoBody);
-
-        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), TYPE_1);
-        UploadService uploadService = new UploadService();
-        uploadService.uploadPhotoMultipart(action, photoPart).enqueue(new Callback<BaseResponse>() {
-            @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                if(response != null) {
-                    Toast.makeText(requireActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(requireActivity(), "GAGAL", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
-                Toast.makeText(requireActivity(), "GAGAL 2", Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-            }
-        });
     }
 
     private void uploadBase64(String imgBase64) {
@@ -207,20 +196,7 @@ public class Profiles extends Fragment {
             t.printStackTrace();
             }
         });
-//        uploadService.uploadPhotoBase64(TYPE_2, imgBase64, new Callback() {
-//            @Override
-//            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) {
-//
-//                if(response != null) {
-//                    Toast.makeText(requireActivity(), response.message(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
+
     }
 
     @Override
