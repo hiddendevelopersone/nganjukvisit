@@ -26,16 +26,24 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/imageprofilesexample"
-                    android:scaleType="centerCrop"/>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/imageprofilesexample"
+                        android:scaleType="centerCrop"/>
+
+                </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hello, Justin!"
+                    android:text="Halo, Justin!"
                     android:textStyle="bold"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
@@ -73,7 +81,7 @@
                     android:inputType="text"
                     android:longClickable="false"
                     android:background="@drawable/rounded_searchbar"
-                    android:hint="search destination"
+                    android:hint="Cari Tujuan"
                     android:textColorHint="@color/abuabu_transparent"
                     android:textSize="20sp"
                     android:paddingVertical="10dp"
@@ -86,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
-                    android:text="Select Category"
+                    android:text="Pilih Kategori"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="20sp"/>
@@ -272,20 +280,54 @@
                 android:id="@+id/wisataLayout"
                 app:layout_constraintTop_toBottomOf="@+id/selectcategory"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="Wisata Populer"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    android:paddingHorizontal="20dp"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Wisata Populer"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="3dp"
+                        android:backgroundTint="@color/greyfill"
+                        android:elevation="0dp"
+                        app:cardCornerRadius="5dp"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="7dp"
+                            android:layout_gravity="center"
+                            android:text="selengkapnya"
+                            android:textSize="10sp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"/>
+
+                    </androidx.cardview.widget.CardView>
+
+
+
+
+                </LinearLayout>
+
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -304,10 +346,61 @@
                             android:layout_marginStart="20dp"
                             app:cardCornerRadius="20dp">
 
-                            <ImageView
+                            <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="300dp"
-                                android:layout_height="200dp"
-                                android:background="@drawable/sedudobg"/>
+                                android:layout_height="200dp">
+
+                                <ImageView
+                                    android:id="@+id/imageView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/layoutGambar"
+                                    android:background="@drawable/sedudobg"
+                                    android:scaleType="centerCrop" />
+
+                                <LinearLayout
+                                    android:id="@+id/layoutGambar"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:paddingStart="14dp"
+                                    android:paddingBottom="10dp"
+                                    android:background="@color/abuabu_bgimg"
+                                    android:orientation="vertical"
+                                    app:layout_constraintBottom_toBottomOf="parent">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentLeft="true"
+                                        android:text="Sedudo"
+                                        android:textStyle="bold"
+                                        android:textSize="26sp"
+                                        android:textColor="@android:color/white" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:layout_marginRight="3dp"
+                                            android:background="@drawable/locationnew"/>
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:text="Sawahan, Nganjuk"
+                                            android:textSize="16sp"
+                                            android:textColor="@android:color/white" />
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
 
                         </androidx.cardview.widget.CardView>
 
@@ -335,16 +428,16 @@
                 android:id="@+id/kulinerLayout"
                 app:layout_constraintTop_toBottomOf="@+id/wisataLayout"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
                     android:layout_marginHorizontal="20dp"
-                    android:text="Wisata Populer"
+                    android:text="Kuliner Populer"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -368,7 +461,7 @@
                             app:cardCornerRadius="20dp">
 
                             <ImageView
-                                android:layout_width="300dp"
+                                android:layout_width="170dp"
                                 android:layout_height="200dp"
                                 android:background="@drawable/sedudobg"/>
 

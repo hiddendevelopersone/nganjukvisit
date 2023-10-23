@@ -15,7 +15,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.AppCompatImageButton;
+
+import com.polije.sem3.response.UserResponse;
+import com.polije.sem3.retrofit.Client;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
@@ -24,6 +32,7 @@ public class Login extends AppCompatActivity {
     TextView lupaPass;
     boolean passwordVisible;
     private AppCompatImageButton btnBack;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +47,28 @@ public class Login extends AppCompatActivity {
         btnBack = findViewById(R.id.backButton);
 
         btnLogin.setOnClickListener(v -> {
-            String usernameKey = username.getText().toString();
-            String passwordKey = password.getText().toString();
+                    String usernameKey = username.getText().toString();
+                    String passwordKey = password.getText().toString();
 
-            if (usernameKey.equals("admin") && passwordKey.equals("1234")) {
-                Toast.makeText(getApplicationContext(), "Login Sukses",
-                        Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(Login.this, Dashboard.class);
-                startActivity(intent);
-            }else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                builder.setMessage("Username atau Password Anda salah!").setNegativeButton("Retry", null).create().show();
-            }
-        }
+            Client.getInstance().login(usernameKey, passwordKey).enqueue(new Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                        Intent intent = new Intent(Login.this, Dashboard.class);
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                }
+            });
+
+
+                }
         );
 
         lupaPass.setOnClickListener(new View.OnClickListener() {
@@ -64,17 +82,17 @@ public class Login extends AppCompatActivity {
         password.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final int Right=2;
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    if(event.getRawX()>=password.getRight()-password.getCompoundDrawables()[Right].getBounds().width()){
+                final int Right = 2;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawX() >= password.getRight() - password.getCompoundDrawables()[Right].getBounds().width()) {
                         int selection = password.getSelectionEnd();
-                        if(passwordVisible){
+                        if (passwordVisible) {
                             // set drawable image
                             password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eyeicon, 0);
                             // hide password
                             password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                             passwordVisible = false;
-                        }else{
+                        } else {
                             // set drawable image
                             password.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.eyeicon_close, 0);
                             // show password

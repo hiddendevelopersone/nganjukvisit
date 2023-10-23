@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Register"
+    tools:context=".ForgotPassword"
     android:background="@drawable/bgauth">
 
     <LinearLayout
@@ -31,13 +31,13 @@
         app:layout_constraintTop_toBottomOf="@+id/topLinearLayout"
         app:layout_constraintBottom_toTopOf="@+id/bottomLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="Verifikasi OTP"
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -46,9 +46,10 @@
 
         <TextView
             android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register_subheader"
+            android:text="@string/otpverification_subheader"
             android:textColor="@color/white"
             android:textSize="23sp"
             android:textAlignment="center"
@@ -61,73 +62,39 @@
         app:layout_constraintTop_toBottomOf="@+id/middleLinearLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_marginStart="30dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Username"
+            android:layout_marginTop="12dp"
+            android:text="Kode OTP"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="20sp"/>
 
-        <EditText
-            android:id="@+id/txtusername"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="30dp"
-            android:paddingLeft="10dp"
-            android:hint="username"
-            android:background="@drawable/shapebackgroundtextfield"
-            android:textColorHint="@color/abuabu_transparent"
-            />
-
-        <TextView
-            android:layout_marginStart="30dp"
-            android:layout_width="match_parent"
+        <com.otpview.OTPTextView
+            android:id="@+id/votp_inp_otp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="23dp"
-            android:text="Email"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
-
-        <EditText
-            android:id="@+id/txtemails"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="30dp"
-            android:paddingLeft="10dp"
-            android:hint="email"
-            android:background="@drawable/shapebackgroundtextfield"
-            android:textColorHint="@color/abuabu_transparent"
-            />
-
-        <TextView
-            android:layout_marginTop="23dp"
-            android:layout_marginStart="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="@color/white"
-            android:textSize="16sp"/>
-
-        <EditText
-            android:id="@+id/txtpassword"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="30dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:hint="password"
-            android:background="@drawable/shapebackgroundtextfield"
-            android:inputType="textPassword"
-            android:longClickable="false"
-            android:textColorHint="@color/abuabu_transparent"
-            android:drawableEnd="@drawable/eyeicon"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:importantForAutofill="no"
+            android:background="@color/transparent"
+            android:textColor="@android:color/black"
+            app:box_margin="12dp"
+            app:height="56dp"
+            app:width="62dp"
+            app:hide_otp="false"
+            app:hide_otp_drawable="@drawable/bg_otp_box_hide"
+            app:length="4"
+            app:otp_box_background="@drawable/bg_otp_box"
+            app:otp_box_background_active="@drawable/bg_otp_box_active"
+            app:otp_box_background_error="@drawable/bg_otp_box_error"
+            app:otp_box_background_inactive="@drawable/bg_otp_box_inactive"
+            app:otp_box_background_success="@drawable/bg_otp_box_success"
+            app:otp_text_size="20sp"
             />
 
 
@@ -138,12 +105,20 @@
             android:background="@drawable/rounded_button"
             android:layout_marginTop="40dp"
             android:layout_marginHorizontal="30dp"
-            android:text="Daftar"
+            android:text="Verifikasi"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textAllCaps="false"
             android:enabled="true"
             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="expired:"
+            android:layout_marginHorizontal="30dp"
+            android:textColor="@color/white"
+            android:textSize="16dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
