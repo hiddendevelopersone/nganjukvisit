@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ForgotPassword"
+    tools:context=".OtpVerification"
     android:background="@drawable/bgauth">
 
     <LinearLayout
@@ -99,7 +99,7 @@
 
 
         <Button
-            android:id="@+id/signupButton"
+            android:id="@+id/btnVerify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
@@ -119,6 +119,7 @@
             android:layout_marginHorizontal="30dp"
             android:textColor="@color/white"
             android:textSize="16dp"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,16 +2,20 @@ package com.polije.sem3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class PasswordBaru extends AppCompatActivity {
     EditText password, password2;
     boolean passwordVisible;
+    private Button btnSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +24,7 @@ public class PasswordBaru extends AppCompatActivity {
 
         password = (EditText) findViewById(R.id.txtpassword);
         password2 = (EditText) findViewById(R.id.txtpasswordconfirm);
+        btnSubmit = findViewById(R.id.btnSubmitNewpass);
 
         password.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -76,6 +81,13 @@ public class PasswordBaru extends AppCompatActivity {
                 }
 
                 return false;
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PasswordBaru.this, Login.class));
             }
         });
     }

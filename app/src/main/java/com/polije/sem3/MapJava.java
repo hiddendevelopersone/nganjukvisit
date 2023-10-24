@@ -1,6 +1,7 @@
 package com.polije.sem3;
 
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,14 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import java.util.ArrayList;
 
 public class MapJava extends AppCompatActivity implements MapListener, GpsStatus.Listener {
 
@@ -38,26 +44,37 @@ public class MapJava extends AppCompatActivity implements MapListener, GpsStatus
         mMap.setMultiTouchControls(true);
         mMap.getLocalVisibleRect(new Rect());
 
-        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mMap);
+        ItemizedIconOverlay<OverlayItem> itemizedIconOverlay = new ItemizedIconOverlay<>(this, new ArrayList<>(), null);
+        GeoPoint startPoint = new GeoPoint(-7.6006221,111.8940323);
+        OverlayItem overlayItem = new OverlayItem("Marker Title", "Marker Description", startPoint);
+        Drawable marker = getResources().getDrawable(R.drawable.locationpin); // Ganti dengan gambar marker Anda
+        marker.setBounds(0, 0, 10, 10);
+        overlayItem.setMarker(marker);
+
+//        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mMap);
         controller = mMap.getController();
 
-        mMyLocationOverlay.enableMyLocation();
-        mMyLocationOverlay.enableFollowLocation();
-        mMyLocationOverlay.setDrawAccuracyEnabled(true);
-        mMyLocationOverlay.runOnFirstFix(() -> {
-            runOnUiThread(() -> {
-                controller.setCenter(mMyLocationOverlay.getMyLocation());
-                controller.animateTo(mMyLocationOverlay.getMyLocation());
-            });
-        });
+//        mMyLocationOverlay.enableMyLocation();
+//        mMyLocationOverlay.enableFollowLocation();
+//        mMyLocationOverlay.setDrawAccuracyEnabled(true);
+//        mMyLocationOverlay.runOnFirstFix(() -> {
+//            runOnUiThread(() -> {
+//                controller.setCenter(mMyLocationOverlay.getMyLocation());
+//                controller.animateTo(mMyLocationOverlay.getMyLocation());
+//            });
+//        });
 
-        controller.setZoom(6.0);
+        controller.setCenter(startPoint);
+        controller.animateTo(startPoint);
+        controller.setZoom(16);
 
         Log.e("TAG", "onCreate:in " + controller.zoomIn());
         Log.e("TAG", "onCreate: out " + controller.zoomOut());
 
-        mMap.getOverlays().add(mMyLocationOverlay);
+        itemizedIconOverlay.addItem(overlayItem);
+        mMap.getOverlays().add(itemizedIconOverlay);
         mMap.addMapListener(this);
+
     }
 
     @Override

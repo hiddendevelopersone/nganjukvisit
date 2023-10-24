@@ -135,21 +135,22 @@
             android:enabled="true"
             />
 
-        <Button
-            android:id="@+id/loginButtonWithGoogle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button_white"
-            android:layout_marginTop="20dp"
-            android:layout_marginHorizontal="30dp"
-            android:gravity="center"
-            android:text="Masuk Dengan Google"
-            android:textColor="@color/black"
-            android:drawableStart="@drawable/ico_google2"
-            android:paddingHorizontal="50dp"
-            android:textSize="18sp"
-            android:textAllCaps="false"
-            android:enabled="true"
+            <Button
+                android:id="@+id/loginButtonWithGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button_white"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
+                android:gravity="center"
+                android:text="Masuk Dengan Google"
+                android:textColor="@color/black"
+                android:drawableStart="@drawable/ico_google2"
+                android:drawablePadding="0dp"
+                android:paddingStart="30dp"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:enabled="true"
             />
 
         <Button
