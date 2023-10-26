@@ -5,6 +5,7 @@ import com.polije.sem3.response.UserResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RetrofitEndPoint {
@@ -13,6 +14,22 @@ public interface RetrofitEndPoint {
     Call<UserResponse> login(
             @Field("userid") String userid,
             @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("register.php")
+    Call<UserResponse> register(
+            @Field("username") String username,
+            @Field("email") String email,
+            @Field("fullname") String fullName,
+            @Field("password") String password
+        );
+
+    @FormUrlEncoded
+    @GET("data_wisata.php")
+    Call<UserResponse> wisata(
+            @Field("nama") String nama,
+            @Field("deskripsi") String deskripsi
     );
 
 }
