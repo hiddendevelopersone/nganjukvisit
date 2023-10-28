@@ -2,14 +2,21 @@ package com.polije.sem3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.databinding.ActivityMapJavaBinding;
@@ -27,13 +34,16 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DetailInformasi extends AppCompatActivity implements MapListener, GpsStatus.Listener{
 
     private MapView mMap;
     private IMapController controller;
     private MyLocationNewOverlay mMyLocationOverlay;
+    private Button btnLink;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +111,36 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         break;
                 }
                 return false;
+            }
+        });
+
+        btnLink = findViewById(R.id.directToMaps);
+
+        btnLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
+                String mapUri = "https://www.google.com/maps/search/?api=1&query=" + destination;
+//                String mapUri = "https://maps.app.goo.gl/" + destination;
+
+                Uri gmmIntentUri = Uri.parse(mapUri);
+
+                // Buat intent untuk membuka Google Maps
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps"); // Hanya buka dengan aplikasi Google Maps
+
+                // Periksa apakah aplikasi Google Maps terpasang
+                PackageManager packageManager = getPackageManager();
+                List<ResolveInfo> activities = packageManager.queryIntentActivities(mapIntent, 0);
+                boolean isIntentSafe = activities.size() > 0;
+
+                if (isIntentSafe) {
+                    // Buka aplikasi Google Maps
+                    startActivity(mapIntent);
+                } else {
+                    // Jika Google Maps tidak terpasang, Anda dapat menampilkan pesan kesalahan
+                    Toast.makeText(getApplicationContext(), "Aplikasi Google Maps tidak tersedia.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

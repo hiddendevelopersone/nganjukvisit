@@ -18,7 +18,7 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
     @Override
     public WisataModelAdapter.WisataModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.testlayoutdisplay, parent, false);     // layoutfordisplay
+        View view = layoutInflater.inflate(R.layout.activity_row_wisata, parent, false);     // layoutfordisplay
         return new WisataModelViewHolder(view);
     }
 
@@ -43,8 +43,8 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         public WisataModelViewHolder(View itemView) {
 
             super(itemView);
-            txtNama = (TextView) itemView.findViewById(R.id.nametitle);
-            txtDesc = (TextView) itemView.findViewById(R.id.descwisata);
+            txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
+            txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
         }
     }
 }

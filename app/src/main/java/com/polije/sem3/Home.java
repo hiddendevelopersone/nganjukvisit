@@ -1,7 +1,9 @@
 package com.polije.sem3;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -60,7 +62,21 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Temukan tombol berdasarkan ID
+        CardView button = rootView.findViewById(R.id.showWisata); // Gantilah 'button_id' dengan ID sesuai tata letak Anda
+
+        // Atur OnClickListener pada tombol
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Ketika tombol diklik, buat intent untuk menuju aktivitas baru
+                Intent intent = new Intent(getActivity(), ListWisata.class); // Gantilah 'AktivitasTujuan' dengan aktivitas yang ingin Anda tuju
+                startActivity(intent);
+            }
+        });
+
+        return rootView;
     }
 }

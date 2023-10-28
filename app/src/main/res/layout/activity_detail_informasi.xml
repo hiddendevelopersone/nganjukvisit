@@ -17,14 +17,27 @@
         <LinearLayout
             android:id="@+id/headerContent"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
+            android:paddingBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/backbutton"
+                android:backgroundTint="@color/greyfont"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="this is header"
+                android:layout_height="match_parent"
+                android:paddingEnd="50dp"
+                android:text="Sedudo"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="20dp"/>
 
         </LinearLayout>
@@ -32,6 +45,7 @@
         <LinearLayout
             android:id="@+id/content"
             app:layout_constraintTop_toBottomOf="@+id/headerContent"
+            android:paddingHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -39,7 +53,6 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginHorizontal="20dp"
             app:cardCornerRadius="20dp">
 
                 <ImageView
@@ -57,25 +70,71 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:text="Deskripsi"
-                android:textSize="20dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/loremipsumgenerator"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Jadwal Operasional : "
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:text="@string/loremipsumgenerator"/>
+                android:text="12:00 - 14:30 / Setiap Hari"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Harga Tiket : "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rp 10.000 / orang"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Alamat : "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngliman Sawahan"
+                android:textColor="@color/black"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/transparent"
-                android:layout_marginHorizontal="20dp"
                 app:cardCornerRadius="20dp">
 
             <org.osmdroid.views.MapView
@@ -86,7 +145,42 @@
 
             </androidx.cardview.widget.CardView>
 
+            <Button
+                android:id="@+id/directToMaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:layout_marginTop="10dp"
+                android:text="Lihat di Maps"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textAllCaps="false"
+                android:enabled="true"
+                />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Ulasan :"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/greyfill"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Belum ada ulasan"
+                    android:textAlignment="center"
+                    android:gravity="center"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
