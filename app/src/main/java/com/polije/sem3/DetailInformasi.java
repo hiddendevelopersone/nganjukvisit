@@ -68,18 +68,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         marker.setBounds(0, 0, 10, 10);
         overlayItem.setMarker(marker);
 
-//        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mMap);
         controller = mMap.getController();
-
-//        mMyLocationOverlay.enableMyLocation();
-//        mMyLocationOverlay.enableFollowLocation();
-//        mMyLocationOverlay.setDrawAccuracyEnabled(true);
-//        mMyLocationOverlay.runOnFirstFix(() -> {
-//            runOnUiThread(() -> {
-//                controller.setCenter(mMyLocationOverlay.getMyLocation());
-//                controller.animateTo(mMyLocationOverlay.getMyLocation());
-//            });
-//        });
 
         controller.setCenter(startPoint);
         controller.animateTo(startPoint);
@@ -164,7 +153,6 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             // Handle GPS status changes
         }
 
-//        MapView mpMap = findViewById(R.id.osmmap);
 
 
     }
