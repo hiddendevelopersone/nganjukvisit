@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.polije.sem3.network.BaseResponse;
 import com.polije.sem3.network.UploadService;
+import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.utility.FileUtils;
 import com.polije.sem3.utility.ImageUtils;
 
@@ -113,7 +114,16 @@ public class Profiles extends Fragment {
         Button btnUpload2 = (Button) view.findViewById(R.id.btn_upload_2);
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
         EditText editText = (EditText) view.findViewById(R.id.edt_namalengkap);
-        EditText editText1 = (EditText) view.findViewById(R.id.edt_emailaddr);
+        EditText emailText = (EditText) view.findViewById(R.id.edt_emailaddr);
+        EditText alamatText = (EditText) view.findViewById(R.id.edt_alamat);
+        EditText notelpText = (EditText) view.findViewById(R.id.edt_notelp);
+
+        // get data akun yang sedang login
+        UsersUtil util = new UsersUtil(requireContext());
+        editText.setText(util.getFullName());
+        emailText.setText(util.getEmail());
+        notelpText.setText(util.getNoTelp());
+        alamatText.setText(util.getAlamat());
 
         // Scroll up for more visibility edittext
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -125,12 +135,12 @@ public class Profiles extends Fragment {
                 }
             }});
 
-        editText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        emailText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
-                    scrollView.scrollTo(0, editText1.getTop());
+                    scrollView.scrollTo(0, emailText.getTop());
                 }
             }});
 

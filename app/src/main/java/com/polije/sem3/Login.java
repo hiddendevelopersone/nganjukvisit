@@ -20,6 +20,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +56,7 @@ public class Login extends AppCompatActivity {
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
                         Intent intent = new Intent(Login.this, Dashboard.class);
+                        UsersUtil util = new UsersUtil(Login.this, response.body().getData());
                         startActivity(intent);
                     }else {
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

@@ -65,7 +65,10 @@ public class Home extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Temukan tombol berdasarkan ID
-        CardView button = rootView.findViewById(R.id.showWisata); // Gantilah 'button_id' dengan ID sesuai tata letak Anda
+        CardView button = rootView.findViewById(R.id.showWisata);
+        CardView buttonShowEvent = rootView.findViewById(R.id.showEvent);
+        CardView buttonShowKuliner = rootView.findViewById(R.id.showKuliner);
+        CardView buttonShowPenginapan = rootView.findViewById(R.id.showPenginapan);
 
         // Atur OnClickListener pada tombol
         button.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +76,30 @@ public class Home extends Fragment {
             public void onClick(View view) {
                 // Ketika tombol diklik, buat intent untuk menuju aktivitas baru
                 Intent intent = new Intent(getActivity(), ListWisata.class); // Gantilah 'AktivitasTujuan' dengan aktivitas yang ingin Anda tuju
+                startActivity(intent);
+            }
+        });
+
+        buttonShowEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ListEvent.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonShowKuliner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ListKuliner.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonShowPenginapan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ListPenginapan.class);
                 startActivity(intent);
             }
         });

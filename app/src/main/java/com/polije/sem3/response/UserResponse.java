@@ -22,9 +22,14 @@ public class UserResponse {
     public String getStatus() {
         return this.status;
     }
-//    public String getData() {
-//        return data;
-//    }
+    public UserModel getData() {
+        return data;
+    }
+
+    public void setData(UserModel data) {
+        this.data = data;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
