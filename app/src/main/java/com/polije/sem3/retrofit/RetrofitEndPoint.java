@@ -1,6 +1,7 @@
 package com.polije.sem3.retrofit;
 
 import com.polije.sem3.response.UserResponse;
+import com.polije.sem3.response.WisataResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -25,11 +26,8 @@ public interface RetrofitEndPoint {
             @Field("password") String password
         );
 
-    @FormUrlEncoded
     @GET("data_wisata.php")
-    Call<UserResponse> wisata(
-            @Field("nama") String nama,
-            @Field("deskripsi") String deskripsi
+    Call<WisataResponse> wisata(
     );
 
 }

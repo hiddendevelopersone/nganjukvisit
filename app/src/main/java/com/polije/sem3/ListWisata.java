@@ -13,10 +13,16 @@ import android.widget.TextView;
 
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.response.WisataResponse;
+import com.polije.sem3.retrofit.Client;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListWisata extends AppCompatActivity {
 
@@ -48,15 +54,25 @@ public class ListWisata extends AppCompatActivity {
             textViewDesc = finalText;
         }
 
-        addData();
+//        addData();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListWisata);
 
-        adapter = new WisataModelAdapter(WisataArrayList);
+        Client.getInstance().wisata().enqueue(new Callback<WisataResponse>() {
+            @Override
+            public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
+                adapter = new WisataModelAdapter(response.body().getData());
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListWisata.this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListWisata.this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<WisataResponse> call, Throwable t) {
+
+            }
+        });
 
 
         imageView = findViewById(R.id.imageViewSedudo);
