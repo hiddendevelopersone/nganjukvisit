@@ -16,8 +16,8 @@ public class UserModel {
     private String fullName;
     @SerializedName("email")
     private String emailUser;
-//    @SerializedName("level")
-//    private String levelUser;
+    @SerializedName("level")
+    private String levelUser;
     @SerializedName("no_telepon")
     private String noTelepon;
     @SerializedName("alamat")
