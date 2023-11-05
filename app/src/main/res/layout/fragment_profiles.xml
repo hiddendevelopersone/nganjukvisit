@@ -126,11 +126,11 @@
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
-            android:hint="Alamat Anda"
+            android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
             android:background="@drawable/shapebackgroundtextfield"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/greyfont"
             />
 
         <TextView
@@ -147,11 +147,11 @@
             android:layout_height="52dp"
             android:layout_marginTop="10dp"
             android:paddingHorizontal="10dp"
-            android:hint="Nomor Telepon/HP Anda"
+            android:hint="(Kosong)"
             android:textColor="@color/black"
             android:backgroundTint="@color/greyfill"
             android:background="@drawable/shapebackgroundtextfield"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/greyfont"
             />
 
             <Button
@@ -169,6 +169,22 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:theme="@style/Theme.NganjukVisit"/>
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:backgroundTint="@null"
+            android:background="@drawable/rounded_button_danger"
+            android:text="Logout / Keluar"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textAllCaps="false"
+            android:layout_below="@+id/btn_upload_1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:theme="@style/Theme.NganjukVisit"/>
 
     </LinearLayout>
 

@@ -1,8 +1,15 @@
 package com.polije.sem3.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class EventModel {
+//    private String id_event;
+    @Expose
+    @SerializedName("nama_event")
     private String nama;
     private String lokasi;
+    @SerializedName("jadwal")
     private String tanggaldanwaktu;
     private String hari;
 

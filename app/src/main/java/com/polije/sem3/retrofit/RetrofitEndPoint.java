@@ -1,5 +1,7 @@
 package com.polije.sem3.retrofit;
 
+import com.polije.sem3.response.EventResponse;
+import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.response.WisataResponse;
 
@@ -30,4 +32,11 @@ public interface RetrofitEndPoint {
     Call<WisataResponse> wisata(
     );
 
+    @GET("data_event.php")
+    Call<EventResponse> event(
+    );
+
+    @GET("data_penginapan.php")
+    Call<PenginapanResponse> penginapan(
+    );
 }
