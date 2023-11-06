@@ -63,8 +63,8 @@ public class ListWisata extends AppCompatActivity {
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                 adapter = new WisataModelAdapter(response.body().getData());
 
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListWisata.this);
-                recyclerView.setLayoutManager(layoutManager);
+//                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListWisata.this);
+//                recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
             }
 
