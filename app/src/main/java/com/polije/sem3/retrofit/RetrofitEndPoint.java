@@ -2,6 +2,7 @@ package com.polije.sem3.retrofit;
 
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
+import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -39,6 +40,10 @@ public interface RetrofitEndPoint {
 
     @GET("data_penginapan.php")
     Call<PenginapanResponse> penginapan(
+    );
+
+    @GET("data_kuliner.php")
+    Call<KulinerResponse> kuliner(
     );
 
     @FormUrlEncoded
