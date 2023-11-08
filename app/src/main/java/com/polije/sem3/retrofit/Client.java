@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class Client {
 
     //    public static final String BASE_URL = "http://192.168.155.152/arenafinder/"; // local
-    public static final String BASE_URL = "http://192.168.1.47/nganjukvisit/"; // wifi
+    public static final String BASE_URL = "http://192.168.1.41/nganjukvisit/"; // wifi
 
     public static final String CONTROLLERS = BASE_URL + "controllers/";
 

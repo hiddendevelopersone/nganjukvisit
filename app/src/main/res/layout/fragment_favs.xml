@@ -81,6 +81,34 @@
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewListPenginapanFavorit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/activity_row_penginapan"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:scrollbars="none"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Kuliner"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewListKulinerFavorit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/activity_row_kuliner"
+            app:spanCount="2"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:scrollbars="none"
+            />
+
     </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

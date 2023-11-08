@@ -25,6 +25,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/backButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/backbutton"
@@ -175,7 +176,8 @@
 
                 <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -185,6 +187,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerviewUlasan"
                             android:layout_width="match_parent"
+                            tools:listitem="@layout/activity_row_ulasan"
                             android:layout_height="wrap_content"/>
 
                     </LinearLayout>

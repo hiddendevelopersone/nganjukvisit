@@ -10,7 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.EventModelViewHolder>{
     private ArrayList<EventModel> dataList;
@@ -32,12 +36,25 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
     public void onBindViewHolder(EventModelViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
-        holder.txtJadwal.setText(dataList.get(position).getHari() + ", " + dataList.get(position).getTanggaldanwaktu());
+        holder.txtJadwal.setText(dataList.get(position).getHari() + ", " + convertToDate(dataList.get(position).getTanggaldanwaktu()));
     }
 
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
+    }
+
+    public static String convertToDate(@NonNull String date){
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        try {
+            Date inputDate = inputDateFormat.parse(date);
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm", new Locale("id"));
+            assert inputDate != null;
+            return outputDateFormat.format(inputDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return inputDateFormat.toString();
     }
 
     public class EventModelViewHolder extends RecyclerView.ViewHolder {

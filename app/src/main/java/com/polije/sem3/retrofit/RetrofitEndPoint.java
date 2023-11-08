@@ -1,6 +1,8 @@
 package com.polije.sem3.retrofit;
 
 import com.polije.sem3.response.EventResponse;
+import com.polije.sem3.response.FavoritKulinerResponse;
+import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
@@ -50,5 +52,17 @@ public interface RetrofitEndPoint {
     @POST("favorit_wisata.php")
     Call<FavoritWisataResponse> favwisata(
         @Field("idpengguna") String iduser
+    );
+
+    @FormUrlEncoded
+    @POST("favorit_penginapan.php")
+    Call<FavoritPenginapanResponse> favpenginapan(
+            @Field("idpengguna") String iduser
+    );
+
+    @FormUrlEncoded
+    @POST("favorit_kuliner.php")
+    Call<FavoritKulinerResponse> favkuliner(
+            @Field("idpengguna") String iduser
     );
 }
