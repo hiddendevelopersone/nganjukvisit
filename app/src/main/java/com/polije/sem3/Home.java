@@ -5,13 +5,24 @@ import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.polije.sem3.model.PenginapanModel;
+import com.polije.sem3.model.RekomendasiPenginapanAdapter;
+import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +73,9 @@ public class Home extends Fragment {
 
     }
 
+    private RekomendasiPenginapanAdapter adapter;
+    private ArrayList<PenginapanModel> penginapanList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,6 +124,22 @@ public class Home extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ListPenginapan.class);
                 startActivity(intent);
+            }
+        });
+
+        RecyclerView recyclerView = rootView.findViewById(R.id.recyclerviewListPenginapanRekomendasi);
+
+        Client.getInstance().penginapanpopuler().enqueue(new Callback<PenginapanResponse>() {
+            @Override
+            public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
+                adapter = new RekomendasiPenginapanAdapter(response.body().getData());
+
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<PenginapanResponse> call, Throwable t) {
+
             }
         });
 

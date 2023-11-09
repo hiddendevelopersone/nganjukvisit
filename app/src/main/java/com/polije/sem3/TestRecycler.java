@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
@@ -21,20 +22,25 @@ public class TestRecycler extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.testrecycler);
 
-        addData();
+//        addData();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        adapter = new WisataModelAdapter(WisataArrayList);
+        adapter = new WisataModelAdapter(WisataArrayList, new WisataModelAdapter.OnClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Toast.makeText(TestRecycler.this, WisataArrayList.get(position).getNama(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(TestRecycler.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
-    void addData() {
-        WisataArrayList = new ArrayList<>();
-        WisataArrayList.add(new WisataModel("Sedudo", "Sedudo adalah bla bla bla bla"));
-        WisataArrayList.add(new WisataModel("Taman Nyawiji", "Taman Nyawiji adalah bla bla bla bla"));
-    }
+//    void addData() {
+//        WisataArrayList = new ArrayList<>();
+//        WisataArrayList.add(new WisataModel("Sedudo", "Sedudo adalah bla bla bla bla"));
+//        WisataArrayList.add(new WisataModel("Taman Nyawiji", "Taman Nyawiji adalah bla bla bla bla"));
+//    }
 }

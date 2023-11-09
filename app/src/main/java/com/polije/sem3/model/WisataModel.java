@@ -11,10 +11,23 @@ public class WisataModel {
     @SerializedName("nama_wisata")
     private String nama;
     private String deskripsi;
+    private String coordinate;
+    private String linkmaps;
+    private String gambar;
+    private String jadwal;
+    private String harga_tiket;
+    private String alamat;
 
-    public WisataModel (String nama, String deskripsi) {
+    public WisataModel(String idwisata, String nama, String deskripsi, String coordinate, String linkmaps, String gambar, String jadwal, String harga_tiket, String alamat) {
+        this.idwisata = idwisata;
         this.nama = nama;
         this.deskripsi = deskripsi;
+        this.coordinate = coordinate;
+        this.linkmaps = linkmaps;
+        this.gambar = gambar;
+        this.jadwal = jadwal;
+        this.harga_tiket = harga_tiket;
+        this.alamat = alamat;
     }
 
     public String getIdwisata() {
@@ -39,5 +52,53 @@ public class WisataModel {
 
     public void setDeskripsi(String deskripsi) {
         this.deskripsi = deskripsi;
+    }
+
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public String getLinkmaps() {
+        return linkmaps;
+    }
+
+    public void setLinkmaps(String linkmaps) {
+        this.linkmaps = linkmaps;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
+    }
+
+    public String getJadwal() {
+        return jadwal;
+    }
+
+    public void setJadwal(String jadwal) {
+        this.jadwal = jadwal;
+    }
+
+    public String getHarga_tiket() {
+        return harga_tiket;
+    }
+
+    public void setHarga_tiket(String harga_tiket) {
+        this.harga_tiket = harga_tiket;
+    }
+
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
     }
 }

@@ -1,6 +1,7 @@
 package com.polije.sem3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,15 +12,22 @@ import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.databinding.ActivityMapJavaBinding;
+import com.polije.sem3.model.WisataModel;
+import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.response.DetailWisataResponse;
+import com.polije.sem3.response.WisataResponse;
+import com.polije.sem3.retrofit.Client;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -36,18 +44,57 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DetailInformasi extends AppCompatActivity implements MapListener, GpsStatus.Listener{
 
     private MapView mMap;
     private IMapController controller;
     private MyLocationNewOverlay mMyLocationOverlay;
     private Button btnLink;
+    private WisataModel dataListWisata;
+
+    public static String ID_WISATA = "id";
+
+    private String idSelected;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_informasi);
+
+        idSelected = getIntent().getStringExtra(ID_WISATA);
+
+        // kodingan retrofit get data
+
+
+//        Client.getInstance().method_get_data()
+        Client.getInstance().detailwisata(idSelected).enqueue(new Callback<DetailWisataResponse>() {
+            private TextView txtTitle = (TextView) findViewById(R.id.namaWisata);
+            private String namaWisata;
+
+            @Override
+            public void onResponse(Call<DetailWisataResponse> call, Response<DetailWisataResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    dataListWisata = response.body().getData();
+
+                    txtTitle.setText(dataListWisata.getNama().toString());
+
+                    Toast.makeText(DetailInformasi.this, dataListWisata.getNama(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailWisataResponse> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(DetailInformasi.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("DetailInformasi", "error " + t.getMessage());
+            }
+        });
 
         ActivityDetailInformasiBinding binding = ActivityDetailInformasiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

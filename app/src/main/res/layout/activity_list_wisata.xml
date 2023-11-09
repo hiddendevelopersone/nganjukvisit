@@ -201,6 +201,7 @@
             android:id="@+id/recyclerviewListWisata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:listitem="@layout/activity_row_wisata"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:scrollbars="none"
             />

@@ -31,6 +31,7 @@
                 android:background="@drawable/backbutton"
                 android:backgroundTint="@color/greyfont"/>
             <TextView
+                android:id="@+id/namaWisata"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="50dp"
@@ -96,6 +97,7 @@
                 android:textColor="@color/black"/>
 
             <TextView
+                android:id="@+id/jamOperasional"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="12:00 - 14:30 / Setiap Hari"

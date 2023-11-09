@@ -1,5 +1,6 @@
 package com.polije.sem3.retrofit;
 
+import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.FavoritKulinerResponse;
 import com.polije.sem3.response.FavoritPenginapanResponse;
@@ -14,6 +15,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface RetrofitEndPoint {
     @FormUrlEncoded
@@ -46,6 +48,15 @@ public interface RetrofitEndPoint {
 
     @GET("data_kuliner.php")
     Call<KulinerResponse> kuliner(
+    );
+
+    @GET("populer_penginapan.php")
+    Call<PenginapanResponse> penginapanpopuler(
+    );
+
+    @GET("detailed_data_wisata.php")
+    Call<DetailWisataResponse> detailwisata(
+            @Query("id_selected") String id_selected
     );
 
     @FormUrlEncoded

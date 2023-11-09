@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
@@ -61,16 +62,29 @@ public class ListWisata extends AppCompatActivity {
         Client.getInstance().wisata().enqueue(new Callback<WisataResponse>() {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
-                adapter = new WisataModelAdapter(response.body().getData());
 
-//                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListWisata.this);
-//                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                    WisataArrayList = response.body().getData();
+                    adapter = new WisataModelAdapter(WisataArrayList, new WisataModelAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(ListWisata.this, DetailInformasi.class)
+                                            .putExtra(DetailInformasi.ID_WISATA, WisataArrayList.get(position).getIdwisata())
+                            );
+                        }
+                    });
+
+                    recyclerView.setAdapter(adapter);
+                }else {
+                    Toast.makeText(ListWisata.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+
             }
-
             @Override
             public void onFailure(Call<WisataResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(ListWisata.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -80,12 +94,18 @@ public class ListWisata extends AppCompatActivity {
 
     }
 
-    void addData() {
-        WisataArrayList = new ArrayList<>();
-        WisataArrayList.add(new WisataModel("Sedudo", textViewDesc));
-        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
-        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
-        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
+//    void addData() {
+//        WisataArrayList = new ArrayList<>();
+//        WisataArrayList.add(new WisataModel("Sedudo", textViewDesc));
+//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
+//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
+//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
+//    }
+
+    public void gantiDetail() {
+        Intent i = new Intent(ListWisata.this, DetailInformasi.class);
+        startActivity(i);
+
     }
 
 }

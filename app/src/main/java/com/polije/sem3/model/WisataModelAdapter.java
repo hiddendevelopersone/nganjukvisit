@@ -1,5 +1,6 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
@@ -9,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.R;
-import com.polije.sem3.TestRecycler;
 
 import java.util.ArrayList;
 
@@ -24,18 +24,33 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
 
     private ArrayList<WisataModel> dataList;
 
-    public WisataModelAdapter(ArrayList<WisataModel> dataList) { this.dataList = dataList; }
+    private OnClickListener tampil;
+
+    public WisataModelAdapter(ArrayList<WisataModel> dataList, OnClickListener listener) {
+        this.dataList = dataList;
+        this.tampil = listener;
+    }
 
     @Override
-    public void onBindViewHolder(WisataModelAdapter.WisataModelViewHolder holder, int position) {
+    public void onBindViewHolder(WisataModelAdapter.WisataModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    tampil.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
     }
+
     public class WisataModelViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtNama, txtDesc;
@@ -46,5 +61,9 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
             txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 }
