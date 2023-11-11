@@ -6,42 +6,45 @@
     android:orientation="horizontal">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="200dp"
         android:layout_marginStart="20dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="300dp"
-            android:layout_height="200dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewKuliner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutGambar"
-                android:background="@drawable/sedudobg"
-                android:scaleType="centerCrop" />
+                app:layout_constraintTop_toBottomOf="@+id/layoutGambarf"
+                android:background="@drawable/rumahmakansample"
+                android:scaleType="centerCrop"
+                />
 
             <LinearLayout
-                android:id="@+id/layoutGambar"
+                android:id="@+id/layoutGambarf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="14dp"
+                android:paddingEnd="0dp"
                 android:paddingBottom="10dp"
                 android:background="@color/abuabu_bgimg"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
-                    android:id="@+id/titleWisata"
+                    android:id="@+id/namaKuliner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Sedudo"
+                    android:text="Nasi Becek"
                     android:textStyle="bold"
-                    android:textSize="26sp"
+                    android:textSize="20sp"
                     android:textColor="@android:color/white" />
 
                 <LinearLayout
@@ -55,11 +58,11 @@
                         android:layout_marginRight="3dp"
                         android:background="@drawable/locationnew"/>
                     <TextView
-                        android:id="@+id/alamatWisata"
+                        android:id="@+id/lokasiKuliner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="Sawahan, Nganjuk"
+                        android:text="Pojok"
                         android:textSize="16sp"
                         android:textColor="@android:color/white" />
 

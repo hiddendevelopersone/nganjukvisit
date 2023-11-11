@@ -54,6 +54,14 @@ public interface RetrofitEndPoint {
     Call<PenginapanResponse> penginapanpopuler(
     );
 
+    @GET("populer_wisata.php")
+    Call<WisataResponse> wisatapopuler(
+    );
+
+    @GET("populer_kuliner.php")
+    Call<KulinerResponse> kulinerpopuler(
+    );
+
     @GET("detailed_data_wisata.php")
     Call<DetailWisataResponse> detailwisata(
             @Query("id_selected") String id_selected

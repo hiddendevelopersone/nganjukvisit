@@ -11,10 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polije.sem3.model.PenginapanModel;
+import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
+import com.polije.sem3.model.RekomendasiWisataAdapter;
+import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
@@ -74,6 +79,8 @@ public class Home extends Fragment {
     }
 
     private RekomendasiPenginapanAdapter adapter;
+    private RekomendasiWisataAdapter adapter2;
+    private RekomendasiKulinerAdapter adapter3;
     private ArrayList<PenginapanModel> penginapanList;
 
     @Override
@@ -85,7 +92,7 @@ public class Home extends Fragment {
 //        getnamapengguna
         UsersUtil userUtil = new UsersUtil(requireContext());
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
-        namaPengguna.setText(userUtil.getFullName());
+        namaPengguna.setText("Halo! " + userUtil.getFullName());
 
         // Temukan tombol berdasarkan ID
         CardView button = rootView.findViewById(R.id.showWisata);
@@ -132,15 +139,55 @@ public class Home extends Fragment {
         Client.getInstance().penginapanpopuler().enqueue(new Callback<PenginapanResponse>() {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
-                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success"))
-                adapter = new RekomendasiPenginapanAdapter(response.body().getData());
-
-                recyclerView.setAdapter(adapter);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter = new RekomendasiPenginapanAdapter(response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(requireContext(), "data kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<PenginapanResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        RecyclerView recyclerView1 = rootView.findViewById(R.id.recyclerviewListWisataPopuler);
+
+        Client.getInstance().wisatapopuler().enqueue(new Callback<WisataResponse>() {
+            @Override
+            public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter2 = new RekomendasiWisataAdapter(response.body().getData());
+                    recyclerView1.setAdapter(adapter2);
+                } else {
+                    Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WisataResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RecyclerView recyclerView2 = rootView.findViewById(R.id.recyclerviewListKulinerPopuler);
+
+        Client.getInstance().kulinerpopuler().enqueue(new Callback<KulinerResponse>() {
+            @Override
+            public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter3 = new RekomendasiKulinerAdapter(response.body().getData());
+                    recyclerView2.setAdapter(adapter3);
+                } else {
+                    Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<KulinerResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
             }
         });
 
