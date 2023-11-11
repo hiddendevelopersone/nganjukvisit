@@ -70,9 +70,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
     private MapView mapView;
 
-    private AppCompatImageButton btnBack;
-
     private ItemizedIconOverlay<OverlayItem> itemizedIconOverlay;
+
+    private boolean availablelinkmaps;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -80,14 +80,11 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_informasi);
 
-        btnBack = findViewById(R.id.backButtonDetail);
-
         idSelected = getIntent().getStringExtra(ID_WISATA);
 
         itemizedIconOverlay = new ItemizedIconOverlay<>(this, new ArrayList<>(), null);
 
-//        linkmaps = "";
-
+        availablelinkmaps = true;
 
         binding = ActivityDetailInformasiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -140,8 +137,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     }
 
                     if (linkmaps.isEmpty()) {
-                        Toast.makeText(DetailInformasi.this, "Lokasi tidak tersedia", Toast.LENGTH_SHORT).show();
-                        destination = "Air+Terjun+Sedudo";
+                        Toast.makeText(DetailInformasi.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
+//                        destination = "Air+Terjun+Sedudo";
+                        availablelinkmaps = false;
                     } else if (!linkmaps.isEmpty()) {
                         destination = linkmaps;
                     }
@@ -152,7 +150,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     binding.hargaTiket.setText(dataListWisata.getHarga_tiket());
                     binding.alamatWisata.setText(dataListWisata.getAlamat());
 
-                    Toast.makeText(DetailInformasi.this, coordinates, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(DetailInformasi.this, coordinates, Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -190,9 +188,10 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
         btnLink = findViewById(R.id.directToMaps);
 
-        btnLink.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLink.setOnClickListener(v -> {
+
+            if (availablelinkmaps){
+
 //                destination = "Air+Terjun+Sedudo"; // Gantilah dengan nama atau alamat tujuan Anda
                 String mapUri = "https://www.google.com/maps/search/?api=1&query=" + destination;
 //                String mapUri = "https://maps.app.goo.gl/" + destination;
@@ -215,15 +214,15 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     // Jika Google Maps tidak terpasang, Anda dapat menampilkan pesan kesalahan
                     Toast.makeText(getApplicationContext(), "Aplikasi Google Maps tidak tersedia.", Toast.LENGTH_SHORT).show();
                 }
+            }else {
+                Toast.makeText(DetailInformasi.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailInformasi.this, ListWisata.class);
-                startActivity(intent);
-            }
+        binding.backButtonDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailInformasi.this, ListWisata.class);
+            startActivity(intent);
+//            Toast.makeText(DetailInformasi.this, "tesback", Toast.LENGTH_SHORT).show();
         });
 
     }

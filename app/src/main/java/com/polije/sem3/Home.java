@@ -132,6 +132,7 @@ public class Home extends Fragment {
         Client.getInstance().penginapanpopuler().enqueue(new Callback<PenginapanResponse>() {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success"))
                 adapter = new RekomendasiPenginapanAdapter(response.body().getData());
 
                 recyclerView.setAdapter(adapter);

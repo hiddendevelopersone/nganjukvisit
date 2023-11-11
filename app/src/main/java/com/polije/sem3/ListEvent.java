@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
@@ -33,16 +34,17 @@ public class ListEvent extends AppCompatActivity {
         Client.getInstance().event().enqueue(new Callback<EventResponse>() {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
-                adapter = new EventModelAdapter(response.body().getData());
-
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListEvent.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter = new EventModelAdapter(response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(ListEvent.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<EventResponse> call, Throwable t) {
-
+                Toast.makeText(ListEvent.this, "Request Timeout", Toast.LENGTH_SHORT).show();
             }
         });
     }

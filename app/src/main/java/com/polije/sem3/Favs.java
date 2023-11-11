@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.polije.sem3.model.FavoritKulinerModelAdapter;
 import com.polije.sem3.model.FavoritPenginapanModelAdapter;
@@ -97,14 +98,18 @@ public class Favs extends Fragment {
         Client.getInstance().favwisata(idUser).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
-                adapter = new FavoritWisataModelAdapter(response.body().getData());
-
-                recyclerView.setAdapter(adapter);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter = new FavoritWisataModelAdapter(response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -114,14 +119,19 @@ public class Favs extends Fragment {
         Client.getInstance().favpenginapan(idUser).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
-                adapter2 = new FavoritPenginapanModelAdapter(response.body().getData());
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
 
-                recyclerView2.setAdapter(adapter2);
+                    adapter2 = new FavoritPenginapanModelAdapter(response.body().getData());
+                    recyclerView2.setAdapter(adapter2);
+                } else {
+                    Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -131,14 +141,18 @@ public class Favs extends Fragment {
 
             @Override
             public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
-                adapter3 = new FavoritKulinerModelAdapter(response.body().getData());
-
-                recyclerView3.setAdapter(adapter3);
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter3 = new FavoritKulinerModelAdapter(response.body().getData());
+                    recyclerView3.setAdapter(adapter3);
+                } else {
+                    Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<FavoritKulinerResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
 

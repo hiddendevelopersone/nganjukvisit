@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.model.KulinerModelAdapter;
@@ -34,14 +35,18 @@ public class ListKuliner extends AppCompatActivity {
         Client.getInstance().kuliner().enqueue(new Callback<KulinerResponse>() {
             @Override
             public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
-                adapter = new KulinerModelAdapter(response.body().getData());
-
-                recyclerView.setAdapter(adapter);
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter = new KulinerModelAdapter(response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                }else {
+                    Toast.makeText(ListKuliner.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<KulinerResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(ListKuliner.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
@@ -35,16 +36,19 @@ public class ListPenginapan extends AppCompatActivity {
         Client.getInstance().penginapan().enqueue(new Callback<PenginapanResponse>() {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
-                adapter = new PenginapanModelAdapter(response.body().getData());
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter = new PenginapanModelAdapter(response.body().getData());
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(ListPenginapan.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
 
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ListPenginapan.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onFailure(Call<PenginapanResponse> call, Throwable t) {
-
+                t.printStackTrace();
+                Toast.makeText(ListPenginapan.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

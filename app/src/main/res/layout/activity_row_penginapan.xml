@@ -51,9 +51,9 @@
                     />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/ic_baseline_favorite_24"/>
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/favorite_button_white"/>
 
             </LinearLayout>
 
