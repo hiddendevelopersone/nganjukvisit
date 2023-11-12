@@ -177,29 +177,20 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/greyfill"
+                android:layout_height="300dp"
+                android:background="@color/material_dynamic_neutral95"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="5dp"
                 android:orientation="vertical">
 
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerviewUlasan"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerviewUlasan"
-                            android:layout_width="match_parent"
-                            tools:listitem="@layout/activity_row_ulasan"
-                            android:layout_height="wrap_content"/>
-
-                    </LinearLayout>
-
-                </ScrollView>
+                        android:paddingHorizontal="4dp"
+                        tools:listitem="@layout/activity_row_ulasan"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

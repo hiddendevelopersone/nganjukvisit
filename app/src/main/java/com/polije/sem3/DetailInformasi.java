@@ -27,9 +27,11 @@ import android.widget.Toast;
 import com.google.android.material.textview.MaterialTextView;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.databinding.ActivityMapJavaBinding;
+import com.polije.sem3.model.UlasanModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.DetailWisataResponse;
+import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
 
@@ -59,6 +61,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private MyLocationNewOverlay mMyLocationOverlay;
     private Button btnLink;
     private WisataModel dataListWisata;
+    private UlasanModelAdapter adapterUlasan;
 
     public static String ID_WISATA = "id";
 
@@ -163,6 +166,24 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             }
         });
 
+//        RecyclerView recyclerView = findViewById(R.id.recyclerviewUlasan);
+
+        Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+            @Override
+            public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                    binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                } else {
+                    Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mapView = findViewById(R.id.osmmap);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollviewLayout);

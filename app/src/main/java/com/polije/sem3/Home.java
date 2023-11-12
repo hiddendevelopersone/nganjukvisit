@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.polije.sem3.model.EventModel;
+import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
+import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -81,6 +85,8 @@ public class Home extends Fragment {
     private RekomendasiPenginapanAdapter adapter;
     private RekomendasiWisataAdapter adapter2;
     private RekomendasiKulinerAdapter adapter3;
+    private EventModelAdapter adapter4;
+    private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
 
     @Override
@@ -190,6 +196,7 @@ public class Home extends Fragment {
                 Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         return rootView;
     }

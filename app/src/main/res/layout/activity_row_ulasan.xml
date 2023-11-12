@@ -3,40 +3,59 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="16dp"
+    android:layout_marginBottom="12dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:backgroundTint="@color/greyfill"
+        app:strokeColor="@color/greyfont"
+        app:cardUseCompatPadding="true"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="10dp">
 
-        <TextView
-            android:id="@+id/namaPengguna"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="Justin Bieber"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/namaPengguna"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:gravity="center_vertical"
+                android:text="Justin Bieber"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
             />
-    </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="01/11/2003"
-        android:textColor="@color/grey"
-        />
+            <TextView
+                android:id="@+id/tanggalKomen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="8dp"
+                android:text="01/11/2003"
+                android:textColor="@color/grey"
+                />
 
-    <TextView
-        android:id="@+id/contentUlasan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="@string/loremipsumgenerator"
-        android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/contentUlasan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/loremipsumgenerator"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
