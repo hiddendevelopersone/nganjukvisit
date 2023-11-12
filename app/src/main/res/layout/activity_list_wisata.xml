@@ -98,83 +98,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    app:cardCornerRadius="20dp">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="300dp"
-                        android:layout_height="200dp">
-
-                        <ImageView
-                            android:id="@+id/imageViewSedudo"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/layoutGambar"
-                            android:background="@drawable/sedudobg"
-                            android:scaleType="centerCrop" />
-
-                        <LinearLayout
-                            android:id="@+id/layoutGambar"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="14dp"
-                            android:paddingBottom="10dp"
-                            android:background="@color/abuabu_bgimg"
-                            android:orientation="vertical"
-                            app:layout_constraintBottom_toBottomOf="parent">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:text="Sedudo"
-                                android:textStyle="bold"
-                                android:textSize="26sp"
-                                android:textColor="@android:color/white" />
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/locationnew"/>
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentLeft="true"
-                                    android:text="Sawahan, Nganjuk"
-                                    android:textSize="16sp"
-                                    android:textColor="@android:color/white" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    app:cardCornerRadius="20dp">
-
-                    <ImageView
-                        android:layout_width="300dp"
-                        android:layout_height="200dp"
-                        android:background="@drawable/sedudobg"/>
-
-                </androidx.cardview.widget.CardView>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerviewListWisataPopuler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                tools:listitem="@layout/activity_row_wisata_slide"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             </LinearLayout>
 

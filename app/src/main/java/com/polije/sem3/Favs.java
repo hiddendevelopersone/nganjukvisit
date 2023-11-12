@@ -1,5 +1,6 @@
 package com.polije.sem3;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,8 +99,17 @@ public class Favs extends Fragment {
         Client.getInstance().favwisata(idUser).enqueue(new Callback<FavoritWisataResponse>() {
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                WisataArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new FavoritWisataModelAdapter(response.body().getData());
+                    adapter = new FavoritWisataModelAdapter(WisataArrayList, new FavoritWisataModelAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(requireContext(), DetailInformasi.class)
+                                            .putExtra(DetailInformasi.ID_WISATA, WisataArrayList.get(position).getIdWisata())
+                            );
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();

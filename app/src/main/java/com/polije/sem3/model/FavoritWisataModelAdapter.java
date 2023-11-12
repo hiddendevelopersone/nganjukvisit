@@ -1,5 +1,6 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,8 @@ import retrofit2.Response;
 public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisataModelAdapter.FavoritWisataViewHolder> {
     private ArrayList<FavoritWisataModel> dataList;
 
+    private OnClickListener tampil;
+
     @NonNull
     @Override
     public FavoritWisataModelAdapter.FavoritWisataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,14 +34,15 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
         return new FavoritWisataViewHolder(view);
     }
 
-    public FavoritWisataModelAdapter(ArrayList<FavoritWisataModel> dataList) {
+    public FavoritWisataModelAdapter(ArrayList<FavoritWisataModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
+        this.tampil = listener;
     }
 
     @Override
-    public void onBindViewHolder(FavoritWisataModelAdapter.FavoritWisataViewHolder holder, int position) {
+    public void onBindViewHolder(FavoritWisataModelAdapter.FavoritWisataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtNama.setText(dataList.get(position).getNamaWisata());
-        holder.txtDesc.setText(dataList.get(position).getDeskripsi());
+        holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
         holder.imgButton.setImageResource(R.drawable.favorite_button_danger);
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,11 +50,34 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
                 holder.imgButton.setImageResource(R.drawable.favorite_button_white);
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    tampil.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
+    }
+
+    private String fitmeTxt (String textDescOrigin) {
+
+        int maxLength = 100; // Panjang maksimal yang diinginkan
+
+        if (textDescOrigin.length() > maxLength) {
+            String limitedText = textDescOrigin.substring(0, maxLength);
+            String finalText = limitedText + " ...";
+            return finalText;
+        } else {
+            // Teks tidak perlu dibatasi
+            String finalText = textDescOrigin;
+            return finalText;
+        }
     }
 
     public class FavoritWisataViewHolder extends RecyclerView.ViewHolder {
@@ -63,6 +90,10 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
             imgButton = itemView.findViewById(R.id.favsbutton);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 
 }

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.polije.sem3.model.RekomendasiWisataAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.WisataResponse;
@@ -29,6 +30,7 @@ public class ListWisata extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private WisataModelAdapter adapter;
+    private RekomendasiWisataAdapter adapter2;
     private ArrayList<WisataModel> WisataArrayList;
 
     Resources resources;
@@ -88,10 +90,25 @@ public class ListWisata extends AppCompatActivity {
             }
         });
 
+        RecyclerView recyclerView1 = findViewById(R.id.recyclerviewListWisataPopuler);
 
-        imageView = findViewById(R.id.imageViewSedudo);
-        imageView.setOnClickListener(v -> startActivity(new Intent(ListWisata.this, DetailInformasi.class)));
+        Client.getInstance().wisatapopuler().enqueue(new Callback<WisataResponse>() {
 
+            @Override
+            public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    adapter2 = new RekomendasiWisataAdapter(response.body().getData());
+                    recyclerView1.setAdapter(adapter2);
+                } else {
+                    Toast.makeText(ListWisata.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WisataResponse> call, Throwable t) {
+                Toast.makeText(ListWisata.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 //    void addData() {

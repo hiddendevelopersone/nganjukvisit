@@ -34,7 +34,7 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
     @Override
     public void onBindViewHolder(WisataModelAdapter.WisataModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtNama.setText(dataList.get(position).getNama());
-        holder.txtDesc.setText(dataList.get(position).getDeskripsi());
+        holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +49,21 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
     @Override
     public int getItemCount() {
         return (dataList != null) ? dataList.size() : 0;
+    }
+
+    private String fitmeTxt (String textDescOrigin) {
+
+        int maxLength = 100; // Panjang maksimal yang diinginkan
+
+        if (textDescOrigin.length() > maxLength) {
+            String limitedText = textDescOrigin.substring(0, maxLength);
+            String finalText = limitedText + " ...";
+            return finalText;
+        } else {
+            // Teks tidak perlu dibatasi
+            String finalText = textDescOrigin;
+            return finalText;
+        }
     }
 
     public class WisataModelViewHolder extends RecyclerView.ViewHolder {
