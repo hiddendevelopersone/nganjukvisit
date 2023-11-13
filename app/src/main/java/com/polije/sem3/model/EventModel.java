@@ -4,20 +4,26 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class EventModel {
-//    private String id_event;
     @Expose
+    @SerializedName("id_event")
+    private String idEvent;
     @SerializedName("nama_event")
     private String nama;
     private String lokasi;
     @SerializedName("jadwal")
     private String tanggaldanwaktu;
     private String hari;
+    private String deskripsi;
+    @SerializedName("contact_person")
+    private String contactPerson;
 
-    public EventModel(String nama, String lokasi, String tanggaldanwaktu, String hari) {
+    public EventModel(String nama, String lokasi, String tanggaldanwaktu, String hari, String idEvent, String contactPerson) {
         this.nama = nama;
         this.lokasi = lokasi;
         this.tanggaldanwaktu = tanggaldanwaktu;
         this.hari = hari;
+        this.idEvent = idEvent;
+        this.contactPerson = contactPerson;
     }
     public void setNama(String nama) {
         this.nama = nama;
@@ -42,5 +48,29 @@ public class EventModel {
     }
     public String getTanggaldanwaktu() {
         return tanggaldanwaktu;
+    }
+
+    public String getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(String idEvent) {
+        this.idEvent = idEvent;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
     }
 }

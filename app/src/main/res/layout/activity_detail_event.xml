@@ -32,7 +32,7 @@
                 />
 
             <TextView
-                android:id="@+id/namaWisata"
+                android:id="@+id/namaEvent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingEnd="50dp"
@@ -102,6 +102,7 @@
                 android:id="@+id/jadwalEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:text="Minggu, 12 November 2023 12:00"
                 android:textColor="@color/black"/>
 
@@ -119,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ngliman, Sawahan"
+                android:textSize="16sp"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -135,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="089343108904 (Bagas)"
+                android:textSize="16sp"
                 android:textColor="@color/black"/>
 
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import java.util.Locale;
 public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.EventModelViewHolder>{
     private ArrayList<EventModel> dataList;
 
+    private OnClickListener tampil;
+
     @NonNull
     @Override
     public EventModelAdapter.EventModelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -27,16 +30,26 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
         return new EventModelViewHolder(view);
     }
 
-    public EventModelAdapter(ArrayList<EventModel> dataList) {
+    public EventModelAdapter(ArrayList<EventModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
+        this.tampil = listener;
     }
 
 
     @Override
-    public void onBindViewHolder(EventModelViewHolder holder, int position) {
+    public void onBindViewHolder(EventModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
         holder.txtJadwal.setText(dataList.get(position).getHari() + ", " + convertToDate(dataList.get(position).getTanggaldanwaktu()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    tampil.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -68,4 +81,9 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
             txtJadwal = (TextView) itemView.findViewById(R.id.jadwalEvent);
         }
     }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
+    }
+
 }

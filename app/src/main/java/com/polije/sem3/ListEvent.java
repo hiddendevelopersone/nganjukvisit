@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -35,7 +36,16 @@ public class ListEvent extends AppCompatActivity {
             @Override
             public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new EventModelAdapter(response.body().getData());
+                    EventArrayList = response.body().getData();
+                    adapter = new EventModelAdapter(EventArrayList, new EventModelAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(ListEvent.this, DetailEvent.class)
+                                            .putExtra(DetailEvent.ID_EVENT, EventArrayList.get(position).getIdEvent())
+                            );
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(ListEvent.this, "Data Kosong", Toast.LENGTH_SHORT).show();

@@ -176,8 +176,9 @@
                 android:textStyle="bold"/>
 
             <LinearLayout
+                android:id="@+id/linearLayoutUlasan"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:background="@color/material_dynamic_neutral95"
                 android:layout_marginTop="10dp"
                 android:paddingVertical="5dp"
@@ -189,6 +190,7 @@
                         android:paddingHorizontal="4dp"
                         tools:listitem="@layout/activity_row_ulasan"
                         android:orientation="vertical"
+                        android:scrollbars="none"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         android:layout_height="wrap_content"/>
 

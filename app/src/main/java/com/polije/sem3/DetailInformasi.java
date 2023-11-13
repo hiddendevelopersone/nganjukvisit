@@ -17,9 +17,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +33,11 @@ import com.polije.sem3.model.UlasanModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
 import com.polije.sem3.response.DetailWisataResponse;
+import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -68,6 +72,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private String idSelected;
 
     private String destination;
+    private String getComment;
 
     private ActivityDetailInformasiBinding binding;
 
@@ -172,8 +177,16 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             @Override
             public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapterUlasan = new UlasanModelAdapter(response.body().getData());
-                    binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                    if (response.body().getData() != null && !response.body().getData().isEmpty()) {
+                        adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                        binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                    } else {
+                        TextView emptyTextView = new TextView(DetailInformasi.this);
+                        emptyTextView.setText("Belum ada ulasan");
+                        emptyTextView.setGravity(Gravity.CENTER);
+                        binding.linearLayoutUlasan.setPadding(10, 100, 100, 50);
+                        binding.linearLayoutUlasan.addView(emptyTextView);
+                    }
                 } else {
                     Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
                 }
@@ -237,6 +250,32 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 }
             }else {
                 Toast.makeText(DetailInformasi.this, "Lokasi maps tidak tersedia", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        UsersUtil usersUtil = new UsersUtil(this);
+        String idpengguna = usersUtil.getId();
+        String fullnama = usersUtil.getFullName();
+
+        binding.btnSendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getComment = String.valueOf(binding.txtAddComment.getText());
+                Client.getInstance().kirimulasan(idpengguna, fullnama, getComment, idSelected).enqueue(new Callback<UlasanKirimResponse>() {
+                    @Override
+                    public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
+                        Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

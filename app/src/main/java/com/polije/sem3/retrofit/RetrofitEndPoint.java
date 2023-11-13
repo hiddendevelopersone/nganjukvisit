@@ -1,5 +1,6 @@
 package com.polije.sem3.retrofit;
 
+import com.polije.sem3.response.DetailEventResponse;
 import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.FavoritKulinerResponse;
@@ -7,6 +8,7 @@ import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -71,6 +73,20 @@ public interface RetrofitEndPoint {
     @GET("data_ulasan.php")
     Call<UlasanResponse> ulasan(
             @Query("id_selected") String id_selected
+    );
+
+    @FormUrlEncoded
+    @POST("tambah_ulasan.php")
+    Call<UlasanKirimResponse> kirimulasan(
+            @Field("idPengguna") String idPengguna,
+            @Field("nama_pengguna") String namaPengguna,
+            @Field("comment") String comment,
+            @Field("wisataid") String idWisata
+    );
+
+    @GET("detailed_data_event.php")
+    Call<DetailEventResponse> detailevent(
+            @Query("id_selected") String idSelected
     );
 
     @FormUrlEncoded
