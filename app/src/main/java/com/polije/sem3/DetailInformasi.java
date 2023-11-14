@@ -70,7 +70,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     public static String ID_WISATA = "id";
 
     private String idSelected;
-
+    private TextView emptyTextView;
     private String destination;
     private String getComment;
 
@@ -93,6 +93,8 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         itemizedIconOverlay = new ItemizedIconOverlay<>(this, new ArrayList<>(), null);
 
         availablelinkmaps = true;
+
+        emptyTextView = new TextView(DetailInformasi.this);
 
         binding = ActivityDetailInformasiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -181,10 +183,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         adapterUlasan = new UlasanModelAdapter(response.body().getData());
                         binding.recyclerviewUlasan.setAdapter(adapterUlasan);
                     } else {
-                        TextView emptyTextView = new TextView(DetailInformasi.this);
                         emptyTextView.setText("Belum ada ulasan");
                         emptyTextView.setGravity(Gravity.CENTER);
-                        binding.linearLayoutUlasan.setPadding(10, 100, 100, 50);
+                        binding.linearLayoutUlasan.setPadding(10, 100, 50, 100);
                         binding.linearLayoutUlasan.addView(emptyTextView);
                     }
                 } else {
@@ -265,6 +266,32 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                     @Override
                     public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                            Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+                                @Override
+                                public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                        if (response.body().getData() != null && !response.body().getData().isEmpty()) {
+                                            adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                                            emptyTextView.setVisibility(View.GONE);
+                                            binding.linearLayoutUlasan.setPadding(0,0,0,0);
+                                            binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                                        } else {
+                                            // nothing
+                                        }
+                                    } else {
+                                        Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                                    Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            binding.txtAddComment.setText(null);
+                        } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("fail")) {
                             Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

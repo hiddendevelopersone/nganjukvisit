@@ -26,9 +26,13 @@ import android.widget.Toast;
 
 import com.polije.sem3.network.BaseResponse;
 import com.polije.sem3.network.UploadService;
+import com.polije.sem3.response.UserResponse;
+import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 import com.polije.sem3.utility.FileUtils;
 import com.polije.sem3.utility.ImageUtils;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +70,8 @@ public class Profiles extends Fragment {
     private String mParam2;
 
     private ImageView imgThumb;
+
+    private EditText editNamaText, emailText, alamatText, notelpText;
     public Profiles() {
         // Required empty public constructor
     }
@@ -113,25 +119,32 @@ public class Profiles extends Fragment {
         TextView btnChoose = (TextView) view.findViewById(R.id.choosePictures);
         Button btnUpload2 = (Button) view.findViewById(R.id.btn_upload_2);
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
-        EditText editText = (EditText) view.findViewById(R.id.edt_namalengkap);
-        EditText emailText = (EditText) view.findViewById(R.id.edt_emailaddr);
-        EditText alamatText = (EditText) view.findViewById(R.id.edt_alamat);
-        EditText notelpText = (EditText) view.findViewById(R.id.edt_notelp);
+        editNamaText = (EditText) view.findViewById(R.id.edt_namalengkap);
+        emailText = (EditText) view.findViewById(R.id.edt_emailaddr);
+        alamatText = (EditText) view.findViewById(R.id.edt_alamat);
+        notelpText = (EditText) view.findViewById(R.id.edt_notelp);
 
         // get data akun yang sedang login
         UsersUtil util = new UsersUtil(requireContext());
-        editText.setText(util.getFullName());
-        emailText.setText(util.getEmail());
-        notelpText.setText(util.getNoTelp());
-        alamatText.setText(util.getAlamat());
+        String idPengguna = util.getId();
+        String namaPengguna = util.getFullName();
+        String emailPengguna = util.getEmail();
+        String notelpPengguna = util.getNoTelp();
+        String alamatPengguna = util.getAlamat();
+
+        // set text ke field
+        editNamaText.setText(namaPengguna);
+        emailText.setText(emailPengguna);
+        notelpText.setText(notelpPengguna);
+        alamatText.setText(alamatPengguna);
 
         // Scroll up for more visibility edittext
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editNamaText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
-                    scrollView.scrollTo(0, editText.getTop());
+                    scrollView.scrollTo(0, editNamaText.getTop());
                 }
             }});
 
@@ -160,6 +173,32 @@ public class Profiles extends Fragment {
 
                 String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
                 uploadBase64(encoded);
+
+                String namaUser = String.valueOf(editNamaText.getText());
+                String emailUser = String.valueOf(emailText.getText());
+                String alamatUser = String.valueOf(alamatText.getText());
+                String notelpUser = String.valueOf(notelpText.getText());
+                // update data
+                Client.getInstance().updateprofiles(idPengguna, namaUser, emailUser, alamatUser, notelpUser).enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+
+                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+
+                            util.setAlamat(alamatUser);
+                            util.setNoTelp(notelpUser);
+                        }
+                        else {
+                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+
+                    }
+                });
             }else{
                 Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
             }

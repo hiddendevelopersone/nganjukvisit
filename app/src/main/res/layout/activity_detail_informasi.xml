@@ -188,7 +188,6 @@
                         android:id="@+id/recyclerviewUlasan"
                         android:layout_width="match_parent"
                         android:paddingHorizontal="4dp"
-                        tools:listitem="@layout/activity_row_ulasan"
                         android:orientation="vertical"
                         android:scrollbars="none"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

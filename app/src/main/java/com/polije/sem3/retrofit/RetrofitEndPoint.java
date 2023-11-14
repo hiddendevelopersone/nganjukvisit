@@ -84,6 +84,16 @@ public interface RetrofitEndPoint {
             @Field("wisataid") String idWisata
     );
 
+    @FormUrlEncoded
+    @POST("update_profiles.php")
+    Call<UserResponse> updateprofiles(
+            @Field("iduser") String idUser,
+            @Field("fullname") String fullname,
+            @Field("email") String email,
+            @Field("alamat") String alamat,
+            @Field("notelp") String notelp
+    );
+
     @GET("detailed_data_event.php")
     Call<DetailEventResponse> detailevent(
             @Query("id_selected") String idSelected
