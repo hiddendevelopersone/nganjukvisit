@@ -8,6 +8,7 @@ import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.response.ResponseGetGambarProfil;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.UserResponse;
@@ -115,5 +116,10 @@ public interface RetrofitEndPoint {
     @POST("favorit_kuliner.php")
     Call<FavoritKulinerResponse> favkuliner(
             @Field("idpengguna") String iduser
+    );
+    @FormUrlEncoded
+    @POST("../user_profiles/show_profiles.php")
+    Call<ResponseGetGambarProfil> getGambar(
+            @Field("idPengguna") String idPengguna
     );
 }

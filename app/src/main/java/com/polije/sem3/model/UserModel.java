@@ -22,8 +22,10 @@ public class UserModel {
     private String noTelepon;
     @SerializedName("alamat")
     private String alamat;
+    @SerializedName("gambar")
+    private String gambar;
 
-    public UserModel(String idUser, String username, String passwordUser, String fullName, String emailUser, String noTelepon, String alamat) {
+    public UserModel(String idUser, String username, String passwordUser, String fullName, String emailUser, String noTelepon, String alamat, String gambar) {
         this.idUser = idUser;
         this.username = username;
         this.passwordUser = passwordUser;
@@ -31,6 +33,7 @@ public class UserModel {
         this.emailUser = emailUser;
         this.noTelepon = noTelepon;
         this.alamat = alamat;
+        this.gambar = gambar;
     }
 
     public String getAlamat() {
@@ -87,5 +90,21 @@ public class UserModel {
 
     public void setNoTelepon(String noTelepon) {
         this.noTelepon = noTelepon;
+    }
+
+    public String getLevelUser() {
+        return levelUser;
+    }
+
+    public void setLevelUser(String levelUser) {
+        this.levelUser = levelUser;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }

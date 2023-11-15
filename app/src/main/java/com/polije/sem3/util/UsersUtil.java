@@ -17,7 +17,7 @@ public class UsersUtil {
             setFullName(model.getFullName());
             setAlamat(model.getAlamat());
 //            setVerified(model.getVerified());
-//            setUserPhoto(model.getUserPhoto());
+            setUserPhoto(model.getGambar());
             setNoTelp(model.getNoTelepon());
         }
     }

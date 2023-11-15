@@ -1,5 +1,7 @@
 package com.polije.sem3.network;
 
+import com.polije.sem3.response.FavoritKulinerResponse;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -20,5 +22,8 @@ public interface UploadInterface {
     @POST(Config.API_UPLOAD)
     Call<BaseResponse> uploadPhotoBase64(
             @Field("action") String action,
-            @Field("photo") String photo);
+            @Field("photo") String photo,
+            @Field("iduser") String idUser);
+
+
 }

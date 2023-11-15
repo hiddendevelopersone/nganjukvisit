@@ -24,8 +24,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.network.BaseResponse;
+import com.polije.sem3.network.Config;
+import com.polije.sem3.network.UploadInterface;
 import com.polije.sem3.network.UploadService;
+import com.polije.sem3.response.FavoritKulinerResponse;
+import com.polije.sem3.response.ResponseGetGambarProfil;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
@@ -71,7 +76,10 @@ public class Profiles extends Fragment {
 
     private ImageView imgThumb;
 
+    private String ambilGambarBaru = "";
+
     private EditText editNamaText, emailText, alamatText, notelpText;
+
     public Profiles() {
         // Required empty public constructor
     }
@@ -108,14 +116,17 @@ public class Profiles extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profiles, container, false);
+
     }
+
+    private String gambarPengguna;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         imgThumb = view.findViewById(R.id.img_thumb);
-
+        getGambar();
         TextView btnChoose = (TextView) view.findViewById(R.id.choosePictures);
         Button btnUpload2 = (Button) view.findViewById(R.id.btn_upload_2);
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
@@ -131,6 +142,10 @@ public class Profiles extends Fragment {
         String emailPengguna = util.getEmail();
         String notelpPengguna = util.getNoTelp();
         String alamatPengguna = util.getAlamat();
+        gambarPengguna = util.getUserPhoto();
+
+        // tampil gambar/foto pengguna
+        Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
 
         // set text ke field
         editNamaText.setText(namaPengguna);
@@ -146,7 +161,8 @@ public class Profiles extends Fragment {
                     // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
                     scrollView.scrollTo(0, editNamaText.getTop());
                 }
-            }});
+            }
+        });
 
         emailText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -155,7 +171,8 @@ public class Profiles extends Fragment {
                     // Gulirkan tampilan ke EditText saat EditText mendapatkan fokus
                     scrollView.scrollTo(0, emailText.getTop());
                 }
-            }});
+            }
+        });
 
         btnChoose.setOnClickListener(v -> {
 
@@ -163,7 +180,7 @@ public class Profiles extends Fragment {
         });
 
         btnUpload2.setOnClickListener(v -> {
-            if(uri != null) {
+            if (uri != null) {
                 Bitmap bitmap = null;
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), uri);
@@ -173,23 +190,28 @@ public class Profiles extends Fragment {
 
                 String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
                 uploadBase64(encoded);
-
                 String namaUser = String.valueOf(editNamaText.getText());
                 String emailUser = String.valueOf(emailText.getText());
                 String alamatUser = String.valueOf(alamatText.getText());
                 String notelpUser = String.valueOf(notelpText.getText());
+
                 // update data
                 Client.getInstance().updateprofiles(idPengguna, namaUser, emailUser, alamatUser, notelpUser).enqueue(new Callback<UserResponse>() {
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
 
-                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
 
+                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                            UsersUtil util = new UsersUtil(requireContext());
                             util.setAlamat(alamatUser);
                             util.setNoTelp(notelpUser);
-                        }
-                        else {
+//                            util.setUserPhoto(ambilGambarBaru);
+                            Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
+
+
+
+                        } else {
                             Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -199,10 +221,12 @@ public class Profiles extends Fragment {
 
                     }
                 });
-            }else{
+//                getGambar();
+            } else {
                 Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private void choosePhoto() {
@@ -218,6 +242,25 @@ public class Profiles extends Fragment {
 //        }else{
 //        }
         openGallery();
+
+    }
+
+    public void onResume() {
+        super.onResume();
+
+        UsersUtil usersUtil = new UsersUtil(requireActivity());
+        String emailUser = usersUtil.getEmail();
+        String namaUser = usersUtil.getFullName();
+        String alamatUser = usersUtil.getAlamat();
+        String notelpUser = usersUtil.getNoTelp();
+        String gambarUser = usersUtil.getUserPhoto();
+
+        editNamaText.setText(namaUser);
+        emailText.setText(emailUser);
+        alamatText.setText(alamatUser);
+        notelpText.setText(notelpUser);
+//        getGambar();
+//        Glide.with(requireContext()).load(Config.API_IMAGE + gambarUser).into(imgThumb);
     }
 
     public void openGallery() {
@@ -229,12 +272,14 @@ public class Profiles extends Fragment {
 
     private void uploadBase64(String imgBase64) {
         UploadService uploadService = new UploadService();
-        uploadService.uploadPhotoBase64(TYPE_2, imgBase64).enqueue(new retrofit2.Callback<BaseResponse>() {
+        UsersUtil util = new UsersUtil(requireActivity());
+        String idPengguna = util.getId();
+        uploadService.uploadPhotoBase64(TYPE_2, imgBase64, idPengguna).enqueue(new retrofit2.Callback<BaseResponse>() {
             @Override
             public void onResponse(retrofit2.Call<BaseResponse> call, retrofit2.Response<BaseResponse> response) {
-                if(response != null) {
+                if (response != null) {
                     Toast.makeText(requireActivity(), response.message(), Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(requireActivity(), "GAGAL", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -242,12 +287,32 @@ public class Profiles extends Fragment {
             @Override
             public void onFailure(retrofit2.Call<BaseResponse> call, Throwable t) {
                 Toast.makeText(requireActivity(), "GAGAL 2", Toast.LENGTH_SHORT).show();
-            t.printStackTrace();
+                t.printStackTrace();
             }
         });
 
     }
+    public void getGambar(){
+        UsersUtil util = new UsersUtil(requireContext());
+        String idPengguna = util.getId();
+        Client.getInstance().getGambar(idPengguna).enqueue(new Callback<ResponseGetGambarProfil>() {
+            @Override
+            public void onResponse(Call<ResponseGetGambarProfil> call, Response<ResponseGetGambarProfil> response) {
+               if (response.body().getStatus().equalsIgnoreCase("success")){
+                ambilGambarBaru = response.body().getData();
+                   Toast.makeText(getActivity(), "new : "+ambilGambarBaru, Toast.LENGTH_SHORT).show();
+                   Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
+               }else {
+                   Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+               }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseGetGambarProfil> call, Throwable t) {
+                Toast.makeText(getActivity(), "error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -268,7 +333,7 @@ public class Profiles extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK) {
-            if(data != null) {
+            if (data != null) {
                 uri = data.getData();
 
                 imgThumb.setImageURI(uri);

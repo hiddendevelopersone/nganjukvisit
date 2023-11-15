@@ -26,6 +26,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textview.MaterialTextView;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.databinding.ActivityMapJavaBinding;
@@ -154,6 +155,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                         destination = linkmaps;
                     }
 
+                    Glide.with(DetailInformasi.this).load(Client.IMG_DATA + dataListWisata.getGambar()).into(binding.imageView);
                     binding.namaWisata.setText(dataListWisata.getNama());
                     binding.deskripsiWisata.setText(dataListWisata.getDeskripsi());
                     binding.jamOperasional.setText(dataListWisata.getJadwal());

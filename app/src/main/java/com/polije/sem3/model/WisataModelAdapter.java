@@ -1,17 +1,24 @@
 package com.polije.sem3.model;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.polije.sem3.ListWisata;
 import com.polije.sem3.R;
+import com.polije.sem3.network.Config;
+import com.polije.sem3.retrofit.Client;
 
 import java.util.ArrayList;
+
 
 public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.WisataModelViewHolder> {
     @NonNull
@@ -21,6 +28,8 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         View view = layoutInflater.inflate(R.layout.activity_row_wisata, parent, false);     // layoutfordisplay
         return new WisataModelViewHolder(view);
     }
+
+    private Context context;
 
     private ArrayList<WisataModel> dataList;
 
@@ -35,6 +44,8 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
     public void onBindViewHolder(WisataModelAdapter.WisataModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
+//        holder.imgWisata.setImageResource(dataList.get(position).getGambar());
+        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +80,14 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
     public class WisataModelViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtNama, txtDesc;
+        private ImageView imgWisata;
 
         public WisataModelViewHolder(View itemView) {
 
             super(itemView);
             txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
+            imgWisata = (ImageView) itemView.findViewById(R.id.imageWisata);
         }
     }
 
