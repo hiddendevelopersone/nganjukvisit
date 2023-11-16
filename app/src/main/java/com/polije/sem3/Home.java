@@ -20,6 +20,7 @@ import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
+import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
@@ -86,6 +87,7 @@ public class Home extends Fragment {
     private RekomendasiWisataAdapter adapter2;
     private RekomendasiKulinerAdapter adapter3;
     private EventModelAdapter adapter4;
+    private ArrayList<WisataModel> wisataArraylist;
     private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
 
@@ -165,7 +167,16 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter2 = new RekomendasiWisataAdapter(response.body().getData());
+                    wisataArraylist = response.body().getData();
+                    adapter2 = new RekomendasiWisataAdapter(wisataArraylist, new RekomendasiWisataAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(requireContext(), DetailInformasi.class)
+                                            .putExtra(DetailInformasi.ID_WISATA, wisataArraylist.get(position).getIdwisata())
+                            );
+                        }
+                    });
                     recyclerView1.setAdapter(adapter2);
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();

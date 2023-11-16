@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModelAdapter.PenginapanModelViewHolder>{
     private ArrayList<PenginapanModel> dataList;
+    private OnClickListener tampil;
 
     @NonNull
     @Override
@@ -23,14 +24,22 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
         return new PenginapanModelViewHolder(view);
     }
 
-    public PenginapanModelAdapter(ArrayList<PenginapanModel> datalist) {
+    public PenginapanModelAdapter(ArrayList<PenginapanModel> datalist, OnClickListener listener) {
         this.dataList = datalist;
+        this.tampil = listener;
     }
 
     @Override
     public void onBindViewHolder(PenginapanModelViewHolder holder, int position) {
         holder.txtTitle.setText(dataList.get(position).getJudulPenginapan());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tampil.onItemClick(position);
+            }
+        });
     }
 
     @Override
@@ -45,5 +54,9 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
             txtTitle = (TextView) itemView.findViewById(R.id.penginapanTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 }

@@ -31,7 +31,7 @@ public class ListWisata extends AppCompatActivity {
     private RecyclerView recyclerView;
     private WisataModelAdapter adapter;
     private RekomendasiWisataAdapter adapter2;
-    private ArrayList<WisataModel> WisataArrayList;
+    private ArrayList<WisataModel> WisataArrayList, WisataArrayList2;
 
     Resources resources;
     private String textDescOrigin, textViewDesc;
@@ -97,7 +97,16 @@ public class ListWisata extends AppCompatActivity {
             @Override
             public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter2 = new RekomendasiWisataAdapter(response.body().getData());
+                    WisataArrayList2 = response.body().getData();
+                    adapter2 = new RekomendasiWisataAdapter(WisataArrayList2, new RekomendasiWisataAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(ListWisata.this, DetailInformasi.class)
+                                            .putExtra(DetailInformasi.ID_WISATA, WisataArrayList2.get(position).getIdwisata())
+                            );
+                        }
+                    });
                     recyclerView1.setAdapter(adapter2);
                 } else {
                     Toast.makeText(ListWisata.this, "Data Kosong", Toast.LENGTH_SHORT).show();

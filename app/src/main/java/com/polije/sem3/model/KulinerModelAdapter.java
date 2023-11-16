@@ -1,5 +1,6 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapter.KulinerModelViewHolder> {
     private ArrayList<KulinerModel> dataList;
+    private OnClickListener tampil;
 
     @NonNull
     @Override
@@ -23,14 +25,23 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
         return new KulinerModelViewHolder(view);
     }
 
-    public KulinerModelAdapter(ArrayList<KulinerModel> dataList) {
+    public KulinerModelAdapter(ArrayList<KulinerModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
+        this.tampil = listener;
     }
 
     @Override
-    public void onBindViewHolder(KulinerModelAdapter.KulinerModelViewHolder holder, int position) {
+    public void onBindViewHolder(KulinerModelAdapter.KulinerModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    tampil.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -45,5 +56,9 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
             txtTitle = (TextView) itemView.findViewById(R.id.nameKuliner);
             txtLokasi = (TextView) itemView.findViewById(R.id.alamatKuliner);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 }

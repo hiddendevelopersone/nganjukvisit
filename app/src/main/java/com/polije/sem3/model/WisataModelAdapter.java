@@ -29,8 +29,6 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
         return new WisataModelViewHolder(view);
     }
 
-    private Context context;
-
     private ArrayList<WisataModel> dataList;
 
     private OnClickListener tampil;

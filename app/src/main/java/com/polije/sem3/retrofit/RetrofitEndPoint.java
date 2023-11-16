@@ -1,6 +1,8 @@
 package com.polije.sem3.retrofit;
 
 import com.polije.sem3.response.DetailEventResponse;
+import com.polije.sem3.response.DetailKulinerResponse;
+import com.polije.sem3.response.DetailPenginapanResponse;
 import com.polije.sem3.response.DetailWisataResponse;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.FavoritKulinerResponse;
@@ -69,6 +71,16 @@ public interface RetrofitEndPoint {
     @GET("detailed_data_wisata.php")
     Call<DetailWisataResponse> detailwisata(
             @Query("id_selected") String id_selected
+    );
+
+    @GET("detailed_data_kuliner.php")
+    Call<DetailKulinerResponse> detailkuliner(
+            @Query("id_selected") String idKuliner
+    );
+
+    @GET("detailed_data_penginapan.php")
+    Call<DetailPenginapanResponse> detailpenginapan(
+            @Query("id_selected") String idPenginapan
     );
 
     @GET("data_ulasan.php")

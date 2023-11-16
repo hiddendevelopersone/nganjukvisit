@@ -11,12 +11,16 @@ public class KulinerModel {
     private String nama;
     private String deskripsi;
     private String lokasi;
+    private String gambar;
+    private String linkmaps;
 
-    public KulinerModel(String idKuliner, String nama, String deskripsi, String lokasi) {
+    public KulinerModel(String idKuliner, String nama, String deskripsi, String lokasi, String gambar, String linkmaps) {
         this.idKuliner = idKuliner;
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.lokasi = lokasi;
+        this.gambar = gambar;
+        this.linkmaps = linkmaps;
     }
 
     public String getIdKuliner() {
@@ -49,5 +53,21 @@ public class KulinerModel {
 
     public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
+    }
+
+    public String getLinkmaps() {
+        return linkmaps;
+    }
+
+    public void setLinkmaps(String linkmaps) {
+        this.linkmaps = linkmaps;
     }
 }

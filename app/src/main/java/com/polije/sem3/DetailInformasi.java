@@ -264,47 +264,51 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             @Override
             public void onClick(View v) {
                 getComment = String.valueOf(binding.txtAddComment.getText());
-                Client.getInstance().kirimulasan(idpengguna, fullnama, getComment, idSelected).enqueue(new Callback<UlasanKirimResponse>() {
-                    @Override
-                    public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                            Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
-                                @Override
-                                public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
-                                    if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                                        if (response.body().getData() != null && !response.body().getData().isEmpty()) {
-                                            adapterUlasan = new UlasanModelAdapter(response.body().getData());
-                                            emptyTextView.setVisibility(View.GONE);
-                                            binding.linearLayoutUlasan.setPadding(0,0,0,0);
-                                            binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                if(!getComment.isEmpty()) {
+                    Client.getInstance().kirimulasan(idpengguna, fullnama, getComment, idSelected).enqueue(new Callback<UlasanKirimResponse>() {
+                        @Override
+                        public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+                                    @Override
+                                    public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                            if (response.body().getData() != null && !response.body().getData().isEmpty()) {
+                                                adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                                                emptyTextView.setVisibility(View.GONE);
+                                                binding.linearLayoutUlasan.setPadding(0,0,0,0);
+                                                binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                                            } else {
+                                                // nothing
+                                            }
                                         } else {
-                                            // nothing
+                                            Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
                                         }
-                                    } else {
-                                        Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<UlasanResponse> call, Throwable t) {
-                                    Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                                        Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            binding.txtAddComment.setText(null);
-                        } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("fail")) {
-                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                binding.txtAddComment.setText(null);
+                            } else if (response.body() != null && response.body().getStatus().equalsIgnoreCase("fail")) {
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
-                        Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
+                            Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    Toast.makeText(DetailInformasi.this, "Anda harus mengisi komentar", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

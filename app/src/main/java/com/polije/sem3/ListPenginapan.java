@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -37,7 +38,17 @@ public class ListPenginapan extends AppCompatActivity {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new PenginapanModelAdapter(response.body().getData());
+                    PenginapanArrayList = response.body().getData();
+
+                    adapter = new PenginapanModelAdapter(response.body().getData(), new PenginapanModelAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(ListPenginapan.this, DetailPenginapan.class)
+                                            .putExtra(DetailPenginapan.ID_PENGINAPAN, PenginapanArrayList.get(position).getIdPenginapan())
+                            );
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 } else {
                     Toast.makeText(ListPenginapan.this, "Data Kosong", Toast.LENGTH_SHORT).show();

@@ -3,6 +3,7 @@ package com.polije.sem3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -36,7 +37,16 @@ public class ListKuliner extends AppCompatActivity {
             @Override
             public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                 if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new KulinerModelAdapter(response.body().getData());
+                    KulinerArrayList = response.body().getData();
+                    adapter = new KulinerModelAdapter(KulinerArrayList, new KulinerModelAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(ListKuliner.this, DetailKuliner.class)
+                                            .putExtra(DetailKuliner.ID_KULINER, KulinerArrayList.get(position).getIdKuliner())
+                            );
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
                 }else {
                     Toast.makeText(ListKuliner.this, "Data Kosong", Toast.LENGTH_SHORT).show();
