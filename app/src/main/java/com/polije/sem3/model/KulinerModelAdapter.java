@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
+import com.polije.sem3.retrofit.Client;
 
 import java.util.ArrayList;
 
@@ -34,6 +37,7 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
     public void onBindViewHolder(KulinerModelAdapter.KulinerModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getNama());
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
+        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,10 +55,12 @@ public class KulinerModelAdapter extends RecyclerView.Adapter<KulinerModelAdapte
 
     public class KulinerModelViewHolder extends RecyclerView.ViewHolder{
         private TextView txtTitle, txtLokasi;
+        private ImageView imgWisata;
         public KulinerModelViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.nameKuliner);
             txtLokasi = (TextView) itemView.findViewById(R.id.alamatKuliner);
+            imgWisata = (ImageView) itemView.findViewById(R.id.imageViewKuliner);
         }
     }
 

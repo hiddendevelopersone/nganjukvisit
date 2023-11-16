@@ -101,16 +101,18 @@ public class Favs extends Fragment {
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 WisataArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new FavoritWisataModelAdapter(WisataArrayList, new FavoritWisataModelAdapter.OnClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            startActivity(
-                                    new Intent(requireContext(), DetailInformasi.class)
-                                            .putExtra(DetailInformasi.ID_WISATA, WisataArrayList.get(position).getIdWisata())
-                            );
-                        }
-                    });
-                    recyclerView.setAdapter(adapter);
+                    if (!WisataArrayList.isEmpty()) {
+                        adapter = new FavoritWisataModelAdapter(WisataArrayList, new FavoritWisataModelAdapter.OnClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                startActivity(
+                                        new Intent(requireContext(), DetailInformasi.class)
+                                                .putExtra(DetailInformasi.ID_WISATA, WisataArrayList.get(position).getIdWisata())
+                                );
+                            }
+                        });
+                        recyclerView.setAdapter(adapter);
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
                 }

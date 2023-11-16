@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
+import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
@@ -88,6 +89,7 @@ public class Home extends Fragment {
     private RekomendasiKulinerAdapter adapter3;
     private EventModelAdapter adapter4;
     private ArrayList<WisataModel> wisataArraylist;
+    private ArrayList<KulinerModel> KulinerArrayList;
     private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
 
@@ -195,7 +197,16 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<KulinerResponse> call, Response<KulinerResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter3 = new RekomendasiKulinerAdapter(response.body().getData());
+                    KulinerArrayList = response.body().getData();
+                    adapter3 = new RekomendasiKulinerAdapter(KulinerArrayList, new RekomendasiKulinerAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(requireContext(), DetailKuliner.class)
+                                            .putExtra(DetailKuliner.ID_KULINER, KulinerArrayList.get(position).getIdKuliner())
+                            );
+                        }
+                    });
                     recyclerView2.setAdapter(adapter3);
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
