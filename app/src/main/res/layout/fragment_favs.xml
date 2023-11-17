@@ -55,6 +55,7 @@
         >
 
         <TextView
+            android:id="@+id/favsWisataJudul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Wisata"
@@ -74,6 +75,7 @@
             />
 
         <TextView
+            android:id="@+id/favsPenginapanJudul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -92,6 +94,7 @@
             />
 
         <TextView
+            android:id="@+id/favsKulinerJudul"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

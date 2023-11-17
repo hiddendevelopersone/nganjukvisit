@@ -17,6 +17,7 @@ import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.response.WisataResponse;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -29,6 +30,13 @@ public interface RetrofitEndPoint {
     Call<UserResponse> login(
             @Field("userid") String userid,
             @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("login_google.php")
+    Call<UserResponse> logingoogle(
+            @Field("email") String userEmail,
+            @Field("device_token") String deviceToken
     );
 
     @FormUrlEncoded
@@ -129,9 +137,16 @@ public interface RetrofitEndPoint {
     Call<FavoritKulinerResponse> favkuliner(
             @Field("idpengguna") String iduser
     );
+
     @FormUrlEncoded
     @POST("../user_profiles/show_profiles.php")
     Call<ResponseGetGambarProfil> getGambar(
             @Field("idPengguna") String idPengguna
+    );
+
+    @GET("tambahfavorit_penginapan.php")
+    Call<FavoritPenginapanResponse> tambahfavpenginapan(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_penginapan") String idPenginapan
     );
 }

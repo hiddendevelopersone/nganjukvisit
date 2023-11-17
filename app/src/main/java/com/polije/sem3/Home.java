@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.card.MaterialCardView;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.model.KulinerModel;
@@ -92,6 +93,7 @@ public class Home extends Fragment {
     private ArrayList<KulinerModel> KulinerArrayList;
     private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
+    private MaterialCardView catWisata, catKuliner, catPenginapan, catEvent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,11 +106,50 @@ public class Home extends Fragment {
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
         namaPengguna.setText("Halo! " + userUtil.getFullName());
 
+        // tombol kategori
+        catWisata = rootView.findViewById(R.id.catWisata);
+        catKuliner = rootView.findViewById(R.id.catKuliner);
+        catPenginapan = rootView.findViewById(R.id.catHomestay);
+        catEvent = rootView.findViewById(R.id.catEvent);
+
         // Temukan tombol berdasarkan ID
         CardView button = rootView.findViewById(R.id.showWisata);
         CardView buttonShowEvent = rootView.findViewById(R.id.showEvent);
         CardView buttonShowKuliner = rootView.findViewById(R.id.showKuliner);
         CardView buttonShowPenginapan = rootView.findViewById(R.id.showPenginapan);
+
+        // atur tombol kategori
+        catWisata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ListWisata.class);
+                startActivity(i);
+            }
+        });
+
+        catKuliner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ListKuliner.class);
+                startActivity(i);
+            }
+        });
+
+        catPenginapan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ListPenginapan.class);
+                startActivity(i);
+            }
+        });
+
+        catEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ListEvent.class);
+                startActivity(i);
+            }
+        });
 
         // Atur OnClickListener pada tombol
         button.setOnClickListener(new View.OnClickListener() {

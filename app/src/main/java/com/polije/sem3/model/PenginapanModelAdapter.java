@@ -1,14 +1,18 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
+import com.polije.sem3.retrofit.Client;
 
 import java.util.ArrayList;
 
@@ -30,10 +34,11 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
     }
 
     @Override
-    public void onBindViewHolder(PenginapanModelViewHolder holder, int position) {
+    public void onBindViewHolder(PenginapanModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtTitle.setText(dataList.get(position).getJudulPenginapan());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
 
+        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,10 +54,12 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
 
     public class PenginapanModelViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle, txtDesc;
+        private ImageView imgView;
         public PenginapanModelViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.penginapanTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
+            imgView = (ImageView) itemView.findViewById(R.id.gambarPenginapanList);
         }
     }
 

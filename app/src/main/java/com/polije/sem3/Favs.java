@@ -1,5 +1,6 @@
 package com.polije.sem3;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,12 +9,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.model.FavoritKulinerModelAdapter;
+import com.polije.sem3.model.FavoritPenginapanModel;
 import com.polije.sem3.model.FavoritPenginapanModelAdapter;
 import com.polije.sem3.model.FavoritKulinerModel;
 import com.polije.sem3.model.FavoritWisataModelAdapter;
@@ -84,7 +89,13 @@ public class Favs extends Fragment {
     private FavoritPenginapanModelAdapter adapter2;
     private FavoritKulinerModelAdapter adapter3;
     private ArrayList<FavoritWisataModel> WisataArrayList;
+    private ArrayList<FavoritPenginapanModel> PenginapanArrayList;
+    private ArrayList<FavoritKulinerModel> KulinerArrayList;
+    private TextView favsWisataJudul, favsPenginapanJudul, favsKulinerJudul;
+    private TextView emptyTextView;
+    private LinearLayout contentLayout;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,6 +105,24 @@ public class Favs extends Fragment {
         UsersUtil userUtil = new UsersUtil(requireContext());
         String idUser = userUtil.getId();
 
+        // inisialisasi layout
+        contentLayout = rootView.findViewById(R.id.content);
+
+        // inisiasialisasi emptytextview untuk data kosong
+        emptyTextView = new TextView(requireContext());
+        emptyTextView.setText("Belum Ada yang Disukai");
+        emptyTextView.setTextColor(getResources().getColor(R.color.black));
+        emptyTextView.setTextSize(30);
+        emptyTextView.setGravity(Gravity.CENTER);
+        emptyTextView.setPadding(0, 400, 0, 100);
+        contentLayout.addView(emptyTextView);
+
+        // inisialisasi judul setiap favorit
+        favsWisataJudul = rootView.findViewById(R.id.favsWisataJudul);
+        favsPenginapanJudul = rootView.findViewById(R.id.favsPenginapanJudul);
+        favsKulinerJudul = rootView.findViewById(R.id.favsKulinerJudul);
+
+        // menampilkan recview wisata favorit
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerviewListWisataFavorit);
 
         Client.getInstance().favwisata(idUser).enqueue(new Callback<FavoritWisataResponse>() {
@@ -112,6 +141,9 @@ public class Favs extends Fragment {
                             }
                         });
                         recyclerView.setAdapter(adapter);
+                        emptyTextView.setVisibility(rootView.GONE);
+                    } else {
+                        favsWisataJudul.setVisibility(rootView.GONE);
                     }
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
@@ -125,16 +157,22 @@ public class Favs extends Fragment {
             }
         });
 
-        recyclerView2 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListPenginapanFavorit);
 
+        // menampilkan recview penginapan favorit
+        recyclerView2 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListPenginapanFavorit);
 
         Client.getInstance().favpenginapan(idUser).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
             public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                PenginapanArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-
-                    adapter2 = new FavoritPenginapanModelAdapter(response.body().getData());
-                    recyclerView2.setAdapter(adapter2);
+                    if (!PenginapanArrayList.isEmpty()) {
+                        adapter2 = new FavoritPenginapanModelAdapter(PenginapanArrayList);
+                        recyclerView2.setAdapter(adapter2);
+                        emptyTextView.setVisibility(rootView.GONE);
+                    } else {
+                        favsPenginapanJudul.setVisibility(rootView.GONE);
+                    }
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
                 }
@@ -147,15 +185,24 @@ public class Favs extends Fragment {
             }
         });
 
+        // menampilkan recview kuliner favorit
         recyclerView3 = (RecyclerView) rootView.findViewById(R.id.recyclerviewListKulinerFavorit);
 
         Client.getInstance().favkuliner(idUser).enqueue(new Callback<FavoritKulinerResponse>(){
 
             @Override
             public void onResponse(Call<FavoritKulinerResponse> call, Response<FavoritKulinerResponse> response) {
+                KulinerArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter3 = new FavoritKulinerModelAdapter(response.body().getData());
-                    recyclerView3.setAdapter(adapter3);
+                    if (!KulinerArrayList.isEmpty()) {
+                        adapter3 = new FavoritKulinerModelAdapter(KulinerArrayList);
+                        recyclerView3.setAdapter(adapter3);
+                        emptyTextView.setVisibility(rootView.GONE);
+                    } else {
+                        favsKulinerJudul.setVisibility(rootView.GONE);
+                    }
+
+//                    updateUI();
                 } else {
                     Toast.makeText(requireContext(), "Data Kosong", Toast.LENGTH_SHORT).show();
                 }
@@ -167,6 +214,7 @@ public class Favs extends Fragment {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         return rootView;
     }
