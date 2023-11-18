@@ -106,6 +106,8 @@ public class Home extends Fragment {
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
         namaPengguna.setText("Halo! " + userUtil.getFullName());
 
+        String idPengguna = userUtil.getId();
+
         // tombol kategori
         catWisata = rootView.findViewById(R.id.catWisata);
         catKuliner = rootView.findViewById(R.id.catKuliner);
@@ -193,6 +195,7 @@ public class Home extends Fragment {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                     adapter = new RekomendasiPenginapanAdapter(response.body().getData());
                     recyclerView.setAdapter(adapter);
+
                 } else {
                     Toast.makeText(requireContext(), "data kosong", Toast.LENGTH_SHORT).show();
                 }

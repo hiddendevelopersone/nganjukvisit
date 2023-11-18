@@ -1,17 +1,27 @@
 package com.polije.sem3.model;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.polije.sem3.R;
 import com.polije.sem3.TestRecycler;
+import com.polije.sem3.response.FavoritPenginapanResponse;
+import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritPenginapanModelAdapter.FavoritPenginapanViewHolder> {
     private ArrayList<FavoritPenginapanModel> dataList;
@@ -29,9 +39,36 @@ public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritP
     }
 
     @Override
-    public void onBindViewHolder(FavoritPenginapanModelAdapter.FavoritPenginapanViewHolder holder, int position) {
+    public void onBindViewHolder(FavoritPenginapanModelAdapter.FavoritPenginapanViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        UsersUtil usersUtil = new UsersUtil(holder.itemView.getContext());
+        String idPengguna = usersUtil.getId();
+
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtDesc.setText(dataList.get(position).getDeskripsiPenginapan());
+        holder.imgButton.setImageResource(R.drawable.favorite_button_danger);
+
+
+        holder.imgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.imgButton.setImageResource(R.drawable.favorite_button_white);
+                Client.getInstance().deletefavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                        if (response.body() != null && response.body().getMessage() == "success") {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -41,10 +78,12 @@ public class FavoritPenginapanModelAdapter extends RecyclerView.Adapter<FavoritP
 
     public class FavoritPenginapanViewHolder extends RecyclerView.ViewHolder{
         private TextView txtNama, txtDesc;
+        private ImageView imgButton;
         public FavoritPenginapanViewHolder(View itemView) {
             super(itemView);
             txtNama = (TextView) itemView.findViewById(R.id.penginapanTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
+            imgButton = (ImageView) itemView.findViewById(R.id.buttonFavs);
         }
     }
 }

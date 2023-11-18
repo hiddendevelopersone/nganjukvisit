@@ -15,8 +15,10 @@ public class PenginapanModel {
     private String lokasi;
     private String linkmaps;
     private String gambar;
+    private String telepon;
 
-    public PenginapanModel(String idPenginapan, String idWisata, String judulPenginapan, String deskripsi, String lokasi, String linkmaps, String gambar) {
+    public PenginapanModel(String idPenginapan, String idWisata, String judulPenginapan,
+                           String deskripsi, String lokasi, String linkmaps, String gambar, String telepon) {
         this.idPenginapan = idPenginapan;
         this.idWisata = idWisata;
         this.judulPenginapan = judulPenginapan;
@@ -24,6 +26,7 @@ public class PenginapanModel {
         this.lokasi = lokasi;
         this.linkmaps = linkmaps;
         this.gambar = gambar;
+        this.telepon = telepon;
     }
 
     public String getIdPenginapan() {
@@ -80,5 +83,13 @@ public class PenginapanModel {
 
     public void setGambar(String gambar) {
         this.gambar = gambar;
+    }
+
+    public String getTelepon() {
+        return telepon;
+    }
+
+    public void setTelepon(String telepon) {
+        this.telepon = telepon;
     }
 }

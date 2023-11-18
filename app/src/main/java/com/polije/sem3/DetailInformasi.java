@@ -313,9 +313,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         });
 
         binding.backButtonDetail.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailInformasi.this, ListWisata.class);
-            startActivity(intent);
-//            Toast.makeText(DetailInformasi.this, "tesback", Toast.LENGTH_SHORT).show();
+            onBackPressed();
         });
 
     }
@@ -338,5 +336,9 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         // Handle GPS status changes
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
 }

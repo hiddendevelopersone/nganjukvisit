@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
@@ -27,6 +30,7 @@ public class DetailEvent extends AppCompatActivity {
 
     private EventModel eventArrayList;
     private TextView namaEvent, desc, cp, jadwal, lokasi;
+    private Button btnBack;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -41,27 +45,42 @@ public class DetailEvent extends AppCompatActivity {
         cp = findViewById(R.id.contactPerson);
         jadwal = findViewById(R.id.jadwalEvent);
         lokasi = findViewById(R.id.lokasiEvent);
+        btnBack = findViewById(R.id.backButtonDetail);
 
         Client.getInstance().detailevent(idSelected).enqueue(new Callback<DetailEventResponse>() {
             @Override
             public void onResponse(Call<DetailEventResponse> call, Response<DetailEventResponse> response) {
-                eventArrayList = response.body().getData();
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
 
-                namaEvent.setText(eventArrayList.getNama());
-                desc.setText(eventArrayList.getDeskripsi());
-                cp.setText((!eventArrayList.getContactPerson().isEmpty()) ? eventArrayList.getContactPerson() : "Tidak Diketahui");
-                jadwal.setText(
-                        eventArrayList.getHari() + ", " + convertToDate(eventArrayList.getTanggaldanwaktu())
-                );
+                    eventArrayList = response.body().getData();
 
-                lokasi.setText(eventArrayList.getLokasi());
+                    namaEvent.setText(eventArrayList.getNama());
+                    desc.setText(eventArrayList.getDeskripsi());
+                    cp.setText((!eventArrayList.getContactPerson().isEmpty()) ? eventArrayList.getContactPerson() : "Tidak Diketahui");
+                    jadwal.setText(
+                            eventArrayList.getHari() + ", " + convertToDate(eventArrayList.getTanggaldanwaktu())
+                    );
+
+                    lokasi.setText(eventArrayList.getLokasi());
+
+                } else {
+                    Toast.makeText(DetailEvent.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onFailure(Call<DetailEventResponse> call, Throwable t) {
-
+                Toast.makeText(DetailEvent.this, "Timeout", Toast.LENGTH_SHORT).show();
             }
         });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     public static String convertToDate(@NonNull String date){
@@ -75,6 +94,11 @@ public class DetailEvent extends AppCompatActivity {
             e.printStackTrace();
         }
         return inputDateFormat.toString();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }

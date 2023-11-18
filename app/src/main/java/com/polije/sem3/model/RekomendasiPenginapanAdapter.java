@@ -46,6 +46,19 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
         holder.txtNama.setText(dataList.get(position).getJudulPenginapan());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
 
+        Client.getInstance().cekfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+            @Override
+            public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                }
+            }
+            @Override
+            public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,9 +69,6 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
                         if (response.body() != null && response.body().getMessage() == "success") {
                             Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-//                        else if (response.body().getMessage() == ) {
-//
-//                        }
                         else {
                             Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }

@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ public class DetailKuliner extends AppCompatActivity {
     private KulinerModel kulinerModel;
     private boolean availablelinkmaps;
     private String destination;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class DetailKuliner extends AppCompatActivity {
         lokasiKuliner = findViewById(R.id.alamatKuliner);
         linkMaps = findViewById(R.id.mapsKuliner);
         ImageView gambarCover = findViewById(R.id.KulinerImage);
+        btnBack = findViewById(R.id.backButtonDetail);
 
         // initiate link maps
         availablelinkmaps = true;
@@ -114,5 +118,17 @@ public class DetailKuliner extends AppCompatActivity {
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

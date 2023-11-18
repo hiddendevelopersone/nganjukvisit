@@ -149,4 +149,16 @@ public interface RetrofitEndPoint {
             @Query("id_pengguna") String idPengguna,
             @Query("id_penginapan") String idPenginapan
     );
+
+    @GET("cekfav_penginapan.php")
+    Call<FavoritPenginapanResponse> cekfavpenginapan(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_penginapan") String idPenginapan
+    );
+
+    @GET("deletefav_penginapan.php")
+    Call<FavoritPenginapanResponse> deletefavpenginapan(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_penginapan") String idPenginapan
+    );
 }

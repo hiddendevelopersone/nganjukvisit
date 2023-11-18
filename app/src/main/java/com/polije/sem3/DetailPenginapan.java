@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,9 +28,10 @@ import retrofit2.Response;
 public class DetailPenginapan extends AppCompatActivity {
     public static  String ID_PENGINAPAN;
     private String idSelected;
-    private TextView nama, lokasi, deskripsi, linkmaps, gambar;
+    private TextView nama, lokasi, deskripsi, linkmaps, notelp;
     private PenginapanModel penginapanData;
     private ImageView gambarCover;
+    private Button backButton;
     private boolean availablelinkmaps;
     private String destination;
 
@@ -47,7 +49,9 @@ public class DetailPenginapan extends AppCompatActivity {
         lokasi = findViewById(R.id.alamatPenginapan);
         deskripsi = findViewById(R.id.deskripsiPenginapan);
         linkmaps = findViewById(R.id.mapsPenginapan);
+        notelp = findViewById(R.id.notelp);
         gambarCover = findViewById(R.id.penginapanImage);
+        backButton = findViewById(R.id.backButtonDetail);
 
 //        nama.setText(idSelected);
 
@@ -61,10 +65,16 @@ public class DetailPenginapan extends AppCompatActivity {
                     String lokasiPenginapan = penginapanData.getLokasi();
                     String deskripsiPenginapan = penginapanData.getDeskripsi();
                     String linkmapsPenginapan = penginapanData.getLinkmaps();
+                    String notelpPenginapan = penginapanData.getTelepon();
 
                     nama.setText(namaPenginapan);
                     lokasi.setText(lokasiPenginapan);
                     deskripsi.setText(deskripsiPenginapan);
+
+
+                    String ceknomor = (notelpPenginapan.isEmpty()) ? "Tidak Diketahui" : notelpPenginapan;
+
+                    notelp.setText(ceknomor);
 
                     Glide.with(DetailPenginapan.this).load(Client.IMG_DATA + penginapanData.getGambar()).into(gambarCover);
 
@@ -116,6 +126,17 @@ public class DetailPenginapan extends AppCompatActivity {
                 }
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
 }
