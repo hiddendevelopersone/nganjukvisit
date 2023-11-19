@@ -84,46 +84,30 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
-        android:id="@+id/layoutWisataPopuler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/layoutSearch">
-
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewListWisataPopuler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                tools:listitem="@layout/activity_row_wisata_slide"
-                android:scrollbars="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-            </LinearLayout>
-
-    </HorizontalScrollView>
 
     <LinearLayout
         android:id="@+id/layoutDaftarwisata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/layoutWisataPopuler"
+        app:layout_constraintTop_toBottomOf="@+id/layoutSearch"
         android:orientation="vertical"
         >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewListWisataPopuler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/activity_row_wisata_slide"
+            android:scrollbars="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             android:text="Daftar Wisata"
             android:textColor="@color/black"
@@ -131,6 +115,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerviewListWisata"
+            android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/activity_row_wisata"

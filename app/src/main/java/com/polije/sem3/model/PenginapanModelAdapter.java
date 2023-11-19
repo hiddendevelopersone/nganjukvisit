@@ -6,15 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
+import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModelAdapter.PenginapanModelViewHolder>{
     private ArrayList<PenginapanModel> dataList;
@@ -35,6 +42,9 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
 
     @Override
     public void onBindViewHolder(PenginapanModelViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        UsersUtil usersUtil = new UsersUtil(holder.itemView.getContext());
+        String idPengguna = usersUtil.getId();
+
         holder.txtTitle.setText(dataList.get(position).getJudulPenginapan());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
 
@@ -43,6 +53,42 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
             @Override
             public void onClick(View v) {
                 tampil.onItemClick(position);
+            }
+        });
+
+        Client.getInstance().cekfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+            @Override
+            public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                }
+            }
+            @Override
+            public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.imgFavs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                Client.getInstance().tambahfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoritPenginapanResponse> call, Response<FavoritPenginapanResponse> response) {
+                        if (response.body() != null && response.body().getMessage() == "success") {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoritPenginapanResponse> call, Throwable t) {
+                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
@@ -54,11 +100,12 @@ public class PenginapanModelAdapter extends RecyclerView.Adapter<PenginapanModel
 
     public class PenginapanModelViewHolder extends RecyclerView.ViewHolder {
         private TextView txtTitle, txtDesc;
-        private ImageView imgView;
+        private ImageView imgView, imgFavs;
         public PenginapanModelViewHolder(View itemView) {
             super(itemView);
             txtTitle = (TextView) itemView.findViewById(R.id.penginapanTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
+            imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
             imgView = (ImageView) itemView.findViewById(R.id.gambarPenginapanList);
         }
     }

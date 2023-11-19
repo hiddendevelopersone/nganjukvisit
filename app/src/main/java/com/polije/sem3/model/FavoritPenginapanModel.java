@@ -15,13 +15,15 @@ public class FavoritPenginapanModel {
     private String deskripsiPenginapan;
     @SerializedName("id_user")
     private String idPengguna;
+    private String gambar;
 
-    public FavoritPenginapanModel(String id, String idPenginapan, String nama, String deskripsiPenginapan, String idPengguna) {
+    public FavoritPenginapanModel(String id, String idPenginapan, String nama, String deskripsiPenginapan, String idPengguna, String gambar) {
         this.id = id;
         this.idPenginapan = idPenginapan;
         this.nama = nama;
         this.deskripsiPenginapan = deskripsiPenginapan;
         this.idPengguna = idPengguna;
+        this.gambar = gambar;
     }
 
     public String getId() {
@@ -62,5 +64,13 @@ public class FavoritPenginapanModel {
 
     public void setIdPengguna(String idPengguna) {
         this.idPengguna = idPengguna;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }

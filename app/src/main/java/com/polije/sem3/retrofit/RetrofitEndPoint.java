@@ -144,6 +144,12 @@ public interface RetrofitEndPoint {
             @Field("idPengguna") String idPengguna
     );
 
+    @GET("tambahfavorit_wisata.php")
+    Call<FavoritWisataResponse> tambahfavwisata(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_wisata") String idWisata
+    );
+
     @GET("tambahfavorit_penginapan.php")
     Call<FavoritPenginapanResponse> tambahfavpenginapan(
             @Query("id_pengguna") String idPengguna,

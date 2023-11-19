@@ -25,6 +25,28 @@
                 android:scaleType="centerCrop" />
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/buttonFavs"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/favorite_button_white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/layoutGambar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

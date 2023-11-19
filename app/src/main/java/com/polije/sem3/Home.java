@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
 import com.polije.sem3.model.WisataModel;
-import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -193,7 +191,16 @@ public class Home extends Fragment {
             @Override
             public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                    adapter = new RekomendasiPenginapanAdapter(response.body().getData());
+                    penginapanList = response.body().getData();
+                    adapter = new RekomendasiPenginapanAdapter(penginapanList, new RekomendasiPenginapanAdapter.OnClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startActivity(
+                                    new Intent(requireContext(), DetailPenginapan.class)
+                                            .putExtra(DetailPenginapan.ID_PENGINAPAN, penginapanList.get(position).getIdPenginapan())
+                            );
+                        }
+                    });
                     recyclerView.setAdapter(adapter);
 
                 } else {

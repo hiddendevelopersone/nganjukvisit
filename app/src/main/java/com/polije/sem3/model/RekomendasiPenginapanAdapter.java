@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
 import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.retrofit.Client;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<RekomendasiPenginapanAdapter.RekomendasiPenginapanViewHolder> {
     private ArrayList<PenginapanModel> dataList;
+    private OnClickListener tampil;
 
     @NonNull
     @Override
@@ -33,8 +35,9 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
         return new RekomendasiPenginapanViewHolder(view);
     }
 
-    public RekomendasiPenginapanAdapter(ArrayList<PenginapanModel> dataList) {
+    public RekomendasiPenginapanAdapter(ArrayList<PenginapanModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
+        this.tampil = listener;
     }
 
 
@@ -45,6 +48,13 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
 
         holder.txtNama.setText(dataList.get(position).getJudulPenginapan());
         holder.txtDesc.setText(dataList.get(position).getDeskripsi());
+        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tampil.onItemClick(position);
+            }
+        });
 
         Client.getInstance().cekfavpenginapan(idPengguna, dataList.get(position).getIdPenginapan()).enqueue(new Callback<FavoritPenginapanResponse>() {
             @Override
@@ -90,12 +100,18 @@ public class RekomendasiPenginapanAdapter extends RecyclerView.Adapter<Rekomenda
 
     public class RekomendasiPenginapanViewHolder extends RecyclerView.ViewHolder {
         private TextView txtNama, txtDesc;
-        private ImageView imgFavs;
+        private ImageView imgFavs, imgView;
         public RekomendasiPenginapanViewHolder(View itemView) {
             super(itemView);
             txtNama = (TextView) itemView.findViewById(R.id.penginapanTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDesc);
             imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
+            imgView = (ImageView) itemView.findViewById(R.id.gambarPenginapanList);
         }
     }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
+    }
+
 }

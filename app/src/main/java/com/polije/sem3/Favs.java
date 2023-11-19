@@ -167,7 +167,15 @@ public class Favs extends Fragment {
                 PenginapanArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                     if (!PenginapanArrayList.isEmpty()) {
-                        adapter2 = new FavoritPenginapanModelAdapter(PenginapanArrayList);
+                        adapter2 = new FavoritPenginapanModelAdapter(PenginapanArrayList, new FavoritPenginapanModelAdapter.OnClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                startActivity(
+                                        new Intent(requireContext(), DetailPenginapan.class)
+                                                .putExtra(DetailPenginapan.ID_PENGINAPAN, PenginapanArrayList.get(position).getIdPenginapan())
+                                );
+                            }
+                        });
                         recyclerView2.setAdapter(adapter2);
                         emptyTextView.setVisibility(rootView.GONE);
                     } else {
