@@ -150,6 +150,18 @@ public interface RetrofitEndPoint {
             @Query("id_wisata") String idWisata
     );
 
+    @GET("cekfav_wisata.php")
+    Call<FavoritWisataResponse> cekfavwisata(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_wisata") String idWisata
+    );
+
+    @GET("deletefav_wisata.php")
+    Call<FavoritWisataResponse> deletefavwisata(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_wisata") String idWisata
+    );
+
     @GET("tambahfavorit_penginapan.php")
     Call<FavoritPenginapanResponse> tambahfavpenginapan(
             @Query("id_pengguna") String idPengguna,
@@ -166,5 +178,23 @@ public interface RetrofitEndPoint {
     Call<FavoritPenginapanResponse> deletefavpenginapan(
             @Query("id_pengguna") String idPengguna,
             @Query("id_penginapan") String idPenginapan
+    );
+
+    @GET("tambahfavorit_kuliner.php")
+    Call<FavoritKulinerResponse> tambahfavkuliner(
+        @Query("id_pengguna") String idPengguna,
+        @Query("id_kuliner") String idKuliner
+    );
+
+    @GET("cekfav_kuliner.php")
+    Call<FavoritKulinerResponse> cekfavkuliner(
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_kuliner") String idKuliner
+    );
+
+    @GET("deletefav_kuliner.php")
+    Call<FavoritKulinerResponse> deletefavkuliner (
+            @Query("id_pengguna") String idPengguna,
+            @Query("id_kuliner") String idKuliner
     );
 }

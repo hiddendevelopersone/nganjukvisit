@@ -7,13 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.R;
+import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
 
@@ -41,15 +45,38 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
 
     @Override
     public void onBindViewHolder(FavoritWisataModelAdapter.FavoritWisataViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        UsersUtil usersUtil = new UsersUtil(holder.itemView.getContext());
+        String idPengguna = usersUtil.getId();
+
         holder.txtNama.setText(dataList.get(position).getNamaWisata());
         holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
         holder.imgButton.setImageResource(R.drawable.favorite_button_danger);
+
+        Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
+
         holder.imgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.imgButton.setImageResource(R.drawable.favorite_button_white);
+                Client.getInstance().deletefavwisata(idPengguna, dataList.get(position).getIdWisata()).enqueue(new Callback<FavoritWisataResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(holder.itemView.getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                        Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,13 +109,14 @@ public class FavoritWisataModelAdapter extends RecyclerView.Adapter<FavoritWisat
 
     public class FavoritWisataViewHolder extends RecyclerView.ViewHolder {
         private TextView txtNama, txtDesc;
-        private ImageView imgButton;
+        private ImageView imgButton, imgView;
 
         public FavoritWisataViewHolder(View itemView) {
             super(itemView);
             txtNama = (TextView) itemView.findViewById(R.id.wisataTitle);
             txtDesc = (TextView) itemView.findViewById(R.id.textvwDescw);
             imgButton = itemView.findViewById(R.id.favsbutton);
+            imgView = (ImageView) itemView.findViewById(R.id.imageWisata);
         }
     }
 

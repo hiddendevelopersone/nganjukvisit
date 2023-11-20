@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.GpsStatus;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -103,6 +104,10 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 getApplicationContext(),
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE)
         );
+
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            binding.deskripsiWisata.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
+//        }
 
         // kodingan retrofit get data
         Client.getInstance().detailwisata(idSelected).enqueue(new Callback<DetailWisataResponse>() {

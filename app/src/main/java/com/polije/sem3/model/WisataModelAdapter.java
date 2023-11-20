@@ -52,8 +52,22 @@ public class WisataModelAdapter extends RecyclerView.Adapter<WisataModelAdapter.
 
         holder.txtNama.setText(dataList.get(position).getNama());
         holder.txtDesc.setText(fitmeTxt(dataList.get(position).getDeskripsi()));
-//        holder.imgWisata.setImageResource(dataList.get(position).getGambar());
+
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
+
+        Client.getInstance().cekfavwisata(idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+            @Override
+            public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
+                if(response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex")) {
+                    holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoritWisataResponse> call, Throwable t) {
+                Toast.makeText(holder.itemView.getContext(), "timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override

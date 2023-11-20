@@ -17,14 +17,17 @@ public class FavoritKulinerModel {
     private String idUser;
     @SerializedName("lokasi")
     private String lokasi;
+    @SerializedName("gambar")
+    private String gambar;
 
-    public FavoritKulinerModel(String id, String idKuliner, String deskripsi, String idUser, String lokasi, String namaKuliner) {
+    public FavoritKulinerModel(String id, String idKuliner, String deskripsi, String idUser, String lokasi, String namaKuliner, String gambar) {
         this.id = id;
         this.idKuliner = idKuliner;
         this.deskripsi = deskripsi;
         this.idUser = idUser;
         this.lokasi = lokasi;
         this.namaKuliner = namaKuliner;
+        this.gambar = gambar;
     }
 
     public String getId() {
@@ -73,5 +76,13 @@ public class FavoritKulinerModel {
 
     public void setLokasi(String lokasi) {
         this.lokasi = lokasi;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }
