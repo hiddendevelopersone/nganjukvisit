@@ -76,11 +76,13 @@
                     android:textColor="@color/black"/>
 
                 <EditText
+                    android:id="@+id/searchbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="4dp"
                     android:inputType="text"
-                    android:longClickable="false"
+                    android:clickable="true"
+                    android:onClick="serve"
                     android:background="@drawable/rounded_searchbar"
                     android:hint="Cari Tujuan"
                     android:textColorHint="@color/abuabu_transparent"

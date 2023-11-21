@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,12 +93,39 @@ public class Home extends Fragment {
     private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
     private MaterialCardView catWisata, catKuliner, catPenginapan, catEvent;
+    private TextView txtSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView namaPengguna;
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // searching
+        txtSearch = rootView.findViewById(R.id.searchbox);
+
+        txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtSearch.setEnabled(false);
+                    Intent i = new Intent(requireContext(), SearchingHomepage.class);
+                    startActivity(i);
+                } else {
+                    txtSearch.setEnabled(true);
+                }
+            }
+        });
+
+//        txtSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (txtSearch.getText().length() == 0) {
+//                    Intent i = new Intent(requireContext(), SearchingHomepage.class);
+//                    startActivity(i);
+//                }
+//            }
+//        });
 
 //        getnamapengguna
         UsersUtil userUtil = new UsersUtil(requireContext());
@@ -273,4 +301,14 @@ public class Home extends Fragment {
 
         return rootView;
     }
+
+//    public void click(View v) {
+//        Intent intent = null;
+//        switch(v.getId()) {
+//            case R.id.searchbox: // R.id.textView1
+//                intent = new Intent(requireContext(), SearchingHomepage.class);
+//                break;
+//        }
+//        startActivity(intent);
+//    }
 }

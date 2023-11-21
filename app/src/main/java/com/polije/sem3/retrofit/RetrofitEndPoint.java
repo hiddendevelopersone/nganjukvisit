@@ -197,4 +197,19 @@ public interface RetrofitEndPoint {
             @Query("id_pengguna") String idPengguna,
             @Query("id_kuliner") String idKuliner
     );
+
+    @GET("searching/search_wisata.php")
+    Call<WisataResponse> cariwisata (
+            @Query("key_value") String keyId
+    );
+
+    @GET("searching/search_penginapan.php")
+    Call<PenginapanResponse> caripenginapan (
+            @Query("key_value") String keyId
+    );
+
+    @GET("searching/search_kuliner.php")
+    Call<KulinerResponse> carikuliner (
+            @Query("key_value") String keyId
+    );
 }
