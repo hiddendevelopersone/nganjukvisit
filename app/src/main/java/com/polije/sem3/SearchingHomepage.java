@@ -61,6 +61,10 @@ public class SearchingHomepage extends AppCompatActivity {
         judulPenginapan = findViewById(R.id.favsPenginapanJudul);
         judulKuliner = findViewById(R.id.favsKulinerJudul);
 
+        judulWisata.setVisibility(View.GONE);
+        judulPenginapan.setVisibility(View.GONE);
+        judulKuliner.setVisibility(View.GONE);
+
         keySearch = findViewById(R.id.keySearch);
         keySearch.requestFocus();
 

@@ -117,16 +117,6 @@ public class Home extends Fragment {
             }
         });
 
-//        txtSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (txtSearch.getText().length() == 0) {
-//                    Intent i = new Intent(requireContext(), SearchingHomepage.class);
-//                    startActivity(i);
-//                }
-//            }
-//        });
-
 //        getnamapengguna
         UsersUtil userUtil = new UsersUtil(requireContext());
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);

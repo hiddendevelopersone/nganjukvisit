@@ -96,6 +96,12 @@ public interface RetrofitEndPoint {
             @Query("id_selected") String id_selected
     );
 
+    @GET("ulasan_saya.php")
+    Call<UlasanKirimResponse> ulasansaya(
+            @Query("id_selected") String id_selected,
+            @Query("idPengguna") String idpengguna
+    );
+
     @FormUrlEncoded
     @POST("tambah_ulasan.php")
     Call<UlasanKirimResponse> kirimulasan(
@@ -103,6 +109,20 @@ public interface RetrofitEndPoint {
             @Field("nama_pengguna") String namaPengguna,
             @Field("comment") String comment,
             @Field("wisataid") String idWisata
+    );
+
+    @FormUrlEncoded
+    @POST("edit_ulasan.php")
+    Call<UlasanResponse> editulasan(
+            @Field("comment") String comment,
+            @Field("wisataid") String idwisata,
+            @Field("idPengguna") String idpengguna
+    );
+
+    @GET("delete_ulasan.php")
+    Call<UlasanResponse> deleteulasan(
+            @Query("idPengguna") String idpengguna,
+            @Query("wisataid") String idwisata
     );
 
     @FormUrlEncoded

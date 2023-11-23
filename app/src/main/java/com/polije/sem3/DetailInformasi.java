@@ -1,11 +1,13 @@
 package com.polije.sem3;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -31,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.textview.MaterialTextView;
 import com.polije.sem3.databinding.ActivityDetailInformasiBinding;
 import com.polije.sem3.databinding.ActivityMapJavaBinding;
+import com.polije.sem3.model.UlasanModel;
 import com.polije.sem3.model.UlasanModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
@@ -68,13 +71,16 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
     private Button btnLink;
     private WisataModel dataListWisata;
     private UlasanModelAdapter adapterUlasan;
+    private UlasanModel ulasansayaList;
 
     public static String ID_WISATA = "id";
 
     private String idSelected;
+    private String idpengguna;
     private TextView emptyTextView;
     private String destination;
     private String getComment;
+    private LinearLayout layoutComment, layoutEditComment, layoutModifyButton;
 
     private ActivityDetailInformasiBinding binding;
 
@@ -104,6 +110,15 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                 getApplicationContext(),
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE)
         );
+
+        layoutComment = binding.CommentSection;
+        layoutComment.setVisibility(View.VISIBLE);
+        layoutEditComment = binding.editCommentSection;
+        layoutEditComment.setVisibility(View.GONE);
+
+        layoutModifyButton = binding.layoutModifyButton;
+        layoutModifyButton.setVisibility(View.GONE);
+        binding.txtEditUlasan.setEnabled(false);
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            binding.deskripsiWisata.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
@@ -262,7 +277,7 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
         });
 
         UsersUtil usersUtil = new UsersUtil(this);
-        String idpengguna = usersUtil.getId();
+        idpengguna = usersUtil.getId();
         String fullnama = usersUtil.getFullName();
 
         binding.btnSendComment.setOnClickListener(new View.OnClickListener() {
@@ -283,8 +298,32 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
                                                 emptyTextView.setVisibility(View.GONE);
                                                 binding.linearLayoutUlasan.setPadding(0,0,0,0);
                                                 binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                                                layoutComment.setVisibility(View.GONE);
+                                                layoutEditComment.setVisibility(View.VISIBLE);
+                                                layoutModifyButton.setVisibility(View.GONE);
+                                                binding.btnModify.setVisibility(View.VISIBLE);
+
+                                                Client.getInstance().ulasansaya(idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
+                                                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                                            ulasansayaList = response.body().getData();
+                                                            if (ulasansayaList != null && ulasansayaList.getUlasan() != null) {
+                                                                layoutEditComment.setVisibility(View.VISIBLE);
+                                                                binding.tanggalKomen.setText(ulasansayaList.getDateTime());
+                                                                binding.txtEditUlasan.setText(ulasansayaList.getUlasan());
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
+                                                        Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
                                             } else {
-                                                // nothing
+                                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         } else {
                                             Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
@@ -317,10 +356,150 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
             }
         });
 
+        // cek ulasansaya
+
+        Client.getInstance().ulasansaya(idSelected, idpengguna).enqueue(new Callback<UlasanKirimResponse>() {
+            @Override
+            public void onResponse(Call<UlasanKirimResponse> call, Response<UlasanKirimResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    ulasansayaList = response.body().getData();
+                    if (ulasansayaList != null && ulasansayaList.getUlasan() != null) {
+                       layoutEditComment.setVisibility(View.VISIBLE);
+                       binding.tanggalKomen.setText(ulasansayaList.getDateTime());
+                        binding.txtEditUlasan.setText(ulasansayaList.getUlasan());
+                        layoutComment.setVisibility(View.GONE);
+                    } else {
+                        layoutComment.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UlasanKirimResponse> call, Throwable t) {
+                Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.btnModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layoutModifyButton.setVisibility(View.VISIBLE);
+                binding.txtEditUlasan.setEnabled(true);
+                binding.txtEditUlasan.requestFocus();
+                binding.btnModify.setVisibility(View.GONE);
+
+
+            }
+        });
+
+
+
+        binding.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String commentValue = binding.txtEditUlasan.getText().toString();
+
+                if (commentValue != null && commentValue.isEmpty()) {
+                    Toast.makeText(DetailInformasi.this, "Komentar Tidak Boleh Kosong", Toast.LENGTH_SHORT).show();
+                } else {
+                    binding.layoutModifyButton.setVisibility(View.GONE);
+                    binding.btnModify.setVisibility(View.VISIBLE);
+                    binding.txtEditUlasan.setEnabled(false);
+                    Client.getInstance().editulasan(commentValue, idSelected, idpengguna).enqueue(new Callback<UlasanResponse>() {
+                        @Override
+                        public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                            if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                getUlasan();
+                            } else {
+                                Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                            Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteConfirmationDialog();
+            }
+        });
+
         binding.backButtonDetail.setOnClickListener(v -> {
             onBackPressed();
         });
 
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmation");
+        builder.setMessage("Are you sure you want to delete this item?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Perform the delete action here
+                    performDeleteAction();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // User clicked "No" - do nothing or handle accordingly
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void performDeleteAction() {
+        Client.getInstance().deleteulasan(idpengguna, idSelected).enqueue(new Callback<UlasanResponse>() {
+            @Override
+            public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    layoutComment.setVisibility(View.VISIBLE);
+                    layoutEditComment.setVisibility(View.GONE);
+                    getUlasan();
+                    Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(DetailInformasi.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                Toast.makeText(DetailInformasi.this, "Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getUlasan() {
+        Client.getInstance().ulasan(idSelected).enqueue(new Callback<UlasanResponse>() {
+            @Override
+            public void onResponse(Call<UlasanResponse> call, Response<UlasanResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    if (response.body().getData() != null && !response.body().getData().isEmpty()) {
+                        adapterUlasan = new UlasanModelAdapter(response.body().getData());
+                        binding.recyclerviewUlasan.setAdapter(adapterUlasan);
+                    }
+                } else {
+                    Toast.makeText(DetailInformasi.this, "Data Kosong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UlasanResponse> call, Throwable t) {
+                Toast.makeText(DetailInformasi.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
