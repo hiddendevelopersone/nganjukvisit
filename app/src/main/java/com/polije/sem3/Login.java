@@ -35,7 +35,6 @@ public class Login extends AppCompatActivity {
     Button btnLogin, btnSignup, btnGoogle;
     TextView lupaPass;
     boolean passwordVisible;
-    private AppCompatImageButton btnBack;
 
     private GoogleUsers googleUsers;
 
@@ -52,7 +51,6 @@ public class Login extends AppCompatActivity {
         lupaPass = (TextView) findViewById(R.id.forgotPass);
         btnLogin = (Button) findViewById(R.id.loginButton);
         btnSignup = (Button) findViewById(R.id.signupButton);
-        btnBack = findViewById(R.id.backButton);
         btnGoogle = findViewById(R.id.loginButtonWithGoogle);
 
         btnLogin.setOnClickListener(v -> {
@@ -123,14 +121,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
-                startActivity(intent);
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Login.this, WelcomeScreen.class);
                 startActivity(intent);
             }
         });

@@ -203,7 +203,16 @@ public class Favs extends Fragment {
                 KulinerArrayList = response.body().getData();
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                     if (!KulinerArrayList.isEmpty()) {
-                        adapter3 = new FavoritKulinerModelAdapter(KulinerArrayList);
+                        adapter3 = new FavoritKulinerModelAdapter(KulinerArrayList, new FavoritKulinerModelAdapter.OnClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                startActivity(
+
+                                    new Intent(requireContext(), DetailKuliner.class)
+                                            .putExtra(DetailKuliner.ID_KULINER, KulinerArrayList.get(position).getIdKuliner())
+                                );
+                            }
+                        });
                         recyclerView3.setAdapter(adapter3);
                         emptyTextView.setVisibility(rootView.GONE);
                     } else {

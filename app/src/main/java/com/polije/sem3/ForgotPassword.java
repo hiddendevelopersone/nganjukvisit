@@ -58,12 +58,15 @@ public class ForgotPassword extends AppCompatActivity {
                     public void onResponse(Call<VerificationResponse> call, Response<VerificationResponse> response) {
                         if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                             String otp = response.body().getData().getOtp();
+                            String endMillis = response.body().getData().getEnd_millis();
 
                             Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(ForgotPassword.this, OtpVerification.class).putExtra(
                                     OtpVerification.EMAIL_USER, emaiUser
                             ).putExtra(
                                     OtpVerification.OTP_USER, otp
+                            ).putExtra(
+                                    OtpVerification.END_MILLIS, endMillis
                             ));
                         } else {
                             Toast.makeText(ForgotPassword.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();

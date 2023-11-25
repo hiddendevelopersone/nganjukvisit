@@ -24,7 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKulinerModelAdapter.FavoritKulinerViewHolder> {
-    ArrayList<FavoritKulinerModel> dataList;
+    private ArrayList<FavoritKulinerModel> dataList;
+    private OnClickListener tampil;
 
     @NonNull
     @Override
@@ -34,8 +35,9 @@ public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKuli
         return new FavoritKulinerViewHolder(view);
     }
 
-    public FavoritKulinerModelAdapter(ArrayList<FavoritKulinerModel> dataList) {
+    public FavoritKulinerModelAdapter(ArrayList<FavoritKulinerModel> dataList, OnClickListener listener) {
         this.dataList = dataList;
+        this.tampil = listener;
     }
 
     @Override
@@ -47,6 +49,13 @@ public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKuli
         holder.txtLokasi.setText(dataList.get(position).getLokasi());
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgView);
         holder.imgFavs.setImageResource(R.drawable.favorite_button_danger);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tampil.onItemClick(position);
+            }
+        });
 
         holder.imgFavs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,5 +96,9 @@ public class FavoritKulinerModelAdapter extends RecyclerView.Adapter<FavoritKuli
             imgFavs = (ImageView) itemView.findViewById(R.id.buttonFavs);
             imgView = (ImageView) itemView.findViewById(R.id.imageViewKuliner);
         }
+    }
+
+    public interface OnClickListener {
+        void onItemClick(int position);
     }
 }
