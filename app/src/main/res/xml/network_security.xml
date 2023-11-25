@@ -5,7 +5,7 @@
         <domain includeSubdomains="true">172.16.108.160</domain>         <!-- Lab Mobile -->
         <domain includeSubdomains="true">172.16.106.145</domain>       <!-- Local -->
         <domain includeSubdomains="true">172.16.103.5</domain>        <!-- Lab MMC -->
-        <domain includeSubdomains="true">192.168.1.62</domain>        <!-- Classroom A -->
-        <domain includeSubdomains="true">172.16.106.241</domain>     <!-- Mobile on Lab KSI -->
+        <domain includeSubdomains="true">192.168.137.193</domain>        <!-- Classroom A -->
+        <domain includeSubdomains="true">172.16.106.18</domain>     <!-- Mobile on Lab KSI -->
     </domain-config>
 </network-security-config>

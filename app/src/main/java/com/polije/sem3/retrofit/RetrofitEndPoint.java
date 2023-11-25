@@ -14,6 +14,7 @@ import com.polije.sem3.response.ResponseGetGambarProfil;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.UserResponse;
+import com.polije.sem3.response.VerificationResponse;
 import com.polije.sem3.response.WisataResponse;
 
 import retrofit2.Call;
@@ -231,5 +232,18 @@ public interface RetrofitEndPoint {
     @GET("searching/search_kuliner.php")
     Call<KulinerResponse> carikuliner (
             @Query("key_value") String keyId
+    );
+
+    @FormUrlEncoded
+    @POST("OTP/mail.php")
+    Call<VerificationResponse> sendmailotp (
+            @Field("email") String email, @Field("type") String type, @Field("action") String action
+    );
+
+    @FormUrlEncoded
+    @POST("OTP/lupa_password.php")
+    Call<UserResponse> lupapass (
+            @Field("email") String email,
+            @Field("password") String password
     );
 }
