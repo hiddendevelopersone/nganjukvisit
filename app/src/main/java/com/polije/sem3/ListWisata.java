@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -36,26 +37,30 @@ public class ListWisata extends AppCompatActivity {
     Resources resources;
     private String textDescOrigin, textViewDesc;
     private ImageView imageView;
+    private TextView txtSearch;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_wisata);
 
-        resources = getResources();
-        textDescOrigin = resources.getString(R.string.loremipsumgenerator);
-        int maxLength = 60; // Panjang maksimal yang diinginkan
+        // searching
+        txtSearch = findViewById(R.id.searchbox);
 
-        if (textDescOrigin.length() > maxLength) {
-            String limitedText = textDescOrigin.substring(0, maxLength);
-            String finalText = limitedText + " ...";
-            textViewDesc = finalText;
-        } else {
-            // Teks tidak perlu dibatasi
-            String finalText = textDescOrigin;
-            textViewDesc = finalText;
-        }
+        txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtSearch.setEnabled(false);
+                    Intent i = new Intent(ListWisata.this, SearchingWisata.class);
+                    startActivity(i);
+                } else {
+                    txtSearch.setEnabled(true);
+                }
+            }
+        });
 
 //        addData();
 
@@ -120,13 +125,6 @@ public class ListWisata extends AppCompatActivity {
         });
     }
 
-//    void addData() {
-//        WisataArrayList = new ArrayList<>();
-//        WisataArrayList.add(new WisataModel("Sedudo", textViewDesc));
-//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
-//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
-//        WisataArrayList.add(new WisataModel("Taman Nyawiji", textViewDesc));
-//    }
 
     public void gantiDetail() {
         Intent i = new Intent(ListWisata.this, DetailInformasi.class);

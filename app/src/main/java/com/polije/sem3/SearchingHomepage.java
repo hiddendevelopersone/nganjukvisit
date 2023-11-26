@@ -46,7 +46,7 @@ public class SearchingHomepage extends AppCompatActivity {
     private LinearLayout contentLayout;
     private boolean isWisataAvailable;
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

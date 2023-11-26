@@ -21,6 +21,13 @@
         android:theme="@style/Theme.NganjukVisit"
         tools:targetApi="31">
         <activity
+            android:name=".SearchingWisata"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SearchingHomepage"
             android:exported="false">
             <meta-data

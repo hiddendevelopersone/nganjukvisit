@@ -440,16 +440,16 @@ public class DetailInformasi extends AppCompatActivity implements MapListener, G
 
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you want to delete this item?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle("Konfirmasi Hapus");
+        builder.setMessage("Apakah anda yakin ingin menghapus ulasan anda?");
+        builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Perform the delete action here
                     performDeleteAction();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // User clicked "No" - do nothing or handle accordingly

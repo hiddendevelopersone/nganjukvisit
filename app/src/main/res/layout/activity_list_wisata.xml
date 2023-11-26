@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ListWisata"
     >
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +60,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/searchbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="4dp"
