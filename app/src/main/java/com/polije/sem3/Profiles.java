@@ -145,7 +145,7 @@ public class Profiles extends Fragment {
         gambarPengguna = util.getUserPhoto();
 
         // tampil gambar/foto pengguna
-        Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
+//        Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
 
         // set text ke field
         editNamaText.setText(namaPengguna);
@@ -206,11 +206,9 @@ public class Profiles extends Fragment {
 //                            UsersUtil util = new UsersUtil(requireContext());
                             util.setAlamat(alamatUser);
                             util.setNoTelp(notelpUser);
-//                            util.setUserPhoto(ambilGambarBaru);
-                            Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
-
-
-
+//                            util.setUserPhoto(gambarPengguna);
+//                            Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
+                            getGambar();;
                         } else {
                             Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -259,6 +257,7 @@ public class Profiles extends Fragment {
         emailText.setText(emailUser);
         alamatText.setText(alamatUser);
         notelpText.setText(notelpUser);
+        ambilGambarBaru = gambarUser;
 //        getGambar();
 //        Glide.with(requireContext()).load(Config.API_IMAGE + gambarUser).into(imgThumb);
     }
@@ -300,8 +299,10 @@ public class Profiles extends Fragment {
             public void onResponse(Call<ResponseGetGambarProfil> call, Response<ResponseGetGambarProfil> response) {
                if (response.body().getStatus().equalsIgnoreCase("success")){
                 ambilGambarBaru = response.body().getData();
+                util.setUserPhoto(ambilGambarBaru);
                    Toast.makeText(getActivity(), "new : "+ambilGambarBaru, Toast.LENGTH_SHORT).show();
                    Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
+                   Toast.makeText(requireContext(), "utilphoto -> " + util.getUserPhoto(), Toast.LENGTH_SHORT).show();
                }else {
                    Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                }

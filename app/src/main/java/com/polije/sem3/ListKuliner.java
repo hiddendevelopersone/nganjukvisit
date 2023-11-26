@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.model.KulinerModel;
@@ -24,12 +26,28 @@ public class ListKuliner extends AppCompatActivity {
     private RecyclerView recyclerView;
     private KulinerModelAdapter adapter;
     private ArrayList<KulinerModel> KulinerArrayList;
-
+    private TextView txtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_kuliner);
+
+        // searching
+        txtSearch = findViewById(R.id.searchbox);
+
+        txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtSearch.setEnabled(false);
+                    Intent i = new Intent(ListKuliner.this, SearchingKuliner.class);
+                    startActivity(i);
+                } else {
+                    txtSearch.setEnabled(true);
+                }
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListKuliner);
 

@@ -14,9 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.polije.sem3.model.KulinerModel;
+import com.polije.sem3.model.KulinerModelAdapter;
+import com.polije.sem3.model.PenginapanModel;
+import com.polije.sem3.model.PenginapanModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
-import com.polije.sem3.response.WisataResponse;
+import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.retrofit.Client;
 
 import java.util.ArrayList;
@@ -25,37 +29,36 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchingWisata extends AppCompatActivity {
+public class SearchingPenginapan extends AppCompatActivity {
 
     private EditText keySearch;
     private String valueKey;
-    private ArrayList<WisataModel> WisataArrayList;
-    private WisataModelAdapter adapter;
+    private ArrayList<PenginapanModel> PenginapanArrayList;
+    private PenginapanModelAdapter adapter2;
     private RecyclerView recyclerView;
-    private TextView emptyTextView, judulWisata;
+    private TextView emptyTextView, judulPenginapan;
     private LinearLayout contentLayout;
 
-
-    @SuppressLint({"MissingInflatedId", "WrongViewCast", "ClickableViewAccessibility"})
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_searching_wisata);
+        setContentView(R.layout.activity_searching_penginapan);
 
-        // initiate content layout
         contentLayout = findViewById(R.id.contentPanel);
 
         // initiate judul recview
-        judulWisata = findViewById(R.id.favsWisataJudul);
+        judulPenginapan = findViewById(R.id.favsPenginapanJudul);
 
-        judulWisata.setVisibility(View.GONE);
+        judulPenginapan.setVisibility(View.GONE);
+
         keySearch = findViewById(R.id.keySearch);
         keySearch.requestFocus();
 
         valueKey = "";
-        recyclerView = findViewById(R.id.recyclerviewListWisata);
+        recyclerView = findViewById(R.id.recyclerviewListPenginapan);
 
-        emptyTextView = new TextView(SearchingWisata.this);
+        emptyTextView = new TextView(SearchingPenginapan.this);
         emptyTextView.setText("Tidak Ada Hasil yang cocok");
         emptyTextView.setTextColor(getResources().getColor(R.color.black));
         emptyTextView.setTextSize(30);
@@ -67,43 +70,44 @@ public class SearchingWisata extends AppCompatActivity {
         keySearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 int drawableEndIndex = 2;
 
                 if (event.getAction() == MotionEvent.ACTION_UP &&
                         event.getRawX() >= (keySearch.getRight() - keySearch.getCompoundDrawables()[drawableEndIndex].getBounds().width())) {
-
                     valueKey = keySearch.getText().toString();
+
                     emptyTextView.setVisibility(View.VISIBLE);
 
-                    Client.getInstance().cariwisata(valueKey).enqueue(new Callback<WisataResponse>() {
+                    Client.getInstance().caripenginapan(valueKey).enqueue(new Callback<PenginapanResponse>() {
                         @Override
-                        public void onResponse(Call<WisataResponse> call, Response<WisataResponse> response) {
+                        public void onResponse(Call<PenginapanResponse> call, Response<PenginapanResponse> response) {
                             if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-                                WisataArrayList = response.body().getData();
-                                if (!WisataArrayList.isEmpty()) {
-                                    adapter = new WisataModelAdapter(WisataArrayList, new WisataModelAdapter.OnClickListener() {
+                                PenginapanArrayList = response.body().getData();
+                                if (!PenginapanArrayList.isEmpty()) {
+                                    adapter2 = new PenginapanModelAdapter(PenginapanArrayList, new PenginapanModelAdapter.OnClickListener() {
                                         @Override
                                         public void onItemClick(int position) {
                                             startActivity(
-                                                    new Intent(SearchingWisata.this, DetailInformasi.class)
-                                                            .putExtra(DetailInformasi.ID_WISATA, WisataArrayList.get(position).getIdwisata())
+                                                    new Intent(SearchingPenginapan.this, DetailPenginapan.class)
+                                                            .putExtra(DetailPenginapan.ID_PENGINAPAN, PenginapanArrayList.get(position).getIdPenginapan())
                                             );
                                         }
                                     });
                                     emptyTextView.setVisibility(View.GONE);
-                                    judulWisata.setVisibility(View.VISIBLE);
+                                    judulPenginapan.setVisibility(View.VISIBLE);
                                     recyclerView.setVisibility(View.VISIBLE);
-                                    recyclerView.setAdapter(adapter);
+                                    recyclerView.setAdapter(adapter2);
                                 } else {
-                                    judulWisata.setVisibility(View.GONE);
+                                    judulPenginapan.setVisibility(View.GONE);
                                     recyclerView.setVisibility(View.GONE);
                                 }
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<WisataResponse> call, Throwable t) {
-                            Toast.makeText(SearchingWisata.this, "Timeout", Toast.LENGTH_SHORT).show();
+                        public void onFailure(Call<PenginapanResponse> call, Throwable t) {
+                            Toast.makeText(SearchingPenginapan.this, "Timeout", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -113,6 +117,5 @@ public class SearchingWisata extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 }

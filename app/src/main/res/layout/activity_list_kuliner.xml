@@ -60,11 +60,29 @@
             app:layout_constraintTop_toBottomOf="@+id/header"
             android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/searchbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:inputType="text"
+                android:clickable="true"
+                android:onClick="serve"
+                android:background="@drawable/rounded_searchbar"
+                android:hint="Cari Tujuan"
+                android:textColorHint="@color/abuabu_transparent"
+                android:textSize="20sp"
+                android:paddingVertical="10dp"
+                android:paddingLeft="18dp"
+                android:drawableEnd="@drawable/searchicon"
+                android:paddingEnd="18dp"
+                android:textColor="@color/abuabu_transparent"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Rekomendasi Kuliner"
+                android:text="Daftar Kuliner"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textColor="@color/black"

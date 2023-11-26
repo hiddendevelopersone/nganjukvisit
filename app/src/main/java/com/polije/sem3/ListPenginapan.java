@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polije.sem3.model.EventModel;
@@ -26,11 +29,29 @@ public class ListPenginapan extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PenginapanModelAdapter adapter;
     private ArrayList<PenginapanModel> PenginapanArrayList;
+    private TextView txtSearch;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_penginapan);
+
+        // searching
+        txtSearch = findViewById(R.id.searchbox);
+
+        txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    txtSearch.setEnabled(false);
+                    Intent i = new Intent(ListPenginapan.this, SearchingPenginapan.class);
+                    startActivity(i);
+                } else {
+                    txtSearch.setEnabled(true);
+                }
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListPenginapan);
 
