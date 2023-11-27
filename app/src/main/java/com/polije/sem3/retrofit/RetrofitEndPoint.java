@@ -9,6 +9,7 @@ import com.polije.sem3.response.FavoritKulinerResponse;
 import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.KulinerResponse;
+import com.polije.sem3.response.NganjukVisitResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.ResponseGetGambarProfil;
 import com.polije.sem3.response.UlasanKirimResponse;
@@ -246,4 +247,6 @@ public interface RetrofitEndPoint {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @GET("koneksi/cek_koneksi.php") Call<NganjukVisitResponse> cekKoneksi();
 }

@@ -6,8 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
+
+import com.polije.sem3.response.NganjukVisitResponse;
+import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashScreen extends AppCompatActivity {
+
+    private UsersUtil usersUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +38,30 @@ public class SplashScreen extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        usersUtil = new UsersUtil(this);
+
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashScreen.this, WelcomeScreen.class));
+                createUniverse();
+//                startActivity(new Intent(SplashScreen.this, WelcomeScreen.class));
             }
         }, 3000);
 
+    }
+
+    private void createUniverse(){
+        if (usersUtil.isSignIn()) {
+            // Jika pengguna sudah masuk, buka MainActivity
+//            startActivity(new Intent(SplashScreenActivity.this, MainActivity.class));
+            startActivity(new Intent(SplashScreen.this, Dashboard.class));
+
+        } else {
+            // Jika pengguna belum masuk, buka WelcomeActivity
+            startActivity(new Intent(SplashScreen.this, WelcomeScreen.class));
+        }
+        finish();
     }
 }

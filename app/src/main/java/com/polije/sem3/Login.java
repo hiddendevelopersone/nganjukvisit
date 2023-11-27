@@ -38,6 +38,8 @@ public class Login extends AppCompatActivity {
 
     private GoogleUsers googleUsers;
 
+    private UsersUtil usersUtil;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class Login extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                    Toast.makeText(Login.this, "Timeout", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -148,7 +150,8 @@ public class Login extends AppCompatActivity {
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
                         Intent i = new Intent(Login.this, Dashboard.class);
-                        UsersUtil util = new UsersUtil(Login.this, response.body().getData());
+
+                        usersUtil = new UsersUtil(Login.this, response.body().getData());
 
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(i));
@@ -167,4 +170,5 @@ public class Login extends AppCompatActivity {
             Toast.makeText(Login.this, "NO DATA", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

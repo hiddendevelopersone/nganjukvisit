@@ -12,7 +12,7 @@ public class DataShared {
 
     private final SharedPreferences.Editor sharedEditor;
 
-    public static final String NAME = "com.c2.arenafinder.PREFERENCES";
+    public static final String NAME = "com.polije.sem3.PREFERENCES";
 
     public DataShared(Context context){
 

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.polije.sem3.model.UserModel;
 import com.polije.sem3.network.BaseResponse;
 import com.polije.sem3.network.Config;
 import com.polije.sem3.network.UploadInterface;
@@ -120,13 +121,15 @@ public class Profiles extends Fragment {
     }
 
     private String gambarPengguna;
+    private Button btnLogout;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         imgThumb = view.findViewById(R.id.img_thumb);
-        getGambar();
+        btnLogout = view.findViewById(R.id.btn_logout);
+//        getGambar();
         TextView btnChoose = (TextView) view.findViewById(R.id.choosePictures);
         Button btnUpload2 = (Button) view.findViewById(R.id.btn_upload_2);
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollView);
@@ -134,6 +137,9 @@ public class Profiles extends Fragment {
         emailText = (EditText) view.findViewById(R.id.edt_emailaddr);
         alamatText = (EditText) view.findViewById(R.id.edt_alamat);
         notelpText = (EditText) view.findViewById(R.id.edt_notelp);
+
+        // disable email edit
+        emailText.setEnabled(false);
 
         // get data akun yang sedang login
         UsersUtil util = new UsersUtil(requireContext());
@@ -145,7 +151,7 @@ public class Profiles extends Fragment {
         gambarPengguna = util.getUserPhoto();
 
         // tampil gambar/foto pengguna
-//        Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
+        Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
 
         // set text ke field
         editNamaText.setText(namaPengguna);
@@ -190,38 +196,26 @@ public class Profiles extends Fragment {
 
                 String encoded = ImageUtils.bitmapToBase64String(bitmap, 100);
                 uploadBase64(encoded);
-                String namaUser = String.valueOf(editNamaText.getText());
-                String emailUser = String.valueOf(emailText.getText());
-                String alamatUser = String.valueOf(alamatText.getText());
-                String notelpUser = String.valueOf(notelpText.getText());
+//                String namaUser = String.valueOf(editNamaText.getText());
+//                String emailUser = String.valueOf(emailText.getText());
+//                String alamatUser = String.valueOf(alamatText.getText());
+//                String notelpUser = String.valueOf(notelpText.getText());
 
-                // update data
-                Client.getInstance().updateprofiles(idPengguna, namaUser, emailUser, alamatUser, notelpUser).enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-
-
-                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-//                            UsersUtil util = new UsersUtil(requireContext());
-                            util.setAlamat(alamatUser);
-                            util.setNoTelp(notelpUser);
-//                            util.setUserPhoto(gambarPengguna);
-//                            Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
-                            getGambar();;
-                        } else {
-                            Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-
-                    }
-                });
 //                getGambar();
             } else {
+                updateProfiles();
                 Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                util.signOut();
+                if (!util.isSignIn()) {
+                    Toast.makeText(requireActivity(), "Logout Sukses", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(requireActivity(), WelcomeScreen.class));
+                }
             }
         });
 
@@ -257,7 +251,7 @@ public class Profiles extends Fragment {
         emailText.setText(emailUser);
         alamatText.setText(alamatUser);
         notelpText.setText(notelpUser);
-        ambilGambarBaru = gambarUser;
+        gambarPengguna = gambarUser;
 //        getGambar();
 //        Glide.with(requireContext()).load(Config.API_IMAGE + gambarUser).into(imgThumb);
     }
@@ -278,6 +272,9 @@ public class Profiles extends Fragment {
             public void onResponse(retrofit2.Call<BaseResponse> call, retrofit2.Response<BaseResponse> response) {
                 if (response != null) {
                     Toast.makeText(requireActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                    response.body().getMessage();
+                    updateProfiles();
+//                    util.setUserPhoto(response.body());
                 } else {
                     Toast.makeText(requireActivity(), "GAGAL", Toast.LENGTH_SHORT).show();
                 }
@@ -291,26 +288,65 @@ public class Profiles extends Fragment {
         });
 
     }
-    public void getGambar(){
-        UsersUtil util = new UsersUtil(requireContext());
+//    public void getGambar(){
+//        UsersUtil util = new UsersUtil(requireContext());
+//        String idPengguna = util.getId();
+//        Client.getInstance().getGambar(idPengguna).enqueue(new Callback<ResponseGetGambarProfil>() {
+//            @Override
+//            public void onResponse(Call<ResponseGetGambarProfil> call, Response<ResponseGetGambarProfil> response) {
+//               if (response.body().getStatus().equalsIgnoreCase("success")){
+//                ambilGambarBaru = response.body().getData();
+//                util.setUserPhoto(ambilGambarBaru);
+//                   Toast.makeText(getActivity(), "new : "+ambilGambarBaru, Toast.LENGTH_SHORT).show();
+//                   Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
+//                   Toast.makeText(requireContext(), "utilphoto -> " + util.getUserPhoto(), Toast.LENGTH_SHORT).show();
+//               }else {
+//                   Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//               }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseGetGambarProfil> call, Throwable t) {
+//                Toast.makeText(getActivity(), "error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    private void updateProfiles() {
+        UsersUtil util = new UsersUtil(requireActivity());
         String idPengguna = util.getId();
-        Client.getInstance().getGambar(idPengguna).enqueue(new Callback<ResponseGetGambarProfil>() {
+        String namaUser = String.valueOf(editNamaText.getText());
+        String emailUser = String.valueOf(emailText.getText());
+        String alamatUser = String.valueOf(alamatText.getText());
+        String notelpUser = String.valueOf(notelpText.getText());
+        // update data
+        Client.getInstance().updateprofiles(idPengguna, namaUser, emailUser, alamatUser, notelpUser).enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<ResponseGetGambarProfil> call, Response<ResponseGetGambarProfil> response) {
-               if (response.body().getStatus().equalsIgnoreCase("success")){
-                ambilGambarBaru = response.body().getData();
-                util.setUserPhoto(ambilGambarBaru);
-                   Toast.makeText(getActivity(), "new : "+ambilGambarBaru, Toast.LENGTH_SHORT).show();
-                   Glide.with(requireContext()).load(Config.API_IMAGE + ambilGambarBaru).into(imgThumb);
-                   Toast.makeText(requireContext(), "utilphoto -> " + util.getUserPhoto(), Toast.LENGTH_SHORT).show();
-               }else {
-                   Toast.makeText(getActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-               }
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+
+
+                    Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                            UsersUtil util = new UsersUtil(requireContext());
+                    UserModel model = response.body().getData();
+                    util.setFullName(namaUser);
+                    util.setAlamat(alamatUser);
+                    util.setNoTelp(notelpUser);
+                    if (response.body().getData() != null) {
+//                        Toast.makeText(requireContext(), "getgambarmodel " + model.getGambar(), Toast.LENGTH_SHORT).show();
+                        util.setUserPhoto(model.getGambar());
+                    }
+//                            util.setUserPhoto(gambarPengguna);
+//                            Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
+//                            getGambar();
+                } else {
+                    Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<ResponseGetGambarProfil> call, Throwable t) {
-                Toast.makeText(getActivity(), "error : "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_SHORT).show();
             }
         });
     }

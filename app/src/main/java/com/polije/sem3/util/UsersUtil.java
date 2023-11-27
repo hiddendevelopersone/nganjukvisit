@@ -14,6 +14,7 @@ public class UsersUtil {
         if (model != null){
             setId(String.valueOf(model.getIdUser()));
             setEmail(model.getEmailUser());
+            setUsername(model.getUsername());
             setFullName(model.getFullName());
             setAlamat(model.getAlamat());
 //            setVerified(model.getVerified());
