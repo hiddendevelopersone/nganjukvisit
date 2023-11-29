@@ -16,14 +16,16 @@ public class EventModel {
     private String deskripsi;
     @SerializedName("contact_person")
     private String contactPerson;
+    private String gambar;
 
-    public EventModel(String nama, String lokasi, String tanggaldanwaktu, String hari, String idEvent, String contactPerson) {
+    public EventModel(String nama, String lokasi, String tanggaldanwaktu, String hari, String idEvent, String contactPerson, String gambar) {
         this.nama = nama;
         this.lokasi = lokasi;
         this.tanggaldanwaktu = tanggaldanwaktu;
         this.hari = hari;
         this.idEvent = idEvent;
         this.contactPerson = contactPerson;
+        this.gambar = gambar;
     }
     public void setNama(String nama) {
         this.nama = nama;
@@ -72,5 +74,13 @@ public class EventModel {
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 }

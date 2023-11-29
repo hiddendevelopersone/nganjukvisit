@@ -13,11 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.network.Config;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import org.w3c.dom.Text;
 
@@ -36,8 +39,8 @@ public class ListWisata extends AppCompatActivity {
 
     Resources resources;
     private String textDescOrigin, textViewDesc;
-    private ImageView imageView;
-    private TextView txtSearch;
+    private ImageView imageView, imgUser;
+    private TextView txtSearch, txtNama;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -45,6 +48,16 @@ public class ListWisata extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_wisata);
+
+        UsersUtil usersUtil = new UsersUtil(this);
+        String profilePhoto = usersUtil.getUserPhoto();
+        String namaPengguna = usersUtil.getFullName();
+
+        txtNama = (TextView) findViewById(R.id.userfullname);
+        imgUser = (ImageView) findViewById(R.id.userImg);
+
+        Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
+        txtNama.setText("Halo! " + namaPengguna);
 
         // searching
         txtSearch = findViewById(R.id.searchbox);

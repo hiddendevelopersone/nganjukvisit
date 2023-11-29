@@ -3,18 +3,23 @@ package com.polije.sem3;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.model.KulinerModel;
 import com.polije.sem3.model.KulinerModelAdapter;
 import com.polije.sem3.model.WisataModel;
 import com.polije.sem3.model.WisataModelAdapter;
+import com.polije.sem3.network.Config;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
 
@@ -26,12 +31,24 @@ public class ListKuliner extends AppCompatActivity {
     private RecyclerView recyclerView;
     private KulinerModelAdapter adapter;
     private ArrayList<KulinerModel> KulinerArrayList;
-    private TextView txtSearch;
+    private TextView txtSearch, txtNama;
+    private ImageView imgUser;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_kuliner);
+
+        UsersUtil usersUtil = new UsersUtil(this);
+        String profilePhoto = usersUtil.getUserPhoto();
+        String namaPengguna = usersUtil.getFullName();
+
+        txtNama = (TextView) findViewById(R.id.userfullname);
+        imgUser = findViewById(R.id.userImg);
+
+        Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
+        txtNama.setText("Halo! " + namaPengguna);
 
         // searching
         txtSearch = findViewById(R.id.searchbox);

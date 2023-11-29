@@ -1,20 +1,31 @@
 package com.polije.sem3;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.model.KulinerModel;
@@ -22,7 +33,10 @@ import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.RekomendasiKulinerAdapter;
 import com.polije.sem3.model.RekomendasiPenginapanAdapter;
 import com.polije.sem3.model.RekomendasiWisataAdapter;
+import com.polije.sem3.model.ViewpagerAdapter;
 import com.polije.sem3.model.WisataModel;
+import com.polije.sem3.network.Config;
+import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.WisataResponse;
@@ -88,18 +102,31 @@ public class Home extends Fragment {
     private RekomendasiWisataAdapter adapter2;
     private RekomendasiKulinerAdapter adapter3;
     private EventModelAdapter adapter4;
+    private ViewpagerAdapter adapter5;
     private ArrayList<WisataModel> wisataArraylist;
     private ArrayList<KulinerModel> KulinerArrayList;
     private ArrayList<EventModel> eventList;
     private ArrayList<PenginapanModel> penginapanList;
     private MaterialCardView catWisata, catKuliner, catPenginapan, catEvent;
     private TextView txtSearch;
+    private ImageView imgUser;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         TextView namaPengguna;
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                String token = task.getResult();
+
+                Log.e("TOKEN", token);
+            }
+        });
+
 
         // searching
         txtSearch = rootView.findViewById(R.id.searchbox);
@@ -121,6 +148,12 @@ public class Home extends Fragment {
         UsersUtil userUtil = new UsersUtil(requireContext());
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
         namaPengguna.setText("Halo! " + userUtil.getFullName());
+        imgUser = (ImageView) rootView.findViewById(R.id.userImg);
+        String profilePhoto = userUtil.getUserPhoto();
+
+        Glide.with(requireContext()).load(Config.API_IMAGE + profilePhoto).into(imgUser);
+
+        Toast.makeText(requireContext(), userUtil.getUserPhoto(), Toast.LENGTH_SHORT).show();
 
         String idPengguna = userUtil.getId();
 
@@ -285,6 +318,25 @@ public class Home extends Fragment {
             @Override
             public void onFailure(Call<KulinerResponse> call, Throwable t) {
                 Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ViewPager2 viewPager = rootView.findViewById(R.id.viewpagerEvent);
+
+        Client.getInstance().upcomingevent().enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    ArrayList<EventModel> datalist = response.body().getData();
+                    adapter5 = new ViewpagerAdapter(datalist);
+                    viewPager.setAdapter(adapter5);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_SHORT).show();
             }
         });
 

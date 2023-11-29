@@ -8,15 +8,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.model.PenginapanModel;
 import com.polije.sem3.model.PenginapanModelAdapter;
+import com.polije.sem3.network.Config;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
 
@@ -29,13 +33,24 @@ public class ListPenginapan extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PenginapanModelAdapter adapter;
     private ArrayList<PenginapanModel> PenginapanArrayList;
-    private TextView txtSearch;
+    private TextView txtSearch, txtNama;
+    private ImageView imgUser;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_penginapan);
+
+        UsersUtil usersUtil = new UsersUtil(this);
+        String profilePhoto = usersUtil.getUserPhoto();
+        String namaPengguna = usersUtil.getFullName();
+
+        txtNama = (TextView) findViewById(R.id.userfullname);
+        imgUser = findViewById(R.id.userImg);
+
+        Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
+        txtNama.setText("Halo! " + namaPengguna);
 
         // searching
         txtSearch = findViewById(R.id.searchbox);

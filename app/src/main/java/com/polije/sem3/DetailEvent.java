@@ -7,9 +7,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
 import com.polije.sem3.response.DetailEventResponse;
@@ -31,6 +33,7 @@ public class DetailEvent extends AppCompatActivity {
     private EventModel eventArrayList;
     private TextView namaEvent, desc, cp, jadwal, lokasi;
     private Button btnBack;
+    private ImageView imgViewEvent;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -46,6 +49,7 @@ public class DetailEvent extends AppCompatActivity {
         jadwal = findViewById(R.id.jadwalEvent);
         lokasi = findViewById(R.id.lokasiEvent);
         btnBack = findViewById(R.id.backButtonDetail);
+        imgViewEvent = findViewById(R.id.imageView);
 
         Client.getInstance().detailevent(idSelected).enqueue(new Callback<DetailEventResponse>() {
             @Override
@@ -60,6 +64,8 @@ public class DetailEvent extends AppCompatActivity {
                     jadwal.setText(
                             eventArrayList.getHari() + ", " + convertToDate(eventArrayList.getTanggaldanwaktu())
                     );
+
+                    Glide.with(DetailEvent.this).load(Client.IMG_DATA + eventArrayList.getGambar()).into(imgViewEvent);
 
                     lokasi.setText(eventArrayList.getLokasi());
 

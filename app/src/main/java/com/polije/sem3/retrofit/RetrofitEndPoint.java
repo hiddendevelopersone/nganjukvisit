@@ -78,6 +78,9 @@ public interface RetrofitEndPoint {
     Call<KulinerResponse> kulinerpopuler(
     );
 
+    @GET("upcoming_event.php")
+    Call<EventResponse> upcomingevent();
+
     @GET("detailed_data_wisata.php")
     Call<DetailWisataResponse> detailwisata(
             @Query("id_selected") String id_selected
