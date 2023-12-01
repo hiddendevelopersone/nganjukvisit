@@ -1,12 +1,27 @@
 package com.polije.sem3;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.polije.sem3.model.NotifyAdapter;
+import com.polije.sem3.model.NotifyModelNew;
+import com.polije.sem3.response.NotifyResponse;
+import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +70,39 @@ public class Notify extends Fragment {
         }
     }
 
+    private NotifyAdapter adapter;
+    private ArrayList<NotifyModelNew> arrayList;
+    private RecyclerView recyclerView;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notify, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notify, container, false);
+
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recviewNotify);
+
+        UsersUtil usersUtil = new UsersUtil(getContext());
+        Client.getInstance().mynotif(usersUtil.getId()).enqueue(new Callback<NotifyResponse>() {
+            @Override
+            public void onResponse(Call<NotifyResponse> call, Response<NotifyResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+                    arrayList = response.body().getData();
+                    adapter = new NotifyAdapter(arrayList);
+
+                    recyclerView.setAdapter(adapter);
+
+                    Toast.makeText(requireContext(), "notify berhasil", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotifyResponse> call, Throwable t) {
+
+            }
+        });
+
+        return rootView;
     }
 }

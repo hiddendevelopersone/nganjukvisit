@@ -39,6 +39,7 @@ import com.polije.sem3.network.Config;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.PenginapanResponse;
+import com.polije.sem3.response.SendNotifResponse;
 import com.polije.sem3.response.WisataResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
@@ -110,20 +111,40 @@ public class Home extends Fragment {
     private MaterialCardView catWisata, catKuliner, catPenginapan, catEvent;
     private TextView txtSearch;
     private ImageView imgUser;
+    private String token;
 
     @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        UsersUtil userUtil = new UsersUtil(requireContext());
+
         TextView namaPengguna;
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
-                String token = task.getResult();
+                token = task.getResult();
 
                 Log.e("TOKEN", token);
+
+//                String bodyMsg = "Halo pengguna @" + userUtil.getUsername() + " / " + userUtil.getFullName() + ", Selamat Datang di aplikasi nganjukvisit! anda sekarang dapat melihat informasi wisata, event, kuliner, dan penginapan dalam satu aplikasi";
+//
+//                Client.getInstance().welcomenotif("Admin NganjukVisit", bodyMsg, token).enqueue(new Callback<SendNotifResponse>() {
+//                    @Override
+//                    public void onResponse(Call<SendNotifResponse> call, Response<SendNotifResponse> response) {
+//                        if (response.body() != null && response.body().getSuccess().equalsIgnoreCase("1")) {
+//                            Log.e("Respon Kirim -> ", "berhasil mengirim pesan");
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SendNotifResponse> call, Throwable t) {
+//                        Log.e("Respon Kirim -> ", "gagal mengirim pesan");
+//                    }
+//                });
             }
         });
 
@@ -145,7 +166,6 @@ public class Home extends Fragment {
         });
 
 //        getnamapengguna
-        UsersUtil userUtil = new UsersUtil(requireContext());
         namaPengguna = (TextView) rootView.findViewById(R.id.namaLengkapPengguna);
         namaPengguna.setText("Halo! " + userUtil.getFullName());
         imgUser = (ImageView) rootView.findViewById(R.id.userImg);

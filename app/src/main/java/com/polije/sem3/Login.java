@@ -1,5 +1,6 @@
 package com.polije.sem3;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatImageButton;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.polije.sem3.apigoogle.GoogleUsers;
 import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
@@ -39,6 +43,8 @@ public class Login extends AppCompatActivity {
     private GoogleUsers googleUsers;
 
     private UsersUtil usersUtil;
+
+    private String token;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -134,6 +140,15 @@ public class Login extends AppCompatActivity {
 
         });
 
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                token = task.getResult();
+
+                Log.e("TOKEN", token);
+            }
+        });
+
     }
 
     @Override
@@ -144,7 +159,7 @@ public class Login extends AppCompatActivity {
         if (googleUsers.isAccountSelected()){
 
             Client.getInstance().logingoogle(
-                    googleUsers.getUserData().getEmail(), ""
+                    googleUsers.getUserData().getEmail(), token
             ).enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {

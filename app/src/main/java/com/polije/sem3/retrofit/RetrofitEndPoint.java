@@ -1,5 +1,6 @@
 package com.polije.sem3.retrofit;
 
+import com.polije.sem3.model.NotifyModelNew;
 import com.polije.sem3.response.DetailEventResponse;
 import com.polije.sem3.response.DetailKulinerResponse;
 import com.polije.sem3.response.DetailPenginapanResponse;
@@ -10,8 +11,10 @@ import com.polije.sem3.response.FavoritPenginapanResponse;
 import com.polije.sem3.response.FavoritWisataResponse;
 import com.polije.sem3.response.KulinerResponse;
 import com.polije.sem3.response.NganjukVisitResponse;
+import com.polije.sem3.response.NotifyResponse;
 import com.polije.sem3.response.PenginapanResponse;
 import com.polije.sem3.response.ResponseGetGambarProfil;
+import com.polije.sem3.response.SendNotifResponse;
 import com.polije.sem3.response.UlasanKirimResponse;
 import com.polije.sem3.response.UlasanResponse;
 import com.polije.sem3.response.UserResponse;
@@ -252,4 +255,28 @@ public interface RetrofitEndPoint {
     );
 
     @GET("koneksi/cek_koneksi.php") Call<NganjukVisitResponse> cekKoneksi();
+
+    // ============================== tidak digunakan ==================================
+    // mengirimkan notifikasi
+    @FormUrlEncoded
+    @POST("notif/notif1.php")
+    Call<SendNotifResponse> welcomenotif (
+            @Field("title") String Title,
+            @Field("body") String BodyMsg,
+            @Field("device_token") String deviceToken
+    );
+
+    // menampilkan notifikasi
+    @GET("notif/getnotifuser.php")
+    Call<UserResponse> getnotif (
+            @Query("id_user") String idpengguna
+    );
+
+    // =========================================================================================
+
+    @GET("notif/mynotification.php")
+    Call<NotifyResponse> mynotif (
+            @Query("id_user") String idpengguna
+    );
+
 }
