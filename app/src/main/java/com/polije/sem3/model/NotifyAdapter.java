@@ -30,7 +30,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
 
     @Override
     public void onBindViewHolder(@NonNull NotifyAdapter.NotifyViewHolder holder, int position) {
-        holder.title.setText("Admin NganjukVisit");
+        holder.title.setText(dataList.get(position).getJudul());
         holder.bodynotif.setText(dataList.get(position).getBodynotif());
         holder.waktu.setText(dataList.get(position).getTanggalnotif());
     }
