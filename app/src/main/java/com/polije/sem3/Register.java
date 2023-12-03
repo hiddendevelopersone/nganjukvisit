@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -51,6 +52,7 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                        Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(Register.this, Login.class);
                         startActivity(intent);
                     }else {
@@ -60,7 +62,9 @@ public class Register extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
-
+                    Toast.makeText(Register.this, "Request Timeout", Toast.LENGTH_SHORT).show();
+                    t.printStackTrace();
+                    Log.d("Error Regist", t.getMessage());
                 }
             });
         });

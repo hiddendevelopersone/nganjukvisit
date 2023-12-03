@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,14 +93,17 @@ public class Notify extends Fragment {
                     adapter = new NotifyAdapter(arrayList);
 
                     recyclerView.setAdapter(adapter);
-
-                    Toast.makeText(requireContext(), "notify berhasil", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("error null", response.body().getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<NotifyResponse> call, Throwable t) {
-
+                Toast.makeText(requireContext(), "Request Timeout", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+                Log.e("failure", t.getMessage());
             }
         });
 

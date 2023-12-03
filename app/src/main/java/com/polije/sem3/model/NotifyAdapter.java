@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.polije.sem3.R;
 import com.polije.sem3.response.NotifyResponse;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyViewHolder> {
     private ArrayList<NotifyModelNew> dataList;
@@ -32,7 +35,7 @@ public class NotifyAdapter extends RecyclerView.Adapter<NotifyAdapter.NotifyView
     public void onBindViewHolder(@NonNull NotifyAdapter.NotifyViewHolder holder, int position) {
         holder.title.setText(dataList.get(position).getJudul());
         holder.bodynotif.setText(dataList.get(position).getBodynotif());
-        holder.waktu.setText(dataList.get(position).getTanggalnotif());
+        holder.waktu.setText(EventModelAdapter.convertToDate1(dataList.get(position).getTanggalnotif()));
     }
 
     @Override

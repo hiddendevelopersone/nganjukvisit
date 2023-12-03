@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
@@ -42,6 +42,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Selamat Datang di aplikasi nganjukvisit!, anda sekarang dapat melihat informasi wisata, event, kuliner, dan penginapan dalam satu aplikasi"
-        android:textColor="@color/black"/>
+        android:textColor="@color/greyfont"/>
+
+    <View
+        app:layout_constraintTop_toBottomOf="@id/bodyNotif"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/grey"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

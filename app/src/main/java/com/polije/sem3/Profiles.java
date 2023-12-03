@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -204,7 +205,8 @@ public class Profiles extends Fragment {
 //                getGambar();
             } else {
                 updateProfiles();
-                Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(requireActivity(), "You must choose the image", Toast.LENGTH_SHORT).show();
+                Log.d("Profiles" , "Just Update String Information");
             }
         });
 

@@ -173,7 +173,7 @@ public class Home extends Fragment {
 
         Glide.with(requireContext()).load(Config.API_IMAGE + profilePhoto).into(imgUser);
 
-        Toast.makeText(requireContext(), userUtil.getUserPhoto(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(requireContext(), userUtil.getUserPhoto(), Toast.LENGTH_SHORT).show();
 
         String idPengguna = userUtil.getId();
 

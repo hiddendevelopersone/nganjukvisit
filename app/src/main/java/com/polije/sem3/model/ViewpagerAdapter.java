@@ -36,7 +36,7 @@ public class ViewpagerAdapter extends RecyclerView.Adapter<ViewpagerAdapter.View
     public void onBindViewHolder(@NonNull ViewpagerAdapter.ViewHolder holder, int position) {
         holder.txtTitle.setText(datalist.get(position).getNama());
         holder.txtLokasi.setText(datalist.get(position).getLokasi());
-        holder.txtJadwal.setText(datalist.get(position).getHari() + " " + datalist.get(position).getTanggaldanwaktu());
+        holder.txtJadwal.setText(datalist.get(position).getHari() + ", " + EventModelAdapter.convertToDate1(datalist.get(position).getTanggaldanwaktu()));
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + datalist.get(position).getGambar()).into(holder.imgView);
     }
 

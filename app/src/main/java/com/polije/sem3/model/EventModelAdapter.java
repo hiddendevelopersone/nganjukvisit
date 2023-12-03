@@ -75,6 +75,19 @@ public class EventModelAdapter extends RecyclerView.Adapter<EventModelAdapter.Ev
         return inputDateFormat.toString();
     }
 
+    public static String convertToDate1(String date) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        try {
+            Date inputDate = inputDateFormat.parse(date);
+            SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd MMM yyyy | HH:mm", new Locale("id"));
+            assert inputDate != null;
+            return outputDateFormat.format(inputDate);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        return inputDateFormat.toString();
+    }
+
     public class EventModelViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtTitle, txtLokasi, txtJadwal;

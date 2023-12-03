@@ -29,6 +29,7 @@ import com.polije.sem3.response.UserResponse;
 import com.polije.sem3.retrofit.Client;
 import com.polije.sem3.util.UsersUtil;
 
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +62,15 @@ public class Login extends AppCompatActivity {
         btnSignup = (Button) findViewById(R.id.signupButton);
         btnGoogle = findViewById(R.id.loginButtonWithGoogle);
 
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                token = task.getResult();
+
+                Log.e("TOKEN", token);
+            }
+        });
+
         btnLogin.setOnClickListener(v -> {
                     String usernameKey = username.getText().toString();
                     String passwordKey = password.getText().toString();
@@ -72,6 +82,8 @@ public class Login extends AppCompatActivity {
                         Intent intent = new Intent(Login.this, Dashboard.class);
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         UsersUtil util = new UsersUtil(Login.this, response.body().getData());
+                        String email = util.getEmail();
+                        addSession(email);
                         startActivity(intent);
                     }else {
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
@@ -139,16 +151,27 @@ public class Login extends AppCompatActivity {
             startActivityForResult(googleUsers.getIntent(), GoogleUsers.REQUEST_CODE);
 
         });
+    }
 
-        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+    private void addSession(String UserEmail){
+        Client.getInstance().addintosession(UserEmail, token).enqueue(new Callback<UserResponse>() {
             @Override
-            public void onComplete(@NonNull Task<String> task) {
-                token = task.getResult();
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
+//                    Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.i("berhasil input session", response.body().getMessage());
+                } else {
+//                    Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("gagal input", response.body().getMessage());
+                }
+            }
 
-                Log.e("TOKEN", token);
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+//                Toast.makeText(Login.this, "Timeout Cannot add session", Toast.LENGTH_SHORT).show();
+                Log.e("error session", "Timeout Cannot add session");
             }
         });
-
     }
 
     @Override

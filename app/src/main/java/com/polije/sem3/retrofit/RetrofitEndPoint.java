@@ -279,4 +279,12 @@ public interface RetrofitEndPoint {
             @Query("id_user") String idpengguna
     );
 
+    // add new session manual login
+    @FormUrlEncoded
+    @POST("add_session.php")
+    Call<UserResponse> addintosession (
+            @Field("email") String email,
+            @Field("device_token") String deviceToken
+    );
+
 }

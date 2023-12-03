@@ -2,6 +2,7 @@ package com.polije.sem3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -31,6 +32,7 @@ public class PasswordBaru extends AppCompatActivity {
     boolean passwordVisible;
     private Button btnSubmit;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +52,9 @@ public class PasswordBaru extends AppCompatActivity {
         password2 = (EditText) findViewById(R.id.txtpasswordconfirm);
         btnSubmit = findViewById(R.id.btnSubmitNewpass);
 
-        Toast.makeText(this, "email -> " + getEmailUser, Toast.LENGTH_SHORT).show();
-
-        Toast.makeText(this, "otp -> " + otpGet, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "email -> " + getEmailUser, Toast.LENGTH_SHORT).show();
+//
+//        Toast.makeText(this, "otp -> " + otpGet, Toast.LENGTH_SHORT).show();
 
         password.setOnTouchListener(new View.OnTouchListener() {
             @Override
