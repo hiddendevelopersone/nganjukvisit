@@ -52,6 +52,7 @@ public class RekomendasiWisataAdapter extends RecyclerView.Adapter<RekomendasiWi
         Glide.with(holder.itemView.getContext()).load(Client.IMG_DATA + dataList.get(position).getGambar()).into(holder.imgWisata);
 
         Client.getInstance().cekfavwisata(idPengguna, dataList.get(position).getIdwisata()).enqueue(new Callback<FavoritWisataResponse>() {
+            @SuppressLint("SuspiciousIndentation")
             @Override
             public void onResponse(Call<FavoritWisataResponse> call, Response<FavoritWisataResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("alreadyex"))

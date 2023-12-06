@@ -130,21 +130,6 @@ public class Home extends Fragment {
 
                 Log.e("TOKEN", token);
 
-//                String bodyMsg = "Halo pengguna @" + userUtil.getUsername() + " / " + userUtil.getFullName() + ", Selamat Datang di aplikasi nganjukvisit! anda sekarang dapat melihat informasi wisata, event, kuliner, dan penginapan dalam satu aplikasi";
-//
-//                Client.getInstance().welcomenotif("Admin NganjukVisit", bodyMsg, token).enqueue(new Callback<SendNotifResponse>() {
-//                    @Override
-//                    public void onResponse(Call<SendNotifResponse> call, Response<SendNotifResponse> response) {
-//                        if (response.body() != null && response.body().getSuccess().equalsIgnoreCase("1")) {
-//                            Log.e("Respon Kirim -> ", "berhasil mengirim pesan");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<SendNotifResponse> call, Throwable t) {
-//                        Log.e("Respon Kirim -> ", "gagal mengirim pesan");
-//                    }
-//                });
             }
         });
 
@@ -159,6 +144,7 @@ public class Home extends Fragment {
                     txtSearch.setEnabled(false);
                     Intent i = new Intent(requireContext(), SearchingHomepage.class);
                     startActivity(i);
+                    getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 } else {
                     txtSearch.setEnabled(true);
                 }

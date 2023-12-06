@@ -62,6 +62,7 @@ public class ListPenginapan extends AppCompatActivity {
                     txtSearch.setEnabled(false);
                     Intent i = new Intent(ListPenginapan.this, SearchingPenginapan.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 } else {
                     txtSearch.setEnabled(true);
                 }

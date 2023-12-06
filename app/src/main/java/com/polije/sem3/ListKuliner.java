@@ -60,6 +60,7 @@ public class ListKuliner extends AppCompatActivity {
                     txtSearch.setEnabled(false);
                     Intent i = new Intent(ListKuliner.this, SearchingKuliner.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 } else {
                     txtSearch.setEnabled(true);
                 }

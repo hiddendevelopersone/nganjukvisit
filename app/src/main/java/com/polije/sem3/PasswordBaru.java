@@ -117,7 +117,6 @@ public class PasswordBaru extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(PasswordBaru.this, Login.class));
 
                 newpasswordvalue = password.getText().toString();
                 passwordvalueconfirm = password2.getText().toString();

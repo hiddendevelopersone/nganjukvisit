@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
@@ -47,11 +48,19 @@ public class Login extends AppCompatActivity {
 
     private String token;
 
+    private ProgressDialog progressDialog;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // progress bar
+        progressDialog = new ProgressDialog(Login.this);
+        progressDialog.setTitle("proses login...");
+        progressDialog.setMessage("Harap Tunggu");
+        progressDialog.setCancelable(false);
 
         googleUsers = new GoogleUsers(this);
 
@@ -72,6 +81,7 @@ public class Login extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
+            progressDialog.show();
                     String usernameKey = username.getText().toString();
                     String passwordKey = password.getText().toString();
 
@@ -79,6 +89,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                        progressDialog.dismiss();
                         Intent intent = new Intent(Login.this, Dashboard.class);
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         UsersUtil util = new UsersUtil(Login.this, response.body().getData());
@@ -86,12 +97,14 @@ public class Login extends AppCompatActivity {
                         addSession(email);
                         startActivity(intent);
                     }else {
+                        progressDialog.dismiss();
                         Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
+                    progressDialog.dismiss();
                     Toast.makeText(Login.this, "Timeout", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -158,17 +171,14 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-//                    Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     Log.i("berhasil input session", response.body().getMessage());
                 } else {
-//                    Toast.makeText(Login.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     Log.d("gagal input", response.body().getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-//                Toast.makeText(Login.this, "Timeout Cannot add session", Toast.LENGTH_SHORT).show();
                 Log.e("error session", "Timeout Cannot add session");
             }
         });
