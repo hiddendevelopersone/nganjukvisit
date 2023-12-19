@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -28,12 +29,19 @@ public class Register extends AppCompatActivity {
     boolean passwordVisible;
     private AppCompatImageButton btnBack;
     Button btnSubmit;
+    private ProgressDialog progressDialog;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // loading progress bar
+        progressDialog = new ProgressDialog(Register.this);
+        progressDialog.setTitle("proses register...");
+        progressDialog.setMessage("Harap Tunggu");
+        progressDialog.setCancelable(false);
 
         username = (EditText) findViewById(R.id.txtusername);
         password = (EditText) findViewById(R.id.txtpassword);
@@ -43,6 +51,7 @@ public class Register extends AppCompatActivity {
         btnSubmit = findViewById(R.id.signupButton);
 
         btnSubmit.setOnClickListener(v -> {
+            progressDialog.show();
             String usernameKey = username.getText().toString();
             String fullnameKey = fullname.getText().toString();
             String emailKey = email.getText().toString();
@@ -52,16 +61,19 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")){
+                        progressDialog.dismiss();
                         Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(Register.this, Login.class);
                         startActivity(intent);
                     }else {
+                        progressDialog.dismiss();
                         Toast.makeText(Register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<UserResponse> call, Throwable t) {
+                    progressDialog.dismiss();
                     Toast.makeText(Register.this, "Request Timeout", Toast.LENGTH_SHORT).show();
                     t.printStackTrace();
                     Log.d("Error Regist", t.getMessage());

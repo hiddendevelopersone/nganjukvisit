@@ -1,6 +1,7 @@
 package com.polije.sem3;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -123,10 +124,17 @@ public class Profiles extends Fragment {
 
     private String gambarPengguna;
     private Button btnLogout;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // loading bar
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setTitle("mengubah profile...");
+        progressDialog.setMessage("Harap Tunggu");
+        progressDialog.setCancelable(false);
 
         imgThumb = view.findViewById(R.id.img_thumb);
         btnLogout = view.findViewById(R.id.btn_logout);
@@ -187,6 +195,9 @@ public class Profiles extends Fragment {
         });
 
         btnUpload2.setOnClickListener(v -> {
+            // run loading bar
+            progressDialog.show();
+
             if (uri != null) {
                 Bitmap bitmap = null;
                 try {
@@ -326,7 +337,7 @@ public class Profiles extends Fragment {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 if (response.body() != null && response.body().getStatus().equalsIgnoreCase("success")) {
-
+                    progressDialog.dismiss();
 
                     Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
 //                            UsersUtil util = new UsersUtil(requireContext());
@@ -342,12 +353,14 @@ public class Profiles extends Fragment {
 //                            Glide.with(requireContext()).load(Config.API_IMAGE + gambarPengguna).into(imgThumb);
 //                            getGambar();
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(requireContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(requireContext(), "Timeout", Toast.LENGTH_SHORT).show();
             }
         });
