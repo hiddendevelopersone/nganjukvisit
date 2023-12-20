@@ -30,14 +30,16 @@
             app:cardCornerRadius="20dp">
 
             <ImageView
+                android:id="@+id/userImg"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/imageprofilesexample"
+                android:background="@drawable/profilespicturetumb"
                 android:scaleType="centerCrop"/>
 
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/userfullname"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -48,6 +50,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"/>
         <ImageView
+            android:id="@+id/btnNotif"
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:background="@drawable/ic_baseline_notifications_24"/>
@@ -70,8 +73,7 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"/>
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

@@ -4,14 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.polije.sem3.model.EventModel;
 import com.polije.sem3.model.EventModelAdapter;
+import com.polije.sem3.network.Config;
 import com.polije.sem3.response.EventResponse;
 import com.polije.sem3.retrofit.Client;
+import com.polije.sem3.util.UsersUtil;
 
 import java.util.ArrayList;
 
@@ -25,10 +32,39 @@ public class ListEvent extends AppCompatActivity {
     private EventModelAdapter adapter;
     private ArrayList<EventModel> EventArrayList;
 
+    private ImageView imgUser, btnNotify;
+    private TextView txtNama;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_event);
+
+        // header profiles photo profiles and name of user
+        UsersUtil util = new UsersUtil(this);
+        String namaUser = util.getFullName();
+        String profilePhoto = util.getUserPhoto();
+        imgUser = (ImageView) findViewById(R.id.userImg);
+        txtNama = (TextView) findViewById(R.id.userfullname);
+        txtNama.setText("Halo! " + namaUser);
+        Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
+
+        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotifyFragment();
+            }
+        });
+
+        // link to profiles
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfileFragment();
+            }
+        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerviewListEvent);
 
@@ -57,5 +93,17 @@ public class ListEvent extends AppCompatActivity {
                 Toast.makeText(ListEvent.this, "Request Timeout", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void showProfileFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Profiles");
+        startActivity(i);
+    }
+
+    public void showNotifyFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Notify");
+        startActivity(i);
     }
 }

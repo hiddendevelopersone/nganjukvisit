@@ -32,7 +32,7 @@ public class ListKuliner extends AppCompatActivity {
     private KulinerModelAdapter adapter;
     private ArrayList<KulinerModel> KulinerArrayList;
     private TextView txtSearch, txtNama;
-    private ImageView imgUser;
+    private ImageView imgUser, btnNotify;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -49,6 +49,23 @@ public class ListKuliner extends AppCompatActivity {
 
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
         txtNama.setText("Halo! " + namaPengguna);
+
+        // link to notify
+        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotifyFragment();
+            }
+        });
+
+        // link to profiles
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfileFragment();
+            }
+        });
 
         // searching
         txtSearch = findViewById(R.id.searchbox);
@@ -96,4 +113,17 @@ public class ListKuliner extends AppCompatActivity {
             }
         });
     }
+
+    public void showProfileFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Profiles");
+        startActivity(i);
+    }
+
+    public void showNotifyFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Notify");
+        startActivity(i);
+    }
+
 }

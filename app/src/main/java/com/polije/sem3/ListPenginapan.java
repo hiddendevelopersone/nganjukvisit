@@ -34,7 +34,7 @@ public class ListPenginapan extends AppCompatActivity {
     private PenginapanModelAdapter adapter;
     private ArrayList<PenginapanModel> PenginapanArrayList;
     private TextView txtSearch, txtNama;
-    private ImageView imgUser;
+    private ImageView imgUser, btnNotify;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,6 +54,23 @@ public class ListPenginapan extends AppCompatActivity {
 
         // searching
         txtSearch = findViewById(R.id.searchbox);
+
+        // link to notify
+        btnNotify = (ImageView) findViewById(R.id.btnNotif);
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotifyFragment();
+            }
+        });
+
+        // link to profiles
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfileFragment();
+            }
+        });
 
         txtSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -99,5 +116,17 @@ public class ListPenginapan extends AppCompatActivity {
                 Toast.makeText(ListPenginapan.this, "ERROR -> " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void showProfileFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Profiles");
+        startActivity(i);
+    }
+
+    public void showNotifyFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Notify");
+        startActivity(i);
     }
 }

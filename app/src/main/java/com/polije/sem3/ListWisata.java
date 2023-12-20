@@ -1,6 +1,8 @@
 package com.polije.sem3;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +41,7 @@ public class ListWisata extends AppCompatActivity {
 
     Resources resources;
     private String textDescOrigin, textViewDesc;
-    private ImageView imageView, imgUser;
+    private ImageView imageView, imgUser, btnNotify;
     private TextView txtSearch, txtNama;
 
     @SuppressLint("MissingInflatedId")
@@ -55,9 +57,27 @@ public class ListWisata extends AppCompatActivity {
 
         txtNama = (TextView) findViewById(R.id.userfullname);
         imgUser = (ImageView) findViewById(R.id.userImg);
+        btnNotify = (ImageView) findViewById(R.id.btnNotif);
 
         Glide.with(this).load(Config.API_IMAGE + profilePhoto).into(imgUser);
         txtNama.setText("Halo! " + namaPengguna);
+
+
+        // click to profile
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfileFragment();
+            }
+        });
+
+        // click to notifikasi
+        btnNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotifyFragment();
+            }
+        });
 
         // searching
         txtSearch = findViewById(R.id.searchbox);
@@ -144,6 +164,18 @@ public class ListWisata extends AppCompatActivity {
         Intent i = new Intent(ListWisata.this, DetailInformasi.class);
         startActivity(i);
 
+    }
+
+    public void showProfileFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Profiles");
+        startActivity(i);
+    }
+
+    public void showNotifyFragment() {
+        Intent i = new Intent(this, Dashboard.class);
+        i.putExtra("fragmentToLoad", "Notify");
+        startActivity(i);
     }
 
 }

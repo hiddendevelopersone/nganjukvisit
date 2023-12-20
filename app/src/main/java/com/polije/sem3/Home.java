@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -110,7 +112,7 @@ public class Home extends Fragment {
     private ArrayList<PenginapanModel> penginapanList;
     private MaterialCardView catWisata, catKuliner, catPenginapan, catEvent;
     private TextView txtSearch;
-    private ImageView imgUser;
+    private ImageView imgUser, btnNotification;
     private String token;
 
     @SuppressLint("MissingInflatedId")
@@ -162,6 +164,23 @@ public class Home extends Fragment {
 //        Toast.makeText(requireContext(), userUtil.getUserPhoto(), Toast.LENGTH_SHORT).show();
 
         String idPengguna = userUtil.getId();
+
+        // button notifikasi
+        btnNotification = (ImageView) rootView.findViewById(R.id.btnNotif);
+
+        btnNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNotificationFragment(rootView);
+            }
+        });
+
+        imgUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProfileFragment(rootView);
+            }
+        });
 
         // tombol kategori
         catWisata = rootView.findViewById(R.id.catWisata);
@@ -348,6 +367,37 @@ public class Home extends Fragment {
 
 
         return rootView;
+
+    }
+
+    public void showProfileFragment(View view) {
+        // Ganti dengan logika untuk menampilkan fragment Profile
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Aktifkan kembali MenuItem
+        Dashboard dbr = new Dashboard();
+        dbr.btnView.setSelectedItemId(R.id.miProfiles);
+
+        Profiles profileFragment = new Profiles();
+        fragmentTransaction.replace(R.id.frame, profileFragment);
+        fragmentTransaction.addToBackStack(null); // Untuk menambahkan fragment ke back stack
+        fragmentTransaction.commit();
+    }
+
+    public void showNotificationFragment(View view) {
+        // Ganti dengan logika untuk menampilkan fragment notifikasi
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Aktifkan kembali MenuItem
+        Dashboard dbr = new Dashboard();
+        dbr.btnView.setSelectedItemId(R.id.miNotify);
+
+        Notify notifyFragment = new Notify();
+        fragmentTransaction.replace(R.id.frame, notifyFragment);
+        fragmentTransaction.addToBackStack(null); // Untuk menambahkan fragment ke back stack
+        fragmentTransaction.commit();
     }
 
 //    public void click(View v) {

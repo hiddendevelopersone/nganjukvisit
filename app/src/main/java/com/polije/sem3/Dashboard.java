@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,8 +17,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Dashboard extends AppCompatActivity {
 
-    private BottomNavigationView btnView;
+    public static BottomNavigationView btnView;
+    MenuItem dashboardMenuItem;
     Fragment selectedFragment = null;
+    public static String fragmentToLoad = "0";
+    private String getFragmentToLoad;
 
     private static final int PERMISSION_REQUEST_STORAGE = 2;
 
@@ -25,6 +29,8 @@ public class Dashboard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        getFragmentToLoad = getIntent().getStringExtra("fragmentToLoad");
 
 //        if (
 //                ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -37,6 +43,7 @@ public class Dashboard extends AppCompatActivity {
 //            Toast.makeText(this, "permission needed", Toast.LENGTH_SHORT).show();
 //        }
 
+
         Dashboard.this.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, new Home())
                 .commit();
@@ -46,7 +53,7 @@ public class Dashboard extends AppCompatActivity {
         btnView.setBackground(null);
 
         // disable menuitem
-        MenuItem dashboardMenuItem = btnView.getMenu().findItem(R.id.placeholder);
+        dashboardMenuItem = btnView.getMenu().findItem(R.id.placeholder);
         btnView.setSelectedItemId(R.id.placeholder);
         dashboardMenuItem.setEnabled(false);
 
@@ -61,6 +68,18 @@ public class Dashboard extends AppCompatActivity {
                         .replace(R.id.frame, new Home()).commit();
             }
         });
+
+        if ("Profiles".equals(getFragmentToLoad)) {
+            btnView.setSelectedItemId(R.id.miProfiles);
+            selectedFragment = new Profiles();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame, new Profiles()).commit();
+        } else if ("Notify".equals(getFragmentToLoad)) {
+            btnView.setSelectedItemId(R.id.miNotify);
+            selectedFragment = new Notify();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frame, new Notify()).commit();
+        }
 
 
         btnView.setOnNavigationItemSelectedListener(item -> {
@@ -106,7 +125,7 @@ public class Dashboard extends AppCompatActivity {
 //    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //        switch (requestCode) {
-//            case PERMISSION_REQUEST_STORAGE: {
+//            case PERMISSION_REQUEST_NOTIFICATION: {
 //                // If request is cancelled, the result arrays are empty.
 //                if (grantResults.length > 0
 //                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
